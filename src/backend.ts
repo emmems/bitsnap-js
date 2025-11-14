@@ -39,8 +39,8 @@ export namespace BitsnapBackend {
 
     const result = await fetch(
       BACKEND_HOST +
-        "/api/trpc/product.getProductById?" +
-        encodedPayload.toString(),
+      "/api/trpc/product.getProductById?" +
+      encodedPayload.toString(),
       {
         ...(requestInit ?? {}),
         headers: {
@@ -93,8 +93,8 @@ export namespace BitsnapBackend {
 
     const result = await fetch(
       BACKEND_HOST +
-        "/api/trpc/product.getProductGrid?" +
-        encodedPayload.toString(),
+      "/api/trpc/product.getProductGrid?" +
+      encodedPayload.toString(),
       {
         ...(requestInit ?? {}),
         headers: {
