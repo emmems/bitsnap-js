@@ -90,7 +90,7 @@ export async function getProducts(
   }
 ) {
   const cacheKey = `getProducts:${projectID}:${limit}:${offset}:${
-    opts?.groupVariants ?? "null"
+    opts?.groupVariants ?? "false"
   }`;
 
   try {
@@ -133,20 +133,11 @@ export async function getProducts(
         await BitsnapModels.ProductsResultElementSchema.parseAsync(
           downloadedPayload
         );
-      if (parsedResult.length == 0) {
-        const response = {
-          categories: undefined,
-          products: undefined,
-        };
-        // Cache successful response for 5 minutes
-        responseCache.set(cacheKey, response, 5 * 60 * 1000);
-        return response;
-      }
       const parsed = parsedResult[0];
 
       const response = parsed.result;
       // Cache successful response for 5 minutes
-      responseCache.set(cacheKey, response, 5 * 60 * 1000);
+      responseCache.set(cacheKey, response, 60 * 60 * 24);
       return response;
     } catch (error) {
       console.error("Error parsing products result:", JSON.stringify(error));
@@ -171,7 +162,6 @@ export async function sendNotification(
       'use BitsnapBackend.setApiKey("{{API_KEY}} to setup api key before using this method.")'
     );
   }
-  const cacheKey = `sendNotification:${JSON.stringify(request)}`;
 
   try {
     const result = await fetch(BACKEND_HOST + "/api/notification/send", {
@@ -192,20 +182,12 @@ export async function sendNotification(
         await result.text()
       );
       const response = "failure";
-      // Cache failure response for 1 minute
-      responseCache.set(cacheKey, response, 60 * 1000);
       return response;
     }
     const response = "success";
-    // Cache success response for 1 minute
-    responseCache.set(cacheKey, response, 60 * 1000);
     return response;
   } catch (error) {
     console.error("Error sending notification:", error);
-    const cachedResponse = responseCache.get<string>(cacheKey);
-    if (cachedResponse !== undefined) {
-      return cachedResponse;
-    }
     return "failure";
   }
 }
@@ -224,7 +206,6 @@ export async function notifyProductAvailability(
   status: "success" | "failure";
   message?: "failed-to-notify";
 }> {
-  const cacheKey = `notifyProductAvailability:${request.projectId}:${request.productId}:${request.email}`;
   const req = create(NotifyUserAboutProductAvailabilityRequestSchema, {
     productId: request.productId,
     email: request.email,
@@ -239,18 +220,10 @@ export async function notifyProductAvailability(
     const response = {
       status: "success" as const,
     };
-    // Cache success response for 1 minute
-    responseCache.set(cacheKey, response, 60 * 1000);
+
     return response;
   } catch (e: any) {
     console.error("error while sending notification", e);
-    const cachedResponse = responseCache.get<{
-      status: "success" | "failure";
-      message?: "failed-to-notify";
-    }>(cacheKey);
-    if (cachedResponse !== undefined) {
-      return cachedResponse;
-    }
     return {
       status: "failure",
       message: "failed-to-notify",
