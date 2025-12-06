@@ -6,26 +6,30 @@ import {
 } from "./gen/proto/public/v1/public_api_pb";
 import { BitsnapModels } from "./models";
 import { PublicApiClient } from "./public.api.backend";
+import { SimpleInMemoryCache } from "./components/simple.in.memory.cache";
 
 let BACKEND_HOST = "https://bitsnap.pl";
 let API_KEY: string | undefined;
+const responseCache = new SimpleInMemoryCache();
 
-export namespace BitsnapBackend {
-  export async function setCustomHost(host: string) {
-    BACKEND_HOST = host;
-  }
-  export function getHost() {
-    return BACKEND_HOST;
-  }
-  export async function setApiKey(apiKey: string) {
-    API_KEY = apiKey;
-  }
+export async function setCustomHost(host: string) {
+  BACKEND_HOST = host;
+}
+export function getHost() {
+  return BACKEND_HOST;
+}
+export async function setApiKey(apiKey: string) {
+  API_KEY = apiKey;
+}
 
-  export async function getProduct(
-    projectID: string,
-    id: string,
-    requestInit?: RequestInit,
-  ) {
+export async function getProduct(
+  projectID: string,
+  id: string,
+  requestInit?: RequestInit
+) {
+  const cacheKey = `getProduct:${projectID}:${id}`;
+
+  try {
     const payload = {
       "0": {
         projectID: projectID,
@@ -39,8 +43,8 @@ export namespace BitsnapBackend {
 
     const result = await fetch(
       BACKEND_HOST +
-      "/api/trpc/product.getProductById?" +
-      encodedPayload.toString(),
+        "/api/trpc/product.getProductById?" +
+        encodedPayload.toString(),
       {
         ...(requestInit ?? {}),
         headers: {
@@ -48,31 +52,48 @@ export namespace BitsnapBackend {
           "Content-Type": "application/json",
           Priority: "u=3, i",
         },
-      },
+      }
     );
 
     const downloadedPayload = await result.json();
 
-    const parsedResult =
-      await BitsnapModels.ProductResultSchema.parseAsync(downloadedPayload);
+    const parsedResult = await BitsnapModels.ProductResultSchema.parseAsync(
+      downloadedPayload
+    );
 
     if (parsedResult.length == 0) {
       return undefined;
     }
     const parsed = parsedResult[0];
 
-    return parsed.result;
+    const response = parsed.result;
+    // Cache successful response for 5 minutes
+    responseCache.set(cacheKey, response, 5 * 60 * 1000);
+    return response;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    const cachedResponse = responseCache.get(cacheKey);
+    if (cachedResponse !== undefined) {
+      return cachedResponse;
+    }
+    throw error;
   }
+}
 
-  export async function getProducts(
-    projectID: string,
-    limit: number,
-    offset: number,
-    requestInit?: RequestInit,
-    opts?: {
-      groupVariants?: boolean;
-    },
-  ) {
+export async function getProducts(
+  projectID: string,
+  limit: number,
+  offset: number,
+  requestInit?: RequestInit,
+  opts?: {
+    groupVariants?: boolean;
+  }
+) {
+  const cacheKey = `getProducts:${projectID}:${limit}:${offset}:${
+    opts?.groupVariants ?? "null"
+  }`;
+
+  try {
     const productsPayload: { [key: string]: any } = {
       "0": {
         projectID: projectID,
@@ -93,8 +114,8 @@ export namespace BitsnapBackend {
 
     const result = await fetch(
       BACKEND_HOST +
-      "/api/trpc/product.getProductGrid?" +
-      encodedPayload.toString(),
+        "/api/trpc/product.getProductGrid?" +
+        encodedPayload.toString(),
       {
         ...(requestInit ?? {}),
         headers: {
@@ -102,7 +123,7 @@ export namespace BitsnapBackend {
           "Content-Type": "application/json",
           Priority: "u=3, i",
         },
-      },
+      }
     );
 
     const downloadedPayload = await result.json();
@@ -110,32 +131,49 @@ export namespace BitsnapBackend {
     try {
       const parsedResult =
         await BitsnapModels.ProductsResultElementSchema.parseAsync(
-          downloadedPayload,
+          downloadedPayload
         );
       if (parsedResult.length == 0) {
-        return {
+        const response = {
           categories: undefined,
           products: undefined,
         };
+        // Cache successful response for 5 minutes
+        responseCache.set(cacheKey, response, 5 * 60 * 1000);
+        return response;
       }
       const parsed = parsedResult[0];
 
-      return parsed.result;
+      const response = parsed.result;
+      // Cache successful response for 5 minutes
+      responseCache.set(cacheKey, response, 5 * 60 * 1000);
+      return response;
     } catch (error) {
       console.error("Error parsing products result:", JSON.stringify(error));
       throw error;
     }
-  }
-
-  export async function sendNotification(
-    request: NotificationRequest,
-    requestInit?: RequestInit,
-  ) {
-    if (API_KEY == null || API_KEY == "") {
-      throw new Error(
-        'use BitsnapBackend.setApiKey("{{API_KEY}} to setup api key before using this method.")',
-      );
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    const cachedResponse = responseCache.get(cacheKey);
+    if (cachedResponse !== undefined) {
+      return cachedResponse;
     }
+    throw error;
+  }
+}
+
+export async function sendNotification(
+  request: NotificationRequest,
+  requestInit?: RequestInit
+) {
+  if (API_KEY == null || API_KEY == "") {
+    throw new Error(
+      'use BitsnapBackend.setApiKey("{{API_KEY}} to setup api key before using this method.")'
+    );
+  }
+  const cacheKey = `sendNotification:${JSON.stringify(request)}`;
+
+  try {
     const result = await fetch(BACKEND_HOST + "/api/notification/send", {
       ...(requestInit ?? {}),
       method: "POST",
@@ -151,47 +189,72 @@ export namespace BitsnapBackend {
       console.warn(
         "error while sending notification",
         result.status,
-        await result.text(),
+        await result.text()
       );
-      return "failure";
+      const response = "failure";
+      // Cache failure response for 1 minute
+      responseCache.set(cacheKey, response, 60 * 1000);
+      return response;
     }
-    return "success";
+    const response = "success";
+    // Cache success response for 1 minute
+    responseCache.set(cacheKey, response, 60 * 1000);
+    return response;
+  } catch (error) {
+    console.error("Error sending notification:", error);
+    const cachedResponse = responseCache.get<string>(cacheKey);
+    if (cachedResponse !== undefined) {
+      return cachedResponse;
+    }
+    return "failure";
   }
+}
 
-  export async function notifyProductAvailability(
-    request: Pick<
-      NotifyUserAboutProductAvailabilityRequest,
-      "productId" | "email" | "projectId"
-    >,
-    opts?: {
-      headers?: Headers;
-      signal?: AbortSignal;
-      timeoutMs?: number;
-    },
-  ): Promise<{
-    status: "success" | "failure";
-    message?: "failed-to-notify";
-  }> {
-    const req = create(NotifyUserAboutProductAvailabilityRequestSchema, {
-      productId: request.productId,
-      email: request.email,
-      projectId: request.projectId,
-    });
+export async function notifyProductAvailability(
+  request: Pick<
+    NotifyUserAboutProductAvailabilityRequest,
+    "productId" | "email" | "projectId"
+  >,
+  opts?: {
+    headers?: Headers;
+    signal?: AbortSignal;
+    timeoutMs?: number;
+  }
+): Promise<{
+  status: "success" | "failure";
+  message?: "failed-to-notify";
+}> {
+  const cacheKey = `notifyProductAvailability:${request.projectId}:${request.productId}:${request.email}`;
+  const req = create(NotifyUserAboutProductAvailabilityRequestSchema, {
+    productId: request.productId,
+    email: request.email,
+    projectId: request.projectId,
+  });
 
-    try {
-      await PublicApiClient.get(
-        BACKEND_HOST,
-      ).notifyUserAboutProductAvailability(req, opts);
-      return {
-        status: "success",
-      };
-    } catch (e: any) {
-      console.log("error while sending notification", e);
-      return {
-        status: "failure",
-        message: "failed-to-notify",
-      };
+  try {
+    await PublicApiClient.get(BACKEND_HOST).notifyUserAboutProductAvailability(
+      req,
+      opts
+    );
+    const response = {
+      status: "success" as const,
+    };
+    // Cache success response for 1 minute
+    responseCache.set(cacheKey, response, 60 * 1000);
+    return response;
+  } catch (e: any) {
+    console.error("error while sending notification", e);
+    const cachedResponse = responseCache.get<{
+      status: "success" | "failure";
+      message?: "failed-to-notify";
+    }>(cacheKey);
+    if (cachedResponse !== undefined) {
+      return cachedResponse;
     }
+    return {
+      status: "failure",
+      message: "failed-to-notify",
+    };
   }
 }
 
