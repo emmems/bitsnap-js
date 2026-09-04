@@ -1,6 +1,6 @@
 {
   "name": "bitsnap-js",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "This is Bitsnap Javascript Backend library for easy integration with any website which is using JS Backend framework",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -18,16 +18,25 @@
     "type": "git",
     "url": "git+https://github.com/emmems/bitsnap-js.git"
   },
-  "keywords": ["bitsnap", "bitsnap-js", "checkout", "shop", "ecommerce"],
+  "keywords": [
+    "bitsnap",
+    "bitsnap-js",
+    "checkout",
+    "shop",
+    "ecommerce"
+  ],
   "author": "Piotr Michalik",
   "license": "SEE LICENSE IN LICENSE file",
   "bugs": {
     "url": "https://github.com/emmems/bitsnap-js/issues"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/emmems/bitsnap-js#readme",
   "devDependencies": {
     "@bufbuild/protoc-gen-es": "^2.10.0",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.20",
@@ -74,10 +83,18 @@
   },
   "typesVersions": {
     "*": {
-      "backend": ["./dist/backend.d.ts"],
-      "models": ["./dist/models.d.ts"],
-      "internal": ["./dist/internal.d.ts"],
-      "errors": ["./dist/errors.d.ts"]
+      "backend": [
+        "./dist/backend.d.ts"
+      ],
+      "models": [
+        "./dist/models.d.ts"
+      ],
+      "internal": [
+        "./dist/internal.d.ts"
+      ],
+      "errors": [
+        "./dist/errors.d.ts"
+      ]
     }
   }
 }

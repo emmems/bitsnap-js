@@ -256,3 +256,17 @@ const notificationRequestSchema = zod.object({
     .optional(),
 });
 export type NotificationRequest = zod.infer<typeof notificationRequestSchema>;
+
+export const BitsnapBackend = {
+  setCustomHost,
+  getHost,
+  setApiKey,
+  getProduct,
+  getProducts,
+  sendNotification,
+  notifyProductAvailability,
+};
+
+export namespace BitsnapBackend {
+  export type NotificationRequest = zod.infer<typeof notificationRequestSchema>;
+}
