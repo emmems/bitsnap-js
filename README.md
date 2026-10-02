@@ -87,6 +87,21 @@ await BitsnapBackend.setApiKey("your-api-key");
 
 ### Product Methods
 
+Product and variant responses can include `pricing`. Prices are integer minor
+units (for example, `1234` means PLN 12.34). `regularPrice` is the undiscounted
+amount, `effectivePrice` is the amount currently charged, and
+`referencePrice.amount` is the observed 30-day reference amount when history is
+available. Percentage discounts use basis points: `1000` means 10%. The
+`priceVersion` is an opaque string for identifying the resolved quote; clients
+should send it back during checkout when supported, while the server remains
+authoritative.
+
+```ts
+import { BitsnapModels } from "bitsnap-js/models";
+
+const pricing: BitsnapModels.ProductPricing | undefined = product.pricing;
+```
+
 #### `BitsnapBackend.getProduct(projectID: string, id: string, requestInit?: RequestInit)`
 
 Fetches a single product by ID.

@@ -8,6 +8,30 @@ export namespace BitsnapModels {
 
   export const MetadataSchema = z.record(z.string(), z.any());
 
+  export const ProductPricingSchema = z.object({
+    regularPrice: z.number(),
+    effectivePrice: z.number(),
+    currency: z.string(),
+    discount: z.object({
+      id: z.string(),
+      type: z.enum(["FIXED", "PERCENTAGE"]),
+      value: z.number(),
+      status: z.enum(["ACTIVE", "SCHEDULED", "EXPIRED", "DISABLED"]),
+      startsAt: z.number().optional(),
+      endsAt: z.number().optional(),
+    }).optional(),
+    referencePrice: z.object({
+      amount: z.number().optional(),
+      windowDays: z.literal(30),
+      asOf: z.number(),
+      basis: z.literal("observed-history"),
+      historyAvailable: z.boolean(),
+    }),
+    priceVersion: z.string(),
+    nextPriceChangeAt: z.number().optional(),
+  });
+  export type ProductPricing = z.infer<typeof ProductPricingSchema>;
+
   export const VariantSchema = z.object({
     id: z.string(),
     name: z.string(),
@@ -18,6 +42,7 @@ export namespace BitsnapModels {
     availableQuantity: z.number().optional(),
     isDeliverable: z.boolean().optional(),
     estimatedDeliveryAt: z.number().optional(),
+    pricing: ProductPricingSchema.optional(),
   });
   export type Variant = z.infer<typeof VariantSchema>;
 
@@ -45,6 +70,7 @@ export namespace BitsnapModels {
     additional: AdditionalSchema.optional(),
     variants: z.array(VariantSchema).optional(),
     estimatedDeliveryAt: z.number().optional(),
+    pricing: ProductPricingSchema.optional(),
   });
   export type Item = z.infer<typeof ItemSchema>;
 

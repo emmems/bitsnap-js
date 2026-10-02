@@ -13,6 +13,7 @@ export default defineConfig(overrideOptions => {
       errors: 'src/errors.ts',
       backend: 'src/backend.ts',
       models: 'src/models.ts',
+      returns: 'src/returns.client.ts',
     },
     dts: true,
     onSuccess: shouldPublish ? 'pnpm publish' : undefined,

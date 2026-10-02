@@ -6,11 +6,9 @@ import {
 } from "./gen/proto/public/v1/public_api_pb";
 import { BitsnapModels } from "./models";
 import { PublicApiClient } from "./public.api.backend";
-import { SimpleInMemoryCache } from "./components/simple.in.memory.cache";
 
 let BACKEND_HOST = "https://bitsnap.pl";
 let API_KEY: string | undefined;
-const responseCache = new SimpleInMemoryCache();
 
 export async function setCustomHost(host: string) {
   BACKEND_HOST = host;
@@ -27,8 +25,6 @@ export async function getProduct(
   id: string,
   requestInit?: RequestInit
 ) {
-  const cacheKey = `getProduct:${projectID}:${id}`;
-
   try {
     const payload = {
       "0": {
@@ -67,15 +63,9 @@ export async function getProduct(
     const parsed = parsedResult[0];
 
     const response = parsed.result;
-    // Cache successful response for 5 minutes
-    responseCache.set(cacheKey, response, 5 * 60 * 1000);
     return response;
   } catch (error) {
     console.error("Error fetching product:", error);
-    const cachedResponse = responseCache.get(cacheKey);
-    if (cachedResponse !== undefined) {
-      return cachedResponse;
-    }
     throw error;
   }
 }
@@ -89,10 +79,6 @@ export async function getProducts(
     groupVariants?: boolean;
   }
 ) {
-  const cacheKey = `getProducts:${projectID}:${limit}:${offset}:${
-    opts?.groupVariants ?? "false"
-  }`;
-
   try {
     const productsPayload: { [key: string]: any } = {
       "0": {
@@ -136,8 +122,6 @@ export async function getProducts(
       const parsed = parsedResult[0];
 
       const response = parsed.result;
-      // Cache successful response for 5 minutes
-      responseCache.set(cacheKey, response, 60 * 60 * 24);
       return response;
     } catch (error) {
       console.error("Error parsing products result:", JSON.stringify(error));
@@ -145,10 +129,6 @@ export async function getProducts(
     }
   } catch (error) {
     console.error("Error fetching products:", error);
-    const cachedResponse = responseCache.get(cacheKey);
-    if (cachedResponse !== undefined) {
-      return cachedResponse;
-    }
     throw error;
   }
 }

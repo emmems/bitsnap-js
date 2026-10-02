@@ -9,6 +9,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
+    "test:contract": "pnpm build && node --test test/*.test.cjs",
     "build:publish": "pnpm build --env.publish",
     "clean": "rimraf ./dist",
     "dev": "tsup --watch",
@@ -79,6 +80,11 @@
       "import": "./dist/errors.mjs",
       "require": "./dist/errors.js"
     },
+    "./returns": {
+      "types": "./dist/returns.d.ts",
+      "import": "./dist/returns.mjs",
+      "require": "./dist/returns.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -94,6 +100,9 @@
       ],
       "errors": [
         "./dist/errors.d.ts"
+      ],
+      "returns": [
+        "./dist/returns.d.ts"
       ]
     }
   }
