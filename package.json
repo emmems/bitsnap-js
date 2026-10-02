@@ -1,6 +1,6 @@
 {
   "name": "bitsnap-js",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "This is Bitsnap Javascript Backend library for easy integration with any website which is using JS Backend framework",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
