@@ -31,7 +31,8 @@
     "url": "https://github.com/emmems/bitsnap-js/issues"
   },
   "files": [
-    "dist"
+    "dist",
+    "AGENTS.md"
   ],
   "homepage": "https://github.com/emmems/bitsnap-js#readme",
   "devDependencies": {
