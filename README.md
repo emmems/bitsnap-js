@@ -140,6 +140,43 @@ console.log("Categories:", result.categories);
 
 ### Notification Methods
 
+#### Managing products (server-side)
+
+Create, update and read products, variants and stock with an API key. The key
+needs the **write** switch enabled in the dashboard (grants `products:write`;
+`getManagedProduct` also works with `products:read`). Never use it in the browser.
+
+```typescript
+import { BitsnapBackend } from "bitsnap-js/backend";
+import { BitsnapApiError } from "bitsnap-js/errors";
+
+await BitsnapBackend.setApiKey(process.env.BITSNAP_API_KEY!);
+
+const { id } = await BitsnapBackend.createProduct("project-id", {
+  name: "T-shirt",
+  priceAmount: 4900, // integer minor units (49.00)
+  priceCurrency: "PLN",
+  availableQuantity: 100,
+});
+
+await BitsnapBackend.setStock("project-id", id, 80);
+await BitsnapBackend.setStock("project-id", id, 10, { variantID: "variant-id" });
+await BitsnapBackend.upsertVariant("project-id", id, { name: "L", priceAmount: 4900 });
+await BitsnapBackend.deleteVariant("project-id", id, "variant-id");
+
+try {
+  await BitsnapBackend.updateProduct("project-id", id, { revision: 3, name: "New" });
+} catch (e) {
+  if (e instanceof BitsnapApiError && e.status === 409) {
+    // REVISION_CONFLICT: getManagedProduct again and retry
+  }
+}
+```
+
+- `availableQuantity` is the total stock cap (sold and reserved units count against it), not a delta.
+- `variants` in `updateProduct` replaces the whole list; omitted variants are deleted.
+- Errors throw `BitsnapApiError` with `status`, `code` (e.g. `MISSING_SCOPE`, `PRODUCT_NOT_FOUND`, `INVALID_BODY`) and `body`.
+
 #### `BitsnapBackend.sendNotification(request: NotificationRequest, requestInit?: RequestInit)`
 
 Sends a notification (push, email, or SMS). Requires API key to be set.
