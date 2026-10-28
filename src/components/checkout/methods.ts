@@ -1,3 +1,4 @@
+import { clientHeaders } from "../../client.header";
 import { HOST } from "./constants";
 import { buildURL } from "./helper.methods";
 import { Err } from "./lib/err";
@@ -12,6 +13,7 @@ export namespace Bitsnap {
     const result = await fetch(buildURL(projectID, "/buy"), {
       method: "POST",
       headers: {
+        ...clientHeaders,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(request),
@@ -39,6 +41,7 @@ export namespace Bitsnap {
     request: LinkRequest & { apiKey?: string; testMode?: boolean },
   ) {
     const headers = {
+      ...clientHeaders,
       "Content-Type": "application/json",
       ...(request.apiKey != null
         ? { Authorization: `Bearer ${request.apiKey}` }

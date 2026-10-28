@@ -1,5 +1,6 @@
 import { Code, ConnectError, createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
+import { clientHeaderInterceptor } from "./client.header";
 import { Environment } from "./gen/proto/common/v1/environment_pb";
 import { ReturnsService } from "./gen/proto/public/v1/returns_pb";
 
@@ -19,6 +20,7 @@ export function createReturnsClient(options: ReturnsClientOptions) {
       baseUrl: `${host}/api/rpc`,
       useBinaryFormat: true,
       fetch: options.fetch,
+      interceptors: [clientHeaderInterceptor],
     }),
   );
   const environment = options.environment ?? Environment.PRODUCTION;

@@ -1,6 +1,7 @@
 import type { Transport } from "@connectrpc/connect";
 import { createClient, type Client } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-node";
+import { clientHeaderInterceptor } from "./client.header";
 import { PublicApiService } from "./gen/proto/public/v1/public_api_pb";
 
 export namespace PublicApiClient {
@@ -17,6 +18,7 @@ export namespace PublicApiClient {
         httpVersion: "1.1",
         useBinaryFormat: true,
         baseUrl,
+        interceptors: [clientHeaderInterceptor],
       });
       transports.set(baseUrl, transport);
     }

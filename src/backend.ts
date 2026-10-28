@@ -4,6 +4,7 @@ import {
   NotifyUserAboutProductAvailabilityRequest,
   NotifyUserAboutProductAvailabilityRequestSchema,
 } from "./gen/proto/public/v1/public_api_pb";
+import { clientHeaders } from "./client.header";
 import { BitsnapApiError } from "./errors";
 import { BitsnapModels } from "./models";
 import { PublicApiClient } from "./public.api.backend";
@@ -46,6 +47,7 @@ export async function getProduct(
         ...(requestInit ?? {}),
         headers: {
           ...(requestInit?.headers ?? {}),
+          ...clientHeaders,
           "Content-Type": "application/json",
           Priority: "u=3, i",
         },
@@ -107,6 +109,7 @@ export async function getProducts(
         ...(requestInit ?? {}),
         headers: {
           ...(requestInit?.headers ?? {}),
+          ...clientHeaders,
           "Content-Type": "application/json",
           Priority: "u=3, i",
         },
@@ -151,6 +154,7 @@ export async function sendNotification(
       body: JSON.stringify(request),
       headers: {
         ...(requestInit?.headers ?? {}),
+        ...clientHeaders,
         "Content-Type": "application/json",
         Authorization: "Bearer " + API_KEY,
       },
@@ -308,6 +312,7 @@ async function productsRequest<T extends zod.ZodTypeAny>(
       body: body === undefined ? undefined : JSON.stringify(body),
       headers: {
         ...(requestInit?.headers ?? {}),
+        ...clientHeaders,
         ...(body === undefined ? {} : { "Content-Type": "application/json" }),
         Authorization: "Bearer " + key,
       },
