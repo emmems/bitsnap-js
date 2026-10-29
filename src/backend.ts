@@ -80,8 +80,18 @@ export async function getProducts(
   requestInit?: RequestInit,
   opts?: {
     groupVariants?: boolean;
+    includeDrafts?: boolean;
   }
 ) {
+  const includeDrafts = opts?.includeDrafts === true;
+
+  if (includeDrafts && (API_KEY == null || API_KEY == "")) {
+    throw new Error(
+      "getProducts with includeDrafts requires an API key: call " +
+        'BitsnapBackend.setApiKey("{{API_KEY}}") before using this option.'
+    );
+  }
+
   try {
     const productsPayload: { [key: string]: any } = {
       "0": {
@@ -94,6 +104,9 @@ export async function getProducts(
     if (opts) {
       if (opts.groupVariants != null) {
         productsPayload[0]["groupVariants"] = opts.groupVariants;
+      }
+      if (opts.includeDrafts != null) {
+        productsPayload[0]["includeDrafts"] = opts.includeDrafts;
       }
     }
 
@@ -112,6 +125,7 @@ export async function getProducts(
           ...clientHeaders,
           "Content-Type": "application/json",
           Priority: "u=3, i",
+          ...(includeDrafts ? { Authorization: "Bearer " + API_KEY } : {}),
         },
       }
     );

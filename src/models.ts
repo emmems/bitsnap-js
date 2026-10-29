@@ -66,6 +66,7 @@ export namespace BitsnapModels {
     image_url: z.string(),
     images: z.array(z.string()),
     isDeliverable: z.boolean().optional(),
+    isPublished: z.boolean().optional(),
     availableQuantity: z.number().optional(),
     additional: AdditionalSchema.optional(),
     variants: z.array(VariantSchema).optional(),

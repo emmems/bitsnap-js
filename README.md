@@ -119,9 +119,15 @@ if (product) {
 }
 ```
 
-#### `BitsnapBackend.getProducts(projectID: string, limit: number, offset: number, requestInit?: RequestInit, opts?: { groupVariants?: boolean })`
+#### `BitsnapBackend.getProducts(projectID: string, limit: number, offset: number, requestInit?: RequestInit, opts?: { groupVariants?: boolean; includeDrafts?: boolean })`
 
-Fetches a list of products with pagination.
+Fetches a list of products with pagination. By default only **published**
+products come back. To receive the project's drafts as well, pass
+`includeDrafts: true` **and** configure the project API key with
+`BitsnapBackend.setApiKey(...)` first: the backend only honours the flag when the
+request carries `Authorization: Bearer <key>`, and the call throws before
+fetching when the key is missing. Each item exposes `isPublished` so drafts can
+be told apart from published products.
 
 ```typescript
 import { BitsnapBackend } from "bitsnap-js/backend";
@@ -129,13 +135,30 @@ import { BitsnapBackend } from "bitsnap-js/backend";
 const result = await BitsnapBackend.getProducts(
   "your-project-id",
   10, // limit
-  0,  // offset
+  0, // offset
   undefined, // requestInit (optional)
   { groupVariants: true } // options (optional)
 );
 
-console.log("Products:", result.products);
-console.log("Categories:", result.categories);
+console.log("Products:", result.data.result);
+console.log("Total count:", result.data.totalCount);
+```
+
+```typescript
+// Drafts need the project API key as well as the option.
+await BitsnapBackend.setApiKey(process.env.BITSNAP_API_KEY!);
+
+const withDrafts = await BitsnapBackend.getProducts(
+  "your-project-id",
+  10,
+  0,
+  undefined,
+  { includeDrafts: true }
+);
+
+for (const product of withDrafts.data.result) {
+  console.log(product.name, product.isPublished);
+}
 ```
 
 ### Notification Methods
