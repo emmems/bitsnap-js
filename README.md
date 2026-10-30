@@ -1,5 +1,12 @@
 # Bitsnap JS Backend Library
 
+## Instructions for coding agents
+
+Read [AGENTS.md](./AGENTS.md) first. Follow the
+[Next.js](https://docs.bitsnap.pl/en/guides/nextjs/) or
+[Astro](https://docs.bitsnap.pl/en/guides/astro/) recipe. Keep API keys and webhook
+secrets on the server. The project ID is public.
+
 The library is designed to provide backend methods for integrating Bitsnap e-commerce functionality into JavaScript/TypeScript backend applications, with focus on:
 
 - Payment processing
