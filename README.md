@@ -1,5 +1,12 @@
 # Bitsnap JS Backend Library
 
+## Instructions for coding agents
+
+Read [AGENTS.md](./AGENTS.md) first. Follow the
+[Next.js](https://docs.bitsnap.pl/en/guides/nextjs/) or
+[Astro](https://docs.bitsnap.pl/en/guides/astro/) recipe. Keep API keys and webhook
+secrets on the server. The project ID is public.
+
 The library is designed to provide backend methods for integrating Bitsnap e-commerce functionality into JavaScript/TypeScript backend applications, with focus on:
 
 - Payment processing
@@ -14,6 +21,12 @@ It uses modern libraries like:
 - Connect RPC for API communication
 
 ## Capabilities
+
+### Public API client:
+
+- `createBitsnapClient`: products, orders, coupons, webhooks, checkout links, test payments, stats
+- Test keys (`bs_test_…`) and the test gateway: settle test orders with `settleTestPayment`
+- `Idempotency-Key` on every write, typed `BitsnapApiError`
 
 ### Product Management:
 
@@ -49,6 +62,135 @@ pnpm add bitsnap-js
 # or
 yarn add bitsnap-js
 ```
+
+## Public API client (`createBitsnapClient`)
+
+`createBitsnapClient` talks to Bitsnap's public merchant API (`/api/v1`): products,
+orders, coupons, webhook endpoints, checkout links, test payments, sales stats.
+It is plain `fetch` with JSON, has no extra dependencies, and works only on the
+server (the API refuses browser origins; a key in a browser is a leaked key).
+
+```ts
+import { createBitsnapClient } from "bitsnap-js/client";
+
+const bitsnap = createBitsnapClient({ apiKey: process.env.BITSNAP_API_KEY! });
+
+const { projectName, environment, canWrite } = await bitsnap.account.get();
+const { products, nextCursor } = await bitsnap.products.list({ limit: 20 });
+
+const { product } = await bitsnap.products.create({
+  name: "Ebook",
+  price: { amount: 4900, currency: "PLN" }, // minor units: 49.00 PLN
+  status: "PRODUCT_STATUS_PUBLISHED",
+});
+
+const { url, orderId } = await bitsnap.checkout.createCheckoutLink({
+  items: [{ productId: product.id, quantity: 1 }],
+  successUrl: "http://localhost:3000/thanks",
+});
+```
+
+### Test keys and the test gateway
+
+API keys are created in **Settings → Developer**. A **test key** (`bs_test_…`)
+creates **test-mode** orders that move no money, so you can build and test a whole
+purchase flow; a **live key** (`bs_live_…`) creates real ones. `client.environment`
+says which one a key is (`"test"` / `"live"`).
+
+With a test key you do not need a card: create a checkout link, then settle the
+order as if the buyer paid. The order's webhooks and emails fire like a real payment.
+
+```ts
+await bitsnap.checkout.settleTestPayment({
+  orderId,
+  outcome: "TEST_PAYMENT_OUTCOME_PAID", // or "TEST_PAYMENT_OUTCOME_FAILED"
+});
+```
+
+`settleTestPayment` is refused for live keys (reason `test_mode_only`) and for
+orders that are not waiting for a payment (`order_not_settleable`).
+
+### Methods
+
+| Service | Methods |
+| --- | --- |
+| `account` | `get()` |
+| `products` | `list(req)`, `get(id)`, `create(req)`, `update(req)` |
+| `orders` | `list(req)`, `get(id)` |
+| `coupons` | `list()`, `create`, `update`, `delete`, `createCode`, `updateCode`, `deleteCode` |
+| `webhooks` | `list()`, `create(req)` (returns `signingSecret` once), `delete({ id })` |
+| `checkout` | `createCheckoutLink(req)`, `settleTestPayment(req)` |
+| `stats` | `getSalesSummary(req)` |
+
+Every method returns the API's response message (`{ products, nextCursor }`,
+`{ product }`, …) with lowerCamelCase fields, enum names such as
+`ORDER_STATUS_PAID` and RFC 3339 timestamps; all types are exported
+(`import type { Product } from "bitsnap-js/client"`). Lists use cursors: pass
+the `nextCursor` of a page to get the next one (`""` means the last page). Each
+call also takes `{ idempotencyKey?, signal? }` as its last argument.
+
+Options of `createBitsnapClient`: `apiKey` (required), `host` (default
+`https://bitsnap.pl`), `fetch`, `timeoutMs` (default 30000), `headers`.
+
+### Idempotency-Key
+
+Every write (create/update/delete, `createCheckoutLink`, `settleTestPayment`)
+sends an `Idempotency-Key` header: a random UUID per call, or the one you pass.
+A retry with the same key and the same body returns the first answer instead of
+creating a second product or order; the same key with a different body fails with
+reason `idempotency_key_reused`. To make a retry safe, derive the key from your own
+operation id and reuse it:
+
+```ts
+await bitsnap.checkout.createCheckoutLink(request, { idempotencyKey: `cart-${cartId}` });
+```
+
+### Errors
+
+Every failed call throws `BitsnapApiError`:
+
+| Field | Meaning |
+| --- | --- |
+| `status` | HTTP status |
+| `code` | The reason in upper case (`MISSING_SCOPE`, `REVISION_CONFLICT`, …), as in 1.x |
+| `connectCode` | Connect code (`permission_denied`, `not_found`, `aborted`, …) |
+| `reason` | Stable machine-readable reason: `missing_scope`, `writes_disabled`, `test_mode_only`, `revision_conflict`, `product_not_found`, `rate_limited`, … Branch on this |
+| `metadata` | Extra facts, e.g. `{ scope: "products:write" }` |
+| `requestId` | `X-Request-ID`; quote it when you report a problem |
+| `detail` / `body` | The server's message / the parsed response |
+
+```ts
+import { BitsnapApiError } from "bitsnap-js/errors";
+
+try {
+  await bitsnap.products.update({ id, revision: 3, name: "New" });
+} catch (e) {
+  if (e instanceof BitsnapApiError && e.reason === "revision_conflict") {
+    // read the product again and retry
+  }
+}
+```
+
+Network failures and timeouts throw the underlying `fetch` error.
+
+## Command line (`bitsnap` CLI)
+
+The same API from a terminal, built for AI coding agents (`--json` on every
+command, no prompts, exit codes `0` ok / `1` error / `2` auth / `3` network):
+
+```sh
+npx bitsnap login --key bs_test_…
+npx bitsnap products create --name Ebook --price 4900 --status published
+npx bitsnap checkout create --product prodv2_… --success-url http://localhost:3000/thanks
+npx bitsnap payments settle <orderId>                      # test keys only
+npx bitsnap webhooks listen --forward http://localhost:3000/api/webhooks
+```
+
+`webhooks listen` streams test-mode webhook events and `POST`s each one to your
+local route with the real signature (`X-Content-Signature` and `?sig=`), so
+`handleWebhook` verifies it unchanged; set the printed secret as
+`BITSNAP_WEBHOOK_SECRET`. See the CLI's README (`npm view bitsnap readme`) for all
+commands.
 
 ## Backend Methods
 
@@ -122,12 +264,18 @@ if (product) {
 #### `BitsnapBackend.getProducts(projectID: string, limit: number, offset: number, requestInit?: RequestInit, opts?: { groupVariants?: boolean; includeDrafts?: boolean })`
 
 Fetches a list of products with pagination. By default only **published**
-products come back. To receive the project's drafts as well, pass
-`includeDrafts: true` **and** configure the project API key with
-`BitsnapBackend.setApiKey(...)` first: the backend only honours the flag when the
-request carries `Authorization: Bearer <key>`, and the call throws before
+products come back, read from the public storefront endpoints (no API key).
+To receive the project's drafts as well, pass `includeDrafts: true` **and**
+configure the project API key with `BitsnapBackend.setApiKey(...)` first: that
+path uses the public API (`/api/v1`, `products.list`) and the call throws before
 fetching when the key is missing. Each item exposes `isPublished` so drafts can
 be told apart from published products.
+
+Notes: `groupVariants` has no effect (the public list has one row per product).
+With `includeDrafts` the API pages by cursor, so `offset` is served by reading
+pages from the start, items carry the fields the API returns (no `description`,
+`pricing` or `metadata`), and `data.totalCount` is exact only on the last page;
+while more pages exist it is `offset + limit + 1`, i.e. a lower bound.
 
 ```typescript
 import { BitsnapBackend } from "bitsnap-js/backend";
@@ -190,15 +338,20 @@ await BitsnapBackend.deleteVariant("project-id", id, "variant-id");
 try {
   await BitsnapBackend.updateProduct("project-id", id, { revision: 3, name: "New" });
 } catch (e) {
-  if (e instanceof BitsnapApiError && e.status === 409) {
-    // REVISION_CONFLICT: getManagedProduct again and retry
+  if (e instanceof BitsnapApiError && e.reason === "revision_conflict") {
+    // getManagedProduct again and retry
   }
 }
 ```
 
 - `availableQuantity` is the total stock cap (sold and reserved units count against it), not a delta.
 - `variants` in `updateProduct` replaces the whole list; omitted variants are deleted.
-- Errors throw `BitsnapApiError` with `status`, `code` (e.g. `MISSING_SCOPE`, `PRODUCT_NOT_FOUND`, `INVALID_BODY`) and `body`.
+- These functions call the public API (see `createBitsnapClient`), which needs a
+  `bs_test_…` / `bs_live_…` key; the key identifies the project, so the `projectID`
+  argument is not sent. Writes carry an `Idempotency-Key`.
+- Errors throw `BitsnapApiError` with `status`, `reason` (`missing_scope`, `product_not_found`,
+  `revision_conflict`, …), `code` (the reason in upper case, as in 1.x), `connectCode`
+  (`permission_denied`, …), `requestId` and `body`. Prefer `reason` in new code.
 
 #### `BitsnapBackend.sendNotification(request: NotificationRequest, requestInit?: RequestInit)`
 

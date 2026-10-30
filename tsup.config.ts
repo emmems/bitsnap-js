@@ -12,6 +12,7 @@ export default defineConfig(overrideOptions => {
       internal: 'src/internal.ts',
       errors: 'src/errors.ts',
       backend: 'src/backend.ts',
+      client: 'src/client.ts',
       models: 'src/models.ts',
       returns: 'src/returns.client.ts',
     },

@@ -12,3 +12,7 @@ protoc --proto_path=../instapay/proto --es_out ./src/gen/proto --es_opt target=t
 protoc --proto_path=../instapay/proto --es_out ./src/gen/proto --es_opt target=ts ../instapay/proto/dashboard/v1/audiobooks.proto
 protoc --proto_path=../instapay/proto --es_out ./src/gen/proto --es_opt target=ts ../instapay/proto/public/v1/public_api.proto
 protoc --proto_path=../instapay/proto --es_out ./src/gen/proto --es_opt target=ts ../instapay/proto/public/v1/returns.proto
+
+# Public merchant API (bitsnap.v1). json_types=true also emits the *Json types
+# that src/public-v1/types.check.ts compiles the hand-written API types against.
+protoc --proto_path=../instapay/proto --es_out ./src/gen/proto --es_opt target=ts,json_types=true ../instapay/proto/bitsnap/v1/*.proto

@@ -4,8 +4,10 @@ import {
   NotifyUserAboutProductAvailabilityRequest,
   NotifyUserAboutProductAvailabilityRequestSchema,
 } from "./gen/proto/public/v1/public_api_pb";
+import { createBitsnapClient } from "./client";
 import { clientHeaders } from "./client.header";
 import { BitsnapApiError } from "./errors";
+import type * as ApiV1 from "./public-v1/types";
 import { BitsnapModels } from "./models";
 import { PublicApiClient } from "./public.api.backend";
 
@@ -22,55 +24,221 @@ export async function setApiKey(apiKey: string) {
   API_KEY = apiKey;
 }
 
+/** Headers/signal of a caller's `requestInit`, for the API client. */
+function requestInitHeaders(requestInit?: RequestInit): Record<string, string> {
+  const headers: Record<string, string> = {};
+  new Headers(requestInit?.headers).forEach((value, key) => {
+    headers[key] = value;
+  });
+  return headers;
+}
+
+async function publicGet(
+  path: string,
+  requestInit?: RequestInit
+): Promise<unknown> {
+  const response = await fetch(BACKEND_HOST + path, {
+    ...(requestInit ?? {}),
+    method: "GET",
+    headers: {
+      ...requestInitHeaders(requestInit),
+      ...clientHeaders,
+      Accept: "application/json",
+    },
+  });
+  const text = await response.text();
+  let parsed: unknown = text;
+  try {
+    parsed = text === "" ? undefined : JSON.parse(text);
+  } catch {}
+  if (!response.ok) {
+    throw BitsnapApiError.fromResponse(
+      response.status,
+      parsed,
+      response.headers.get("x-request-id") ?? undefined
+    );
+  }
+  return parsed;
+}
+
+const publicProductsSchema = zod.object({
+  success: zod.boolean().optional(),
+  message: zod.string().optional(),
+  result: zod.array(BitsnapModels.ItemSchema),
+});
+
+const publicListSchema = zod.object({
+  items: zod.array(
+    zod.object({
+      id: zod.string(),
+      name: zod.string(),
+      shortDescription: zod.string().nullable().optional(),
+      image: zod.object({ url: zod.string() }).nullable().optional(),
+      price: zod.number(),
+      currency: zod.string(),
+      cartItemId: zod.string().optional(),
+    })
+  ),
+  totalCount: zod.number(),
+});
+
+/** Public product details by id, as the storefront sees them (no API key). */
+async function fetchPublicProducts(
+  projectID: string,
+  ids: string[],
+  requestInit?: RequestInit
+): Promise<BitsnapModels.Item[]> {
+  const parsed = publicProductsSchema.parse(
+    await publicGet(
+      `/api/integrations/${encodeURIComponent(projectID)}/public-commerce/products?ids=${encodeURIComponent(ids.join(","))}`,
+      requestInit
+    )
+  );
+  return parsed.result;
+}
+
 export async function getProduct(
   projectID: string,
   id: string,
   requestInit?: RequestInit
 ) {
   try {
-    const payload = {
-      "0": {
-        projectID: projectID,
-        id: id,
+    const [product] = await fetchPublicProducts(projectID, [id], requestInit);
+    if (product == null) {
+      return {
+        data: {
+          success: false,
+          message: "Product not found",
+          result: undefined as BitsnapModels.Item | undefined,
+        },
+      };
+    }
+    return {
+      data: {
+        success: true,
+        message: undefined as string | undefined,
+        result: product as BitsnapModels.Item | undefined,
       },
     };
-
-    const encodedPayload = new URLSearchParams();
-    encodedPayload.set("batch", "1");
-    encodedPayload.set("input", JSON.stringify(payload));
-
-    const result = await fetch(
-      BACKEND_HOST +
-        "/api/trpc/product.getProductById?" +
-        encodedPayload.toString(),
-      {
-        ...(requestInit ?? {}),
-        headers: {
-          ...(requestInit?.headers ?? {}),
-          ...clientHeaders,
-          "Content-Type": "application/json",
-          Priority: "u=3, i",
-        },
-      }
-    );
-
-    const downloadedPayload = await result.json();
-
-    const parsedResult = await BitsnapModels.ProductResultSchema.parseAsync(
-      downloadedPayload
-    );
-
-    if (parsedResult.length == 0) {
-      return undefined;
-    }
-    const parsed = parsedResult[0];
-
-    const response = parsed.result;
-    return response;
   } catch (error) {
     console.error("Error fetching product:", error);
     throw error;
   }
+}
+
+/** The storefront page size limit of `public-commerce/product-list`. */
+const PUBLIC_LIST_PAGE_SIZE = 48;
+
+async function getPublicProducts(
+  projectID: string,
+  limit: number,
+  offset: number,
+  requestInit?: RequestInit
+): Promise<BitsnapModels.Data> {
+  const listed: zod.infer<typeof publicListSchema>["items"] = [];
+  let totalCount = 0;
+  let next = offset;
+  while (listed.length < limit) {
+    const page = publicListSchema.parse(
+      await publicGet(
+        `/api/integrations/${encodeURIComponent(projectID)}/public-commerce/product-list?` +
+          new URLSearchParams({
+            limit: String(Math.min(PUBLIC_LIST_PAGE_SIZE, limit - listed.length)),
+            offset: String(next),
+          }).toString(),
+        requestInit
+      )
+    );
+    totalCount = page.totalCount;
+    listed.push(...page.items);
+    next += page.items.length;
+    if (page.items.length === 0 || next >= totalCount) break;
+  }
+
+  // The list is a slim card; the details (variants, pricing, description)
+  // come from the products endpoint, the same data the old grid carried.
+  const details: BitsnapModels.Item[] = [];
+  for (let i = 0; i < listed.length; i += PUBLIC_LIST_PAGE_SIZE) {
+    details.push(
+      ...(await fetchPublicProducts(
+        projectID,
+        listed.slice(i, i + PUBLIC_LIST_PAGE_SIZE).map((p) => p.cartItemId ?? p.id),
+        requestInit
+      ))
+    );
+  }
+  const result = listed.map((card): BitsnapModels.Item => {
+    const match =
+      details.find((d) => d.id === (card.cartItemId ?? card.id)) ??
+      details.find((d) => d.id === card.id || d.id.startsWith(card.id + "_"));
+    if (match) return match;
+    return {
+      id: card.id,
+      name: card.name,
+      description: card.shortDescription ?? null,
+      price: card.price,
+      currency: card.currency,
+      image_url: card.image?.url ?? "",
+      images: card.image ? [card.image.url] : [],
+      isPublished: true,
+    };
+  });
+  return { success: true, result, totalCount };
+}
+
+/** Product of the API (API key) as the item shape the SDK has always returned. */
+function itemFromApiProduct(product: ApiV1.Product): BitsnapModels.Item {
+  const currency = product.price?.currency ?? "PLN";
+  return {
+    id: product.id,
+    name: product.name,
+    price: product.price?.amount ?? 0,
+    currency,
+    image_url: product.images[0] ?? "",
+    images: product.images,
+    isPublished: product.status === "PRODUCT_STATUS_PUBLISHED",
+    availableQuantity: product.availableQuantity,
+    variants: product.variants.map((variant) => ({
+      id: variant.id,
+      name: variant.name,
+      price: variant.price?.amount ?? 0,
+      currency: variant.price?.currency ?? currency,
+      images: [],
+      availableQuantity: variant.availableQuantity,
+    })),
+  };
+}
+
+async function getProductsWithDrafts(
+  limit: number,
+  offset: number,
+  requestInit?: RequestInit
+): Promise<BitsnapModels.Data> {
+  const client = apiClient(requestInit);
+  const wanted = offset + limit;
+  const products: ApiV1.Product[] = [];
+  let cursor = "";
+  do {
+    const page = await client.products.list(
+      {
+        includeDrafts: true,
+        limit: Math.min(100, wanted - products.length),
+        ...(cursor === "" ? {} : { cursor }),
+      },
+      { signal: requestInit?.signal ?? undefined }
+    );
+    products.push(...page.products);
+    cursor = page.nextCursor;
+  } while (cursor !== "" && products.length < wanted);
+
+  // The API pages by cursor and has no total: when more pages exist the count
+  // is a lower bound that still says "there is a next page".
+  const totalCount = cursor === "" ? products.length : wanted + 1;
+  return {
+    success: true,
+    result: products.slice(offset, wanted).map(itemFromApiProduct),
+    totalCount,
+  };
 }
 
 export async function getProducts(
@@ -79,6 +247,7 @@ export async function getProducts(
   offset: number,
   requestInit?: RequestInit,
   opts?: {
+    /** No effect: the public list has one row per product. Kept for compatibility. */
     groupVariants?: boolean;
     includeDrafts?: boolean;
   }
@@ -93,58 +262,11 @@ export async function getProducts(
   }
 
   try {
-    const productsPayload: { [key: string]: any } = {
-      "0": {
-        projectID: projectID,
-        limit: limit,
-        offset: offset,
-      },
+    return {
+      data: includeDrafts
+        ? await getProductsWithDrafts(limit, offset, requestInit)
+        : await getPublicProducts(projectID, limit, offset, requestInit),
     };
-
-    if (opts) {
-      if (opts.groupVariants != null) {
-        productsPayload[0]["groupVariants"] = opts.groupVariants;
-      }
-      if (opts.includeDrafts != null) {
-        productsPayload[0]["includeDrafts"] = opts.includeDrafts;
-      }
-    }
-
-    const encodedPayload = new URLSearchParams();
-    encodedPayload.set("batch", "1");
-    encodedPayload.set("input", JSON.stringify(productsPayload));
-
-    const result = await fetch(
-      BACKEND_HOST +
-        "/api/trpc/product.getProductGrid?" +
-        encodedPayload.toString(),
-      {
-        ...(requestInit ?? {}),
-        headers: {
-          ...(requestInit?.headers ?? {}),
-          ...clientHeaders,
-          "Content-Type": "application/json",
-          Priority: "u=3, i",
-          ...(includeDrafts ? { Authorization: "Bearer " + API_KEY } : {}),
-        },
-      }
-    );
-
-    const downloadedPayload = await result.json();
-
-    try {
-      const parsedResult =
-        await BitsnapModels.ProductsResultElementSchema.parseAsync(
-          downloadedPayload
-        );
-      const parsed = parsedResult[0];
-
-      const response = parsed.result;
-      return response;
-    } catch (error) {
-      console.error("Error parsing products result:", JSON.stringify(error));
-      throw error;
-    }
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;
@@ -237,9 +359,13 @@ export async function notifyProductAvailability(
 // - `availableQuantity` is the TOTAL stock cap; units already sold or reserved
 //   are counted against it (remaining = cap - sold - reserved). Send the total
 //   you want to allow, not a delta.
-// - A 409 (`code === "REVISION_CONFLICT"`) means the product changed since you
+// - A 409 (`reason === "revision_conflict"`) means the product changed since you
 //   read it: re-fetch and retry.
 // - The API key needs the write switch enabled in the dashboard (products:write).
+// - These calls use the public API (`/api/v1`, see `createBitsnapClient`): the
+//   key (`bs_test_…` / `bs_live_…`) identifies the project, so the `projectID`
+//   argument is accepted for compatibility and not sent. Writes carry an
+//   auto-generated Idempotency-Key.
 // ---------------------------------------------------------------------------
 
 const managedStatusSchema = zod.enum(["DRAFT", "UNPUBLISHED", "PUBLISHED"]);
@@ -309,61 +435,71 @@ function requireApiKey() {
   return API_KEY;
 }
 
-async function productsRequest<T extends zod.ZodTypeAny>(
-  projectID: string,
-  path: string,
-  method: "GET" | "POST" | "PATCH",
-  schema: T,
-  body?: unknown,
-  requestInit?: RequestInit
-): Promise<zod.infer<T>> {
-  const key = requireApiKey();
-  const response = await fetch(
-    `${BACKEND_HOST}/api/integrations/${encodeURIComponent(projectID)}/products${path}`,
-    {
-      ...(requestInit ?? {}),
-      method,
-      body: body === undefined ? undefined : JSON.stringify(body),
-      headers: {
-        ...(requestInit?.headers ?? {}),
-        ...clientHeaders,
-        ...(body === undefined ? {} : { "Content-Type": "application/json" }),
-        Authorization: "Bearer " + key,
-      },
-    }
-  );
-  const text = await response.text();
-  let parsed: unknown = text;
-  try {
-    parsed = text === "" ? undefined : JSON.parse(text);
-  } catch {}
-
-  if (!response.ok) {
-    const code =
-      parsed != null &&
-      typeof parsed === "object" &&
-      typeof (parsed as { error?: unknown }).error === "string"
-        ? (parsed as { error: string }).error
-        : undefined;
-    throw new BitsnapApiError(response.status, parsed, code);
-  }
-  return schema.parseAsync(parsed);
+/** A public API client for the configured host and key; `requestInit` headers are added to each call. */
+function apiClient(requestInit?: RequestInit) {
+  return createBitsnapClient({
+    apiKey: requireApiKey(),
+    host: BACKEND_HOST,
+    headers: requestInitHeaders(requestInit),
+  });
 }
 
-/** Fetches a product via the API-key endpoint, including its `revision`. Throws BitsnapApiError (404 PRODUCT_NOT_FOUND). */
+const statusToApi: Record<ManagedProductStatus, ApiV1.ProductStatus> = {
+  DRAFT: "PRODUCT_STATUS_DRAFT",
+  UNPUBLISHED: "PRODUCT_STATUS_UNPUBLISHED",
+  PUBLISHED: "PRODUCT_STATUS_PUBLISHED",
+};
+
+function managedFromApi(product: ApiV1.Product): ManagedProduct {
+  const status = product.status.replace("PRODUCT_STATUS_", "");
+  return managedProductSchema.parse({
+    id: product.id,
+    name: product.name,
+    status: status === "UNSPECIFIED" ? "DRAFT" : status,
+    priceAmount: product.price?.amount ?? null,
+    priceCurrency: product.price?.currency ?? null,
+    availableQuantity: product.availableQuantity ?? null,
+    images: product.images,
+    variants: product.variants.map((variant) => ({
+      id: variant.id,
+      name: variant.name,
+      priceAmount: variant.price?.amount ?? null,
+      priceCurrency: variant.price?.currency ?? null,
+      availableQuantity: variant.availableQuantity ?? null,
+    })),
+    revision: product.revision,
+  });
+}
+
+function variantToApi(variant: ProductVariantInput): ApiV1.VariantInput {
+  return {
+    ...(variant.id != null ? { id: variant.id } : {}),
+    name: variant.name,
+    price: {
+      amount: variant.priceAmount,
+      ...(variant.priceCurrency != null ? { currency: variant.priceCurrency } : {}),
+    },
+    ...(variant.availableQuantity != null
+      ? { availableQuantity: variant.availableQuantity }
+      : {}),
+  };
+}
+
+function writeResult(product: ApiV1.Product): ProductWriteResult {
+  return { id: product.id, revision: product.revision };
+}
+
+/** Fetches a product via the API-key endpoint, including its `revision`. Throws BitsnapApiError (404, reason product_not_found). */
 export async function getManagedProduct(
   projectID: string,
   productID: string,
   requestInit?: RequestInit
 ): Promise<ManagedProduct> {
-  return productsRequest(
-    projectID,
-    "/" + encodeURIComponent(productID),
-    "GET",
-    managedProductSchema,
-    undefined,
-    requestInit
-  );
+  void projectID;
+  const { product } = await apiClient(requestInit).products.get(productID, {
+    signal: requestInit?.signal ?? undefined,
+  });
+  return managedFromApi(product);
 }
 
 /** Creates a product (needs products:write). Prices in minor units; see notes above on availableQuantity. */
@@ -372,20 +508,29 @@ export async function createProduct(
   input: CreateProductInput,
   requestInit?: RequestInit
 ): Promise<ProductWriteResult> {
-  return productsRequest(
-    projectID,
-    "",
-    "POST",
-    productWriteResultSchema,
-    input,
-    requestInit
+  void projectID;
+  const { product } = await apiClient(requestInit).products.create(
+    {
+      name: input.name,
+      price: { amount: input.priceAmount, currency: input.priceCurrency },
+      ...(input.status != null ? { status: statusToApi[input.status] } : {}),
+      ...(input.availableQuantity != null
+        ? { availableQuantity: input.availableQuantity }
+        : {}),
+      ...(input.images != null ? { images: input.images } : {}),
+      ...(input.variants != null
+        ? { variants: input.variants.map(variantToApi) }
+        : {}),
+    },
+    { signal: requestInit?.signal ?? undefined }
   );
+  return writeResult(product);
 }
 
 /**
  * Patches a product; only provided fields change. `variants` REPLACES the whole
  * list (omitted variants are deleted; a matching `id` keeps its other fields).
- * On 409 REVISION_CONFLICT re-fetch and retry.
+ * On 409 (reason revision_conflict) re-fetch and retry.
  */
 export async function updateProduct(
   projectID: string,
@@ -393,14 +538,42 @@ export async function updateProduct(
   patch: UpdateProductInput,
   requestInit?: RequestInit
 ): Promise<ProductWriteResult> {
-  return productsRequest(
-    projectID,
-    "/" + encodeURIComponent(productID),
-    "PATCH",
-    productWriteResultSchema,
-    patch,
-    requestInit
+  const client = apiClient(requestInit);
+  const signal = requestInit?.signal ?? undefined;
+
+  let price: ApiV1.Money | undefined;
+  if (patch.priceAmount != null || patch.priceCurrency != null) {
+    // The API sets amount and currency together; fill in the half not given.
+    if (patch.priceAmount == null || patch.priceCurrency == null) {
+      const current = (await client.products.get(productID, { signal })).product;
+      price = {
+        amount: patch.priceAmount ?? current.price?.amount ?? 0,
+        currency: patch.priceCurrency ?? current.price?.currency ?? "PLN",
+      };
+    } else {
+      price = { amount: patch.priceAmount, currency: patch.priceCurrency };
+    }
+  }
+
+  const { product } = await client.products.update(
+    {
+      id: productID,
+      ...(patch.revision != null ? { revision: patch.revision } : {}),
+      ...(patch.name != null ? { name: patch.name } : {}),
+      ...(price != null ? { price } : {}),
+      ...(patch.status != null ? { status: statusToApi[patch.status] } : {}),
+      ...(patch.availableQuantity != null
+        ? { availableQuantity: patch.availableQuantity }
+        : {}),
+      ...(patch.images != null ? { images: patch.images } : {}),
+      ...(patch.variants != null
+        ? { variants: patch.variants.map(variantToApi) }
+        : {}),
+    },
+    { signal }
   );
+  void projectID;
+  return writeResult(product);
 }
 
 function toVariantInput(v: ManagedProductVariant): ProductVariantInput {
@@ -542,4 +715,4 @@ export namespace BitsnapBackend {
   export type ProductWriteResult = zod.infer<typeof productWriteResultSchema>;
 }
 
-export { BitsnapApiError };
+export { BitsnapApiError, createBitsnapClient };
