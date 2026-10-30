@@ -66,6 +66,11 @@
       "import": "./dist/backend.mjs",
       "require": "./dist/backend.js"
     },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.js"
+    },
     "./models": {
       "types": "./dist/models.d.ts",
       "import": "./dist/models.mjs",
@@ -92,6 +97,9 @@
     "*": {
       "backend": [
         "./dist/backend.d.ts"
+      ],
+      "client": [
+        "./dist/client.d.ts"
       ],
       "models": [
         "./dist/models.d.ts"
