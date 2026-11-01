@@ -1,3 +1,9 @@
+/** A whole number of seconds from a header or metadata value; undefined otherwise. */
+function parseSeconds(value: string | null | undefined): number | undefined {
+  if (value == null || !/^\d+$/.test(value.trim())) return undefined;
+  return Number(value.trim());
+}
+
 export type BitsnapApiErrorInit = {
   /** HTTP status of the response. */
   status: number;
@@ -13,6 +19,8 @@ export type BitsnapApiErrorInit = {
   requestId?: string;
   /** The server's message without the `[reason]` prefix. */
   detail?: string;
+  /** Seconds to wait before retrying (`Retry-After` header or `metadata.retry_after`). */
+  retryAfter?: number;
 };
 
 /**
@@ -59,6 +67,17 @@ export class BitsnapApiError extends Error {
   readonly requestId?: string;
   /** The server's message without the `[reason]` prefix. */
   readonly detail?: string;
+  /**
+   * Chat: the channel rule that refused a post (`banned_word`, `link` or
+   * `media`) on `chat_moderation`; read from `metadata.rule`.
+   */
+  readonly rule?: string;
+  /**
+   * Seconds to wait before the same call can succeed: the `Retry-After`
+   * header, or `metadata.retry_after`. Set on `chat_cooldown`; undefined when
+   * the response gave none.
+   */
+  readonly retryAfter?: number;
   /** Parsed JSON body, or raw text when the body is not JSON. */
   readonly body: unknown;
 
@@ -91,6 +110,8 @@ export class BitsnapApiError extends Error {
     this.metadata = init.metadata ?? {};
     this.requestId = init.requestId;
     this.detail = init.detail;
+    this.rule = this.metadata.rule;
+    this.retryAfter = init.retryAfter ?? parseSeconds(this.metadata.retry_after);
     this.body = init.body;
   }
 
@@ -99,6 +120,7 @@ export class BitsnapApiError extends Error {
     status: number,
     body: unknown,
     requestId?: string,
+    headers?: { get(name: string): string | null },
   ): BitsnapApiError {
     const parsed =
       body != null && typeof body === "object"
@@ -128,6 +150,7 @@ export class BitsnapApiError extends Error {
       metadata,
       requestId,
       detail: message?.replace(/^\[[a-z_]+\]\s*/, ""),
+      retryAfter: parseSeconds(headers?.get("retry-after")),
     });
   }
 }

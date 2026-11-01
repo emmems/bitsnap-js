@@ -140,6 +140,7 @@ export function createBitsnapClient(options: BitsnapClientOptions) {
         response.status,
         parsed,
         response.headers.get("x-request-id") ?? undefined,
+        response.headers,
       );
     }
     return parsed as Res;
