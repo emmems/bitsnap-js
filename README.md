@@ -122,7 +122,7 @@ orders that are not waiting for a payment (`order_not_settleable`).
 | `webhooks` | `list()`, `create(req)` (returns `signingSecret` once), `delete({ id })` |
 | `checkout` | `createCheckoutLink(req)`, `settleTestPayment(req)` |
 | `stats` | `getSalesSummary(req)` |
-| `chat` | `createBuyerToken`, `listThreads`, `listMessages`, `replyToThread`, `listChannels`, `createChannel`, `updateChannel`, `removeFromChannel`, `getSettings`, `updateSettings`, `listBlocks`, `putBlock`, `deleteBlock`, `listReports`, `updateReport` (see [Chat](#chat)) |
+| `chat` | `createBuyerToken`, `listThreads`, `listMessages`, `replyToThread`, `listChannels`, `createChannel`, `updateChannel`, `removeFromChannel`, `listChannelMembers`, `deleteChannel`, `getSettings`, `updateSettings`, `listBlocks`, `putBlock`, `deleteBlock`, `listReports`, `updateReport` (see [Chat](#chat)) |
 
 Every method returns the API's response message (`{ products, nextCursor }`,
 `{ product }`, …) with lowerCamelCase fields, enum names such as
@@ -237,6 +237,15 @@ const { channel } = await bitsnap.chat.createChannel({
 // Only the fields you send change. { words: [] } clears the banned words.
 await bitsnap.chat.updateChannel({ channelId: channel.id, bannedWords: { words: [] } });
 await bitsnap.chat.removeFromChannel({ channelId: channel.id, email: "troll@example.com" });
+
+// Who is in the channel (creator only). People who left or were removed are
+// listed too, with `revokedAt` set.
+const { members } = await bitsnap.chat.listChannelMembers({ channelId: channel.id });
+const active = members.filter((m) => !m.revokedAt);
+
+// PERMANENT: deletes the channel with its members, invites and every message.
+// The history cannot be restored. A second call fails with `chat_not_found`.
+await bitsnap.chat.deleteChannel({ channelId: channel.id });
 
 await bitsnap.chat.putBlock({ email: "troll@example.com" }); // cannot post anywhere in the project
 const { reports } = await bitsnap.chat.listReports({ status: "open" });

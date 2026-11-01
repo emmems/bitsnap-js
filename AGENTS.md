@@ -74,6 +74,8 @@ await bitsnap.checkout.settleTestPayment({ orderId, outcome: "TEST_PAYMENT_OUTCO
   `chat:write`): return only the token to the browser widget (`ChatThread` /
   `Channel` of bitsnap-react). Chat errors: `e.reason` (`chat_pack_empty`,
   `chat_blocked`, `chat_cooldown` with `e.retryAfter`, `chat_moderation` with `e.rule`).
+- `chat.deleteChannel` is permanent (members, invites and all messages go; no undo):
+  never call it without the user asking for that channel by name.
 - `BitsnapBackend.createProduct/updateProduct/getManagedProduct/...` use this client.
 
 ## CLI
