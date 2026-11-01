@@ -281,6 +281,20 @@ export function createBitsnapClient(options: BitsnapClientOptions) {
         "ChatService",
         "RemoveFromChannel",
       ),
+      /** Creator only. Includes people who left or were removed (`revokedAt` set). */
+      listChannelMembers: read<T.ListChatChannelMembersRequest, T.ListChatChannelMembersResponse>(
+        "ChatService",
+        "ListChannelMembers",
+      ),
+      /**
+       * PERMANENT. Deletes the channel with its members, invites, thread and
+       * every message; the history cannot be restored. Creator only. A second
+       * call fails with `chat_not_found`.
+       */
+      deleteChannel: write<T.DeleteChatChannelRequest, T.DeleteChatChannelResponse>(
+        "ChatService",
+        "DeleteChannel",
+      ),
 
       getSettings: read<undefined, T.GetChatSettingsResponse>("ChatService", "GetSettings"),
       /** Only the fields you send change. */

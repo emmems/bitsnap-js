@@ -389,6 +389,24 @@ export type UpdateChatChannelResponse = { channel: ChatChannel };
 export type RemoveFromChatChannelRequest = { channelId: string; email: string };
 export type RemoveFromChatChannelResponse = Record<string, never>;
 
+export type ChatChannelRole = "creator" | "member" | "muted";
+
+/** A person in a channel. */
+export type ChatChannelMember = {
+  email: string;
+  role: ChatChannelRole | (string & {});
+  /** RFC 3339. */
+  joinedAt?: string;
+  /** RFC 3339. Set when the person was removed or left; absent while they are in. */
+  revokedAt?: string;
+};
+
+export type ListChatChannelMembersRequest = { channelId: string };
+export type ListChatChannelMembersResponse = { members: ChatChannelMember[] };
+
+export type DeleteChatChannelRequest = { channelId: string };
+export type DeleteChatChannelResponse = Record<string, never>;
+
 export type ChatSettings = {
   awayNotice: string;
   awayEnabled: boolean;
