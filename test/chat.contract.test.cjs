@@ -33,6 +33,8 @@ const RPCS = [
   ["createChannel", "CreateChannel", true],
   ["updateChannel", "UpdateChannel", true],
   ["removeFromChannel", "RemoveFromChannel", true],
+  ["listChannelMembers", "ListChannelMembers", false],
+  ["deleteChannel", "DeleteChannel", true],
   ["getSettings", "GetSettings", false],
   ["updateSettings", "UpdateSettings", true],
   ["listBlocks", "ListBlocks", false],
@@ -48,7 +50,7 @@ const RPCS = [
 test("every RPC of ChatService has a method that posts to its path; writes send an Idempotency-Key, reads do not", async () => {
   const { calls, fetch } = recorder(() => json({}));
   const client = createBitsnapClient({ apiKey: "bs_live_abc", fetch });
-  assert.equal(RPCS.length, 15);
+  assert.equal(RPCS.length, 17);
   for (const [name] of RPCS) assert.equal(typeof client.chat[name], "function", name);
 
   for (const [name] of RPCS) await client.chat[name]({});
@@ -116,6 +118,36 @@ test("request bodies keep their camelCase fields", async () => {
     { status: "open", limit: 10 },
     { reportId: "r1", status: "resolved" },
   ]);
+});
+
+test("listChannelMembers and deleteChannel send the channel id and return the service's answer", async () => {
+  const members = [
+    { email: "me@shop.pl", role: "creator", joinedAt: "2026-10-01T10:00:00Z" },
+    { email: "a@x.pl", role: "member", joinedAt: "2026-10-02T10:00:00Z", revokedAt: "2026-10-05T08:30:00Z" },
+  ];
+  const { calls, fetch } = recorder((i) => (i === 0 ? json({ members }) : json({})));
+  const client = createBitsnapClient({ apiKey: "bs_live_abc", fetch });
+  assert.deepEqual(await client.chat.listChannelMembers({ channelId: "c1" }), { members });
+  assert.deepEqual(await client.chat.deleteChannel({ channelId: "c1" }), {});
+  assert.deepEqual(calls.map((call) => call.body), [{ channelId: "c1" }, { channelId: "c1" }]);
+  assert.equal(calls[0].headers.has("idempotency-key"), false);
+  assert.equal(calls[1].headers.has("idempotency-key"), true);
+});
+
+test("a channel that is gone (or not yours) fails with chat_not_found on both operations", async () => {
+  const { fetch } = recorder(failure("not_found", 404, "chat_not_found"));
+  const client = createBitsnapClient({ apiKey: "bs_live_abc", fetch });
+  for (const run of [
+    () => client.chat.deleteChannel({ channelId: "c1" }),
+    () => client.chat.listChannelMembers({ channelId: "c1" }),
+  ]) {
+    await assert.rejects(run, (error) => {
+      assert.ok(error instanceof BitsnapApiError);
+      assert.equal(error.status, 404);
+      assert.equal(error.reason, "chat_not_found");
+      return true;
+    });
+  }
 });
 
 test("replyToThread returns the pending message and the pack state", async () => {
