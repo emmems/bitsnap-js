@@ -27,6 +27,7 @@ It uses modern libraries like:
 - `createBitsnapClient`: products, orders, coupons, webhooks, checkout links, test payments, stats
 - Test keys (`bs_test_…`) and the test gateway: settle test orders with `settleTestPayment`
 - `Idempotency-Key` on every write, typed `BitsnapApiError`
+- `chat`: the creator side of the paid chat (inbox, replies, channels, moderation) and buyer tokens for the embedded widget
 
 ### Product Management:
 
@@ -121,6 +122,7 @@ orders that are not waiting for a payment (`order_not_settleable`).
 | `webhooks` | `list()`, `create(req)` (returns `signingSecret` once), `delete({ id })` |
 | `checkout` | `createCheckoutLink(req)`, `settleTestPayment(req)` |
 | `stats` | `getSalesSummary(req)` |
+| `chat` | `createBuyerToken`, `listThreads`, `listMessages`, `replyToThread`, `listChannels`, `createChannel`, `updateChannel`, `removeFromChannel`, `getSettings`, `updateSettings`, `listBlocks`, `putBlock`, `deleteBlock`, `listReports`, `updateReport` (see [Chat](#chat)) |
 
 Every method returns the API's response message (`{ products, nextCursor }`,
 `{ product }`, …) with lowerCamelCase fields, enum names such as
@@ -157,6 +159,8 @@ Every failed call throws `BitsnapApiError`:
 | `reason` | Stable machine-readable reason: `missing_scope`, `writes_disabled`, `test_mode_only`, `revision_conflict`, `product_not_found`, `rate_limited`, … Branch on this |
 | `metadata` | Extra facts, e.g. `{ scope: "products:write" }` |
 | `requestId` | `X-Request-ID`; quote it when you report a problem |
+| `rule` | Chat: the channel rule behind `chat_moderation` (`banned_word`, `link`, `media`), from `metadata.rule` |
+| `retryAfter` | Seconds to wait (`Retry-After` header or `metadata.retry_after`); set on `chat_cooldown` |
 | `detail` / `body` | The server's message / the parsed response |
 
 ```ts
@@ -172,6 +176,102 @@ try {
 ```
 
 Network failures and timeouts throw the underlying `fetch` error.
+
+### Chat
+
+`bitsnap.chat` is the creator side of the paid chat: answer buyers in the inbox,
+manage channels of Community products, moderate and let a buyer into an embedded
+chat on your own site. Reads need the `chat:read` scope, writes `chat:write`
+plus the key's write switch (both scopes are opt-in). The chat is part of the
+Klasyczny and Profesjonalny plans; on Podstawowy every call fails with
+`chat_plan_required`.
+
+```ts
+import { createBitsnapClient } from "bitsnap-js/client";
+
+const bitsnap = createBitsnapClient({ apiKey: process.env.BITSNAP_API_KEY! });
+
+// 1. Mint a buyer token for a signed-in customer (SERVER ONLY, see below).
+const { token, expiresAt } = await bitsnap.chat.createBuyerToken({
+  email: "anna@example.com",
+  ttlSeconds: 900, // 60-3600, default 900
+});
+// Hand only `token` to the browser widget (`ChatThread` / `Channel` of bitsnap-react).
+
+// 2. Read the inbox and a thread.
+const { threads } = await bitsnap.chat.listThreads();
+const thread = threads.find((t) => t.kind === "pack" && !t.composerLocked);
+const { messages, hasMore } = await bitsnap.chat.listMessages({ threadId: thread.id, limit: 20 });
+
+// 3. Reply (text only). On a pack thread this spends one reply.
+const { message, repliesLeft } = await bitsnap.chat.replyToThread({
+  threadId: thread.id,
+  body: "Thanks! Here is the answer...",
+  clientId: crypto.randomUUID(), // reuse it when you retry a failed call
+});
+```
+
+**`createBuyerToken` is server-only.** It needs your secret API key (a live
+key, `bs_live_…`, with `chat:write`), which must never reach the browser; the
+API refuses browser origins. Call it from your own backend route for the
+customer who is signed in to your site, and return only the token. The customer
+must hold a chat pack or a community membership of the project
+(`chat_no_entitlement` otherwise). The token is bound to the project and the
+e-mail, lives `ttlSeconds` and cannot be revoked before `expiresAt`.
+
+`replyToThread` is queued: the returned message has `status: "pending"`. The
+server does not retry it; if the call failed, send it again with the same
+`clientId` so the message is queued once.
+
+Channels and moderation:
+
+```ts
+const { channel } = await bitsnap.chat.createChannel({
+  name: "VIP",
+  productId: "prodv2_…", // a Community product; one channel per product
+  whoCanPost: "members",
+  bannedWords: ["spam"],
+  blockLinks: true,
+  cooldownSeconds: 30,
+});
+// Only the fields you send change. { words: [] } clears the banned words.
+await bitsnap.chat.updateChannel({ channelId: channel.id, bannedWords: { words: [] } });
+await bitsnap.chat.removeFromChannel({ channelId: channel.id, email: "troll@example.com" });
+
+await bitsnap.chat.putBlock({ email: "troll@example.com" }); // cannot post anywhere in the project
+const { reports } = await bitsnap.chat.listReports({ status: "open" });
+await bitsnap.chat.updateReport({ reportId: reports[0].id, status: "resolved" });
+await bitsnap.chat.updateSettings({ awayEnabled: true, awayNotice: "Back on Monday" });
+```
+
+Chat errors are `BitsnapApiError`s with a stable `reason`:
+
+| `reason` | Connect code | Meaning |
+| --- | --- | --- |
+| `chat_pack_empty` | `failed_precondition` | The pack has no replies left; nothing was sent |
+| `chat_blocked` | `permission_denied` | The person is blocked in the chat |
+| `chat_denied` | `permission_denied` | Not a member, muted, or not the creator |
+| `chat_plan_required` | `permission_denied` | The plan has no chat (Podstawowy) |
+| `live_mode_only` | `permission_denied` | `createBuyerToken` needs a live key |
+| `chat_not_found` | `not_found` | No such thread, channel, message or report |
+| `chat_no_entitlement` | `not_found` | The customer holds no pack or membership |
+| `chat_channel_exists` | `already_exists` | The product already has a channel |
+| `chat_moderation` | `invalid_argument` | A channel rule refused the post; `e.rule` is `banned_word`, `link` or `media` |
+| `chat_cooldown` | `resource_exhausted` | Posted too soon; wait `e.retryAfter` seconds |
+| `chat_unavailable` | `unavailable` | The chat service is down; nothing changed, retry shortly |
+| `chat_token_not_configured` | `unavailable` | The platform cannot sign buyer tokens yet |
+| `method_not_found` | `unimplemented` | The chat is not switched on for the platform |
+
+```ts
+try {
+  await bitsnap.chat.replyToThread({ threadId, body });
+} catch (e) {
+  if (e instanceof BitsnapApiError) {
+    if (e.reason === "chat_pack_empty") { /* the buyer has to buy another pack */ }
+    if (e.reason === "chat_cooldown") await sleep((e.retryAfter ?? 1) * 1000);
+  }
+}
+```
 
 ## Command line (`bitsnap` CLI)
 

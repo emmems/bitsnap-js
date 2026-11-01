@@ -59,7 +59,8 @@ await bitsnap.checkout.settleTestPayment({ orderId, outcome: "TEST_PAYMENT_OUTCO
 
 - Services: `account.get`, `products.{list,get,create,update}`, `orders.{list,get}`,
   `coupons.*`, `webhooks.{list,create,delete}`, `checkout.{createCheckoutLink,settleTestPayment}`,
-  `stats.getSalesSummary`. Call `account.get()` first: it shows the environment
+  `stats.getSalesSummary`, `chat.*` (paid chat inbox, channels, moderation;
+  scopes `chat:read`/`chat:write`). Call `account.get()` first: it shows the environment
   (`ENVIRONMENT_TEST`/`LIVE`), scopes and `canWrite`.
 - Money is an integer in minor units with a currency: `{ amount: 4900, currency: "PLN" }`.
 - Writes send an `Idempotency-Key` (random UUID). Pass `{ idempotencyKey }` as the
@@ -69,6 +70,10 @@ await bitsnap.checkout.settleTestPayment({ orderId, outcome: "TEST_PAYMENT_OUTCO
   not on the message. Quote `e.requestId` when asking for help.
 - Writes need the key's write switch (Settings → Developer). `settleTestPayment`
   works only with test keys. Server only: the API refuses browser origins.
+- `chat.createBuyerToken({ email, ttlSeconds? })` is server-only (live key with
+  `chat:write`): return only the token to the browser widget (`ChatThread` /
+  `Channel` of bitsnap-react). Chat errors: `e.reason` (`chat_pack_empty`,
+  `chat_blocked`, `chat_cooldown` with `e.retryAfter`, `chat_moderation` with `e.rule`).
 - `BitsnapBackend.createProduct/updateProduct/getManagedProduct/...` use this client.
 
 ## CLI
