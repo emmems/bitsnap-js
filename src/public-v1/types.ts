@@ -311,3 +311,201 @@ export type GetSalesSummaryResponse = {
   revenue: Money[];
   daily: DailySales[];
 };
+
+// ---- chat ------------------------------------------------------------------
+//
+// The creator side of the paid chat (`bitsnap.v1.ChatService`). Reads need the
+// `chat:read` scope, writes `chat:write` plus the key's write switch.
+// Timestamps are RFC 3339 strings; fields that are unset are empty strings or
+// absent (`lastMessage`, `expiresAt`, `resolvedAt`).
+
+export type ChatWhoCanPost = "creator" | "members";
+export type ChatNotifyDefault = "off" | "email" | "push";
+export type ChatReportStatus = "open" | "resolved";
+export type ChatReportReason = "spam" | "abuse" | "illegal" | "other";
+
+export type CreateBuyerTokenRequest = {
+  /** The customer's e-mail address (matched case-insensitively). */
+  email: string;
+  /** Lifetime of the token, 60 to 3600 seconds. Default 900. */
+  ttlSeconds?: number;
+};
+export type CreateBuyerTokenResponse = {
+  /** `bcht_…`. Hand it to the chat widget in the browser; treat it like a password. */
+  token: string;
+  /** RFC 3339. */
+  expiresAt: string;
+};
+
+export type ChatChannel = {
+  id: string;
+  name: string;
+  topic: string;
+  welcome: string;
+  whoCanPost: ChatWhoCanPost | (string & {});
+  /** The Community product the channel is bound to; empty for a free channel. */
+  productId: string;
+  memberCount: number;
+  createdAt?: string;
+  bannedWords: string[];
+  blockLinks: boolean;
+  blockMedia: boolean;
+  cooldownSeconds: number;
+};
+
+export type ListChatChannelsResponse = { channels: ChatChannel[] };
+
+export type CreateChatChannelRequest = {
+  name: string;
+  topic?: string;
+  welcome?: string;
+  /** Default `creator`. */
+  whoCanPost?: ChatWhoCanPost;
+  /** A Community product to bind (`prodv2_…`); one channel per product. */
+  productId?: string;
+  bannedWords?: string[];
+  blockLinks?: boolean;
+  blockMedia?: boolean;
+  cooldownSeconds?: number;
+};
+export type CreateChatChannelResponse = { channel: ChatChannel };
+
+export type UpdateChatChannelRequest = {
+  channelId: string;
+  name?: string;
+  topic?: string;
+  welcome?: string;
+  whoCanPost?: ChatWhoCanPost;
+  /** A product id to bind, `""` to unbind. */
+  productId?: string;
+  /** `{ words: [] }` clears the list; omit the field to leave it as it is. */
+  bannedWords?: { words: string[] };
+  blockLinks?: boolean;
+  blockMedia?: boolean;
+  cooldownSeconds?: number;
+};
+export type UpdateChatChannelResponse = { channel: ChatChannel };
+
+export type RemoveFromChatChannelRequest = { channelId: string; email: string };
+export type RemoveFromChatChannelResponse = Record<string, never>;
+
+export type ChatSettings = {
+  awayNotice: string;
+  awayEnabled: boolean;
+  notifyDefault: ChatNotifyDefault | (string & {});
+};
+export type GetChatSettingsResponse = { settings: ChatSettings };
+export type UpdateChatSettingsRequest = {
+  awayNotice?: string;
+  awayEnabled?: boolean;
+  notifyDefault?: ChatNotifyDefault;
+};
+export type UpdateChatSettingsResponse = { settings: ChatSettings };
+
+export type ChatBlock = { email: string; createdAt?: string };
+export type ListChatBlocksResponse = { blocks: ChatBlock[] };
+export type PutChatBlockRequest = { email: string };
+export type PutChatBlockResponse = { block: ChatBlock };
+export type DeleteChatBlockRequest = { email: string };
+export type DeleteChatBlockResponse = Record<string, never>;
+
+export type ChatReport = {
+  id: string;
+  threadId: string;
+  /** The reported message; empty when the report names none. */
+  messageId: string;
+  reporterEmail: string;
+  reason: ChatReportReason | (string & {});
+  note: string;
+  status: ChatReportStatus | (string & {});
+  createdAt?: string;
+  resolvedAt?: string;
+};
+export type ListChatReportsRequest = {
+  /** Empty or omitted lists both. */
+  status?: ChatReportStatus;
+  /** 1 to 100; default 50. */
+  limit?: number;
+};
+export type ListChatReportsResponse = { reports: ChatReport[] };
+export type UpdateChatReportRequest = { reportId: string; status: ChatReportStatus };
+export type UpdateChatReportResponse = { report: ChatReport };
+
+export type ChatPack = {
+  orderId: string;
+  productId: string;
+  replies: number;
+  used: number;
+  left: number;
+  /** Absent when the pack never expires. */
+  expiresAt?: string;
+  expired: boolean;
+};
+
+export type ChatMessage = {
+  id: string;
+  threadId: string;
+  authorEmail: string;
+  /** Empty for a deleted message. */
+  body: string;
+  attachmentKey: string;
+  /** `image` or `video`; empty when there is no attachment. */
+  attachmentKind: string;
+  createdAt?: string;
+  pinned: boolean;
+  deleted: boolean;
+  /** A note the service wrote itself (the away note). */
+  system: boolean;
+  /** `pending` while the message is queued. */
+  status: string;
+};
+
+export type ChatThread = {
+  id: string;
+  /** `pack` (private thread with a buyer) or `channel`. */
+  kind: "pack" | "channel" | (string & {});
+  channelId: string;
+  title: string;
+  lastMessage?: ChatMessage;
+  unread: number;
+  repliesTotal: number;
+  repliesUsed: number;
+  repliesLeft: number;
+  expiresAt?: string;
+  /** True when you cannot answer: no replies left on a pack. */
+  composerLocked: boolean;
+  productId: string;
+  buyerEmail: string;
+  /** Response time you promise, in hours; 0 = none. */
+  responseHours: number;
+  packs: ChatPack[];
+};
+export type ListChatThreadsResponse = { threads: ChatThread[] };
+
+export type ListChatMessagesRequest = {
+  threadId: string;
+  /** Id of the oldest message you already have; returns older ones. */
+  before?: string;
+  /** 1 to 100; default 50. */
+  limit?: number;
+};
+export type ListChatMessagesResponse = {
+  /** Newest first. */
+  messages: ChatMessage[];
+  hasMore: boolean;
+};
+
+export type ReplyToChatThreadRequest = {
+  threadId: string;
+  /** Text only, up to 8000 characters. */
+  body: string;
+  /** A UUID you choose; a retry with the same id queues the message once. */
+  clientId?: string;
+};
+export type ReplyToChatThreadResponse = {
+  /** The accepted message, `status: "pending"`. */
+  message: ChatMessage;
+  /** Replies left in the pack (0 outside a pack thread). */
+  repliesLeft: number;
+  composerLocked: boolean;
+};

@@ -219,6 +219,94 @@ export function createBitsnapClient(options: BitsnapClientOptions) {
       ),
     },
 
+    /**
+     * The creator side of the paid chat: inbox, replies, channels, blocks,
+     * reports and settings. Reads need the `chat:read` scope, writes
+     * `chat:write` and the key's write switch. Plan Klasyczny or
+     * Profesjonalny; otherwise every call fails with reason
+     * `chat_plan_required`, and while the chat is off for the platform with
+     * `method_not_found`.
+     *
+     * Chat errors carry a `reason` (`chat_pack_empty`, `chat_blocked`,
+     * `chat_cooldown`, …); `chat_moderation` sets `e.rule` and `chat_cooldown`
+     * sets `e.retryAfter` (seconds).
+     */
+    chat: {
+      /**
+       * SERVER ONLY. Mints a short-lived buyer token for the embedded chat
+       * (`ChatThread` / `Channel` of bitsnap-react) on your own site. Call it
+       * from your server for a signed-in customer and pass only the returned
+       * `token` to the browser; this call needs your secret API key, which must
+       * never reach the browser. Needs `chat:write` and a live key
+       * (`bs_live_…`, else `live_mode_only`). The customer must hold a chat
+       * pack or community membership (else `chat_no_entitlement`). The token
+       * cannot be revoked before `expiresAt`.
+       */
+      createBuyerToken: write<T.CreateBuyerTokenRequest, T.CreateBuyerTokenResponse>(
+        "ChatService",
+        "CreateBuyerToken",
+      ),
+
+      /** The inbox: private pack threads and channels (all of them; the API has no paging). */
+      listThreads: read<undefined, T.ListChatThreadsResponse>("ChatService", "ListThreads"),
+      /** A page of messages of a thread, newest first; pass the oldest id you have as `before`. */
+      listMessages: read<T.ListChatMessagesRequest, T.ListChatMessagesResponse>(
+        "ChatService",
+        "ListMessages",
+      ),
+      /**
+       * Answers in a thread (text only). The message is queued
+       * (`status: "pending"`). On a pack thread it spends one reply; on an
+       * empty pack the call fails with `chat_pack_empty` and nothing is sent.
+       * The server does not retry: pass the same `clientId` when you retry a
+       * failed call so the message is queued once.
+       */
+      replyToThread: write<T.ReplyToChatThreadRequest, T.ReplyToChatThreadResponse>(
+        "ChatService",
+        "ReplyToThread",
+      ),
+
+      listChannels: read<undefined, T.ListChatChannelsResponse>("ChatService", "ListChannels"),
+      /** One channel per Community product, else `chat_channel_exists`. */
+      createChannel: write<T.CreateChatChannelRequest, T.CreateChatChannelResponse>(
+        "ChatService",
+        "CreateChannel",
+      ),
+      /** Only the fields you send change. */
+      updateChannel: write<T.UpdateChatChannelRequest, T.UpdateChatChannelResponse>(
+        "ChatService",
+        "UpdateChannel",
+      ),
+      removeFromChannel: write<T.RemoveFromChatChannelRequest, T.RemoveFromChatChannelResponse>(
+        "ChatService",
+        "RemoveFromChannel",
+      ),
+
+      getSettings: read<undefined, T.GetChatSettingsResponse>("ChatService", "GetSettings"),
+      /** Only the fields you send change. */
+      updateSettings: write<T.UpdateChatSettingsRequest, T.UpdateChatSettingsResponse>(
+        "ChatService",
+        "UpdateSettings",
+      ),
+
+      listBlocks: read<undefined, T.ListChatBlocksResponse>("ChatService", "ListBlocks"),
+      /** Blocks a person from posting anywhere in the project. Idempotent. */
+      putBlock: write<T.PutChatBlockRequest, T.PutChatBlockResponse>("ChatService", "PutBlock"),
+      deleteBlock: write<T.DeleteChatBlockRequest, T.DeleteChatBlockResponse>(
+        "ChatService",
+        "DeleteBlock",
+      ),
+
+      listReports: read<T.ListChatReportsRequest, T.ListChatReportsResponse>(
+        "ChatService",
+        "ListReports",
+      ),
+      updateReport: write<T.UpdateChatReportRequest, T.UpdateChatReportResponse>(
+        "ChatService",
+        "UpdateReport",
+      ),
+    },
+
     stats: {
       getSalesSummary: read<T.GetSalesSummaryRequest, T.GetSalesSummaryResponse>(
         "StatsService",
