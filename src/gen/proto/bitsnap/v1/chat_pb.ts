@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file bitsnap/v1/chat.proto.
  */
 export const file_bitsnap_v1_chat: GenFile = /*@__PURE__*/
-  fileDesc("ChViaXRzbmFwL3YxL2NoYXQucHJvdG8SCmJpdHNuYXAudjEiPQoXQ3JlYXRlQnV5ZXJUb2tlblJlcXVlc3QSDQoFZW1haWwYASABKAkSEwoLdHRsX3NlY29uZHMYAiABKAUiWQoYQ3JlYXRlQnV5ZXJUb2tlblJlc3BvbnNlEg0KBXRva2VuGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIpECCgtDaGF0Q2hhbm5lbBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBXRvcGljGAMgASgJEg8KB3dlbGNvbWUYBCABKAkSFAoMd2hvX2Nhbl9wb3N0GAUgASgJEhIKCnByb2R1Y3RfaWQYBiABKAkSFAoMbWVtYmVyX2NvdW50GAcgASgFEi4KCmNyZWF0ZWRfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhQKDGJhbm5lZF93b3JkcxgJIAMoCRITCgtibG9ja19saW5rcxgKIAEoCBITCgtibG9ja19tZWRpYRgLIAEoCBIYChBjb29sZG93bl9zZWNvbmRzGAwgASgFIhkKF0xpc3RDaGF0Q2hhbm5lbHNSZXF1ZXN0IkUKGExpc3RDaGF0Q2hhbm5lbHNSZXNwb25zZRIpCghjaGFubmVscxgBIAMoCzIXLmJpdHNuYXAudjEuQ2hhdENoYW5uZWwizAEKGENyZWF0ZUNoYXRDaGFubmVsUmVxdWVzdBIMCgRuYW1lGAEgASgJEg0KBXRvcGljGAIgASgJEg8KB3dlbGNvbWUYAyABKAkSFAoMd2hvX2Nhbl9wb3N0GAQgASgJEhIKCnByb2R1Y3RfaWQYBSABKAkSFAoMYmFubmVkX3dvcmRzGAYgAygJEhMKC2Jsb2NrX2xpbmtzGAcgASgIEhMKC2Jsb2NrX21lZGlhGAggASgIEhgKEGNvb2xkb3duX3NlY29uZHMYCSABKAUiRQoZQ3JlYXRlQ2hhdENoYW5uZWxSZXNwb25zZRIoCgdjaGFubmVsGAEgASgLMhcuYml0c25hcC52MS5DaGF0Q2hhbm5lbCIdCgxDaGF0V29yZExpc3QSDQoFd29yZHMYASADKAkirAMKGFVwZGF0ZUNoYXRDaGFubmVsUmVxdWVzdBISCgpjaGFubmVsX2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARISCgV0b3BpYxgDIAEoCUgBiAEBEhQKB3dlbGNvbWUYBCABKAlIAogBARIZCgx3aG9fY2FuX3Bvc3QYBSABKAlIA4gBARIXCgpwcm9kdWN0X2lkGAYgASgJSASIAQESMwoMYmFubmVkX3dvcmRzGAcgASgLMhguYml0c25hcC52MS5DaGF0V29yZExpc3RIBYgBARIYCgtibG9ja19saW5rcxgIIAEoCEgGiAEBEhgKC2Jsb2NrX21lZGlhGAkgASgISAeIAQESHQoQY29vbGRvd25fc2Vjb25kcxgKIAEoBUgIiAEBQgcKBV9uYW1lQggKBl90b3BpY0IKCghfd2VsY29tZUIPCg1fd2hvX2Nhbl9wb3N0Qg0KC19wcm9kdWN0X2lkQg8KDV9iYW5uZWRfd29yZHNCDgoMX2Jsb2NrX2xpbmtzQg4KDF9ibG9ja19tZWRpYUITChFfY29vbGRvd25fc2Vjb25kcyJFChlVcGRhdGVDaGF0Q2hhbm5lbFJlc3BvbnNlEigKB2NoYW5uZWwYASABKAsyFy5iaXRzbmFwLnYxLkNoYXRDaGFubmVsIkEKHFJlbW92ZUZyb21DaGF0Q2hhbm5lbFJlcXVlc3QSEgoKY2hhbm5lbF9pZBgBIAEoCRINCgVlbWFpbBgCIAEoCSIfCh1SZW1vdmVGcm9tQ2hhdENoYW5uZWxSZXNwb25zZSJRCgxDaGF0U2V0dGluZ3MSEwoLYXdheV9ub3RpY2UYASABKAkSFAoMYXdheV9lbmFibGVkGAIgASgIEhYKDm5vdGlmeV9kZWZhdWx0GAMgASgJIhgKFkdldENoYXRTZXR0aW5nc1JlcXVlc3QiRQoXR2V0Q2hhdFNldHRpbmdzUmVzcG9uc2USKgoIc2V0dGluZ3MYASABKAsyGC5iaXRzbmFwLnYxLkNoYXRTZXR0aW5ncyKhAQoZVXBkYXRlQ2hhdFNldHRpbmdzUmVxdWVzdBIYCgthd2F5X25vdGljZRgBIAEoCUgAiAEBEhkKDGF3YXlfZW5hYmxlZBgCIAEoCEgBiAEBEhsKDm5vdGlmeV9kZWZhdWx0GAMgASgJSAKIAQFCDgoMX2F3YXlfbm90aWNlQg8KDV9hd2F5X2VuYWJsZWRCEQoPX25vdGlmeV9kZWZhdWx0IkgKGlVwZGF0ZUNoYXRTZXR0aW5nc1Jlc3BvbnNlEioKCHNldHRpbmdzGAEgASgLMhguYml0c25hcC52MS5DaGF0U2V0dGluZ3MiSgoJQ2hhdEJsb2NrEg0KBWVtYWlsGAEgASgJEi4KCmNyZWF0ZWRfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIhcKFUxpc3RDaGF0QmxvY2tzUmVxdWVzdCI/ChZMaXN0Q2hhdEJsb2Nrc1Jlc3BvbnNlEiUKBmJsb2NrcxgBIAMoCzIVLmJpdHNuYXAudjEuQ2hhdEJsb2NrIiQKE1B1dENoYXRCbG9ja1JlcXVlc3QSDQoFZW1haWwYASABKAkiPAoUUHV0Q2hhdEJsb2NrUmVzcG9uc2USJAoFYmxvY2sYASABKAsyFS5iaXRzbmFwLnYxLkNoYXRCbG9jayInChZEZWxldGVDaGF0QmxvY2tSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJIhkKF0RlbGV0ZUNoYXRCbG9ja1Jlc3BvbnNlIuYBCgpDaGF0UmVwb3J0EgoKAmlkGAEgASgJEhEKCXRocmVhZF9pZBgCIAEoCRISCgptZXNzYWdlX2lkGAMgASgJEhYKDnJlcG9ydGVyX2VtYWlsGAQgASgJEg4KBnJlYXNvbhgFIAEoCRIMCgRub3RlGAYgASgJEg4KBnN0YXR1cxgHIAEoCRIuCgpjcmVhdGVkX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIvCgtyZXNvbHZlZF9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiNwoWTGlzdENoYXRSZXBvcnRzUmVxdWVzdBIOCgZzdGF0dXMYASABKAkSDQoFbGltaXQYAiABKAUiQgoXTGlzdENoYXRSZXBvcnRzUmVzcG9uc2USJwoHcmVwb3J0cxgBIAMoCzIWLmJpdHNuYXAudjEuQ2hhdFJlcG9ydCI8ChdVcGRhdGVDaGF0UmVwb3J0UmVxdWVzdBIRCglyZXBvcnRfaWQYASABKAkSDgoGc3RhdHVzGAIgASgJIkIKGFVwZGF0ZUNoYXRSZXBvcnRSZXNwb25zZRImCgZyZXBvcnQYASABKAsyFi5iaXRzbmFwLnYxLkNoYXRSZXBvcnQingEKCENoYXRQYWNrEhAKCG9yZGVyX2lkGAEgASgJEhIKCnByb2R1Y3RfaWQYAiABKAkSDwoHcmVwbGllcxgDIAEoBRIMCgR1c2VkGAQgASgFEgwKBGxlZnQYBSABKAUSLgoKZXhwaXJlc19hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDwoHZXhwaXJlZBgHIAEoCCLyAQoLQ2hhdE1lc3NhZ2USCgoCaWQYASABKAkSEQoJdGhyZWFkX2lkGAIgASgJEhQKDGF1dGhvcl9lbWFpbBgDIAEoCRIMCgRib2R5GAQgASgJEhYKDmF0dGFjaG1lbnRfa2V5GAUgASgJEhcKD2F0dGFjaG1lbnRfa2luZBgGIAEoCRIuCgpjcmVhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIOCgZwaW5uZWQYCCABKAgSDwoHZGVsZXRlZBgJIAEoCBIOCgZzeXN0ZW0YCiABKAgSDgoGc3RhdHVzGAsgASgJIvoCCgpDaGF0VGhyZWFkEgoKAmlkGAEgASgJEgwKBGtpbmQYAiABKAkSEgoKY2hhbm5lbF9pZBgDIAEoCRINCgV0aXRsZRgEIAEoCRItCgxsYXN0X21lc3NhZ2UYBSABKAsyFy5iaXRzbmFwLnYxLkNoYXRNZXNzYWdlEg4KBnVucmVhZBgGIAEoBRIVCg1yZXBsaWVzX3RvdGFsGAcgASgFEhQKDHJlcGxpZXNfdXNlZBgIIAEoBRIUCgxyZXBsaWVzX2xlZnQYCSABKAUSLgoKZXhwaXJlc19hdBgKIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASFwoPY29tcG9zZXJfbG9ja2VkGAsgASgIEhIKCnByb2R1Y3RfaWQYDCABKAkSEwoLYnV5ZXJfZW1haWwYDSABKAkSFgoOcmVzcG9uc2VfaG91cnMYDiABKAUSIwoFcGFja3MYDyADKAsyFC5iaXRzbmFwLnYxLkNoYXRQYWNrIhgKFkxpc3RDaGF0VGhyZWFkc1JlcXVlc3QiQgoXTGlzdENoYXRUaHJlYWRzUmVzcG9uc2USJwoHdGhyZWFkcxgBIAMoCzIWLmJpdHNuYXAudjEuQ2hhdFRocmVhZCJLChdMaXN0Q2hhdE1lc3NhZ2VzUmVxdWVzdBIRCgl0aHJlYWRfaWQYASABKAkSDgoGYmVmb3JlGAIgASgJEg0KBWxpbWl0GAMgASgFIlcKGExpc3RDaGF0TWVzc2FnZXNSZXNwb25zZRIpCghtZXNzYWdlcxgBIAMoCzIXLmJpdHNuYXAudjEuQ2hhdE1lc3NhZ2USEAoIaGFzX21vcmUYAiABKAgiTgoYUmVwbHlUb0NoYXRUaHJlYWRSZXF1ZXN0EhEKCXRocmVhZF9pZBgBIAEoCRIMCgRib2R5GAIgASgJEhEKCWNsaWVudF9pZBgDIAEoCSJ0ChlSZXBseVRvQ2hhdFRocmVhZFJlc3BvbnNlEigKB21lc3NhZ2UYASABKAsyFy5iaXRzbmFwLnYxLkNoYXRNZXNzYWdlEhQKDHJlcGxpZXNfbGVmdBgCIAEoBRIXCg9jb21wb3Nlcl9sb2NrZWQYAyABKAgy5goKC0NoYXRTZXJ2aWNlEl0KEENyZWF0ZUJ1eWVyVG9rZW4SIy5iaXRzbmFwLnYxLkNyZWF0ZUJ1eWVyVG9rZW5SZXF1ZXN0GiQuYml0c25hcC52MS5DcmVhdGVCdXllclRva2VuUmVzcG9uc2USWQoMTGlzdENoYW5uZWxzEiMuYml0c25hcC52MS5MaXN0Q2hhdENoYW5uZWxzUmVxdWVzdBokLmJpdHNuYXAudjEuTGlzdENoYXRDaGFubmVsc1Jlc3BvbnNlElwKDUNyZWF0ZUNoYW5uZWwSJC5iaXRzbmFwLnYxLkNyZWF0ZUNoYXRDaGFubmVsUmVxdWVzdBolLmJpdHNuYXAudjEuQ3JlYXRlQ2hhdENoYW5uZWxSZXNwb25zZRJcCg1VcGRhdGVDaGFubmVsEiQuYml0c25hcC52MS5VcGRhdGVDaGF0Q2hhbm5lbFJlcXVlc3QaJS5iaXRzbmFwLnYxLlVwZGF0ZUNoYXRDaGFubmVsUmVzcG9uc2USaAoRUmVtb3ZlRnJvbUNoYW5uZWwSKC5iaXRzbmFwLnYxLlJlbW92ZUZyb21DaGF0Q2hhbm5lbFJlcXVlc3QaKS5iaXRzbmFwLnYxLlJlbW92ZUZyb21DaGF0Q2hhbm5lbFJlc3BvbnNlElYKC0dldFNldHRpbmdzEiIuYml0c25hcC52MS5HZXRDaGF0U2V0dGluZ3NSZXF1ZXN0GiMuYml0c25hcC52MS5HZXRDaGF0U2V0dGluZ3NSZXNwb25zZRJfCg5VcGRhdGVTZXR0aW5ncxIlLmJpdHNuYXAudjEuVXBkYXRlQ2hhdFNldHRpbmdzUmVxdWVzdBomLmJpdHNuYXAudjEuVXBkYXRlQ2hhdFNldHRpbmdzUmVzcG9uc2USUwoKTGlzdEJsb2NrcxIhLmJpdHNuYXAudjEuTGlzdENoYXRCbG9ja3NSZXF1ZXN0GiIuYml0c25hcC52MS5MaXN0Q2hhdEJsb2Nrc1Jlc3BvbnNlEk0KCFB1dEJsb2NrEh8uYml0c25hcC52MS5QdXRDaGF0QmxvY2tSZXF1ZXN0GiAuYml0c25hcC52MS5QdXRDaGF0QmxvY2tSZXNwb25zZRJWCgtEZWxldGVCbG9jaxIiLmJpdHNuYXAudjEuRGVsZXRlQ2hhdEJsb2NrUmVxdWVzdBojLmJpdHNuYXAudjEuRGVsZXRlQ2hhdEJsb2NrUmVzcG9uc2USVgoLTGlzdFJlcG9ydHMSIi5iaXRzbmFwLnYxLkxpc3RDaGF0UmVwb3J0c1JlcXVlc3QaIy5iaXRzbmFwLnYxLkxpc3RDaGF0UmVwb3J0c1Jlc3BvbnNlElkKDFVwZGF0ZVJlcG9ydBIjLmJpdHNuYXAudjEuVXBkYXRlQ2hhdFJlcG9ydFJlcXVlc3QaJC5iaXRzbmFwLnYxLlVwZGF0ZUNoYXRSZXBvcnRSZXNwb25zZRJWCgtMaXN0VGhyZWFkcxIiLmJpdHNuYXAudjEuTGlzdENoYXRUaHJlYWRzUmVxdWVzdBojLmJpdHNuYXAudjEuTGlzdENoYXRUaHJlYWRzUmVzcG9uc2USWQoMTGlzdE1lc3NhZ2VzEiMuYml0c25hcC52MS5MaXN0Q2hhdE1lc3NhZ2VzUmVxdWVzdBokLmJpdHNuYXAudjEuTGlzdENoYXRNZXNzYWdlc1Jlc3BvbnNlElwKDVJlcGx5VG9UaHJlYWQSJC5iaXRzbmFwLnYxLlJlcGx5VG9DaGF0VGhyZWFkUmVxdWVzdBolLmJpdHNuYXAudjEuUmVwbHlUb0NoYXRUaHJlYWRSZXNwb25zZWIGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("ChViaXRzbmFwL3YxL2NoYXQucHJvdG8SCmJpdHNuYXAudjEiPQoXQ3JlYXRlQnV5ZXJUb2tlblJlcXVlc3QSDQoFZW1haWwYASABKAkSEwoLdHRsX3NlY29uZHMYAiABKAUiWQoYQ3JlYXRlQnV5ZXJUb2tlblJlc3BvbnNlEg0KBXRva2VuGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIpECCgtDaGF0Q2hhbm5lbBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBXRvcGljGAMgASgJEg8KB3dlbGNvbWUYBCABKAkSFAoMd2hvX2Nhbl9wb3N0GAUgASgJEhIKCnByb2R1Y3RfaWQYBiABKAkSFAoMbWVtYmVyX2NvdW50GAcgASgFEi4KCmNyZWF0ZWRfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhQKDGJhbm5lZF93b3JkcxgJIAMoCRITCgtibG9ja19saW5rcxgKIAEoCBITCgtibG9ja19tZWRpYRgLIAEoCBIYChBjb29sZG93bl9zZWNvbmRzGAwgASgFIhkKF0xpc3RDaGF0Q2hhbm5lbHNSZXF1ZXN0IkUKGExpc3RDaGF0Q2hhbm5lbHNSZXNwb25zZRIpCghjaGFubmVscxgBIAMoCzIXLmJpdHNuYXAudjEuQ2hhdENoYW5uZWwizAEKGENyZWF0ZUNoYXRDaGFubmVsUmVxdWVzdBIMCgRuYW1lGAEgASgJEg0KBXRvcGljGAIgASgJEg8KB3dlbGNvbWUYAyABKAkSFAoMd2hvX2Nhbl9wb3N0GAQgASgJEhIKCnByb2R1Y3RfaWQYBSABKAkSFAoMYmFubmVkX3dvcmRzGAYgAygJEhMKC2Jsb2NrX2xpbmtzGAcgASgIEhMKC2Jsb2NrX21lZGlhGAggASgIEhgKEGNvb2xkb3duX3NlY29uZHMYCSABKAUiRQoZQ3JlYXRlQ2hhdENoYW5uZWxSZXNwb25zZRIoCgdjaGFubmVsGAEgASgLMhcuYml0c25hcC52MS5DaGF0Q2hhbm5lbCIdCgxDaGF0V29yZExpc3QSDQoFd29yZHMYASADKAkirAMKGFVwZGF0ZUNoYXRDaGFubmVsUmVxdWVzdBISCgpjaGFubmVsX2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARISCgV0b3BpYxgDIAEoCUgBiAEBEhQKB3dlbGNvbWUYBCABKAlIAogBARIZCgx3aG9fY2FuX3Bvc3QYBSABKAlIA4gBARIXCgpwcm9kdWN0X2lkGAYgASgJSASIAQESMwoMYmFubmVkX3dvcmRzGAcgASgLMhguYml0c25hcC52MS5DaGF0V29yZExpc3RIBYgBARIYCgtibG9ja19saW5rcxgIIAEoCEgGiAEBEhgKC2Jsb2NrX21lZGlhGAkgASgISAeIAQESHQoQY29vbGRvd25fc2Vjb25kcxgKIAEoBUgIiAEBQgcKBV9uYW1lQggKBl90b3BpY0IKCghfd2VsY29tZUIPCg1fd2hvX2Nhbl9wb3N0Qg0KC19wcm9kdWN0X2lkQg8KDV9iYW5uZWRfd29yZHNCDgoMX2Jsb2NrX2xpbmtzQg4KDF9ibG9ja19tZWRpYUITChFfY29vbGRvd25fc2Vjb25kcyJFChlVcGRhdGVDaGF0Q2hhbm5lbFJlc3BvbnNlEigKB2NoYW5uZWwYASABKAsyFy5iaXRzbmFwLnYxLkNoYXRDaGFubmVsIkEKHFJlbW92ZUZyb21DaGF0Q2hhbm5lbFJlcXVlc3QSEgoKY2hhbm5lbF9pZBgBIAEoCRINCgVlbWFpbBgCIAEoCSIfCh1SZW1vdmVGcm9tQ2hhdENoYW5uZWxSZXNwb25zZSKPAQoRQ2hhdENoYW5uZWxNZW1iZXISDQoFZW1haWwYASABKAkSDAoEcm9sZRgCIAEoCRItCglqb2luZWRfYXQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnJldm9rZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIjMKHUxpc3RDaGF0Q2hhbm5lbE1lbWJlcnNSZXF1ZXN0EhIKCmNoYW5uZWxfaWQYASABKAkiUAoeTGlzdENoYXRDaGFubmVsTWVtYmVyc1Jlc3BvbnNlEi4KB21lbWJlcnMYASADKAsyHS5iaXRzbmFwLnYxLkNoYXRDaGFubmVsTWVtYmVyIi4KGERlbGV0ZUNoYXRDaGFubmVsUmVxdWVzdBISCgpjaGFubmVsX2lkGAEgASgJIhsKGURlbGV0ZUNoYXRDaGFubmVsUmVzcG9uc2UiUQoMQ2hhdFNldHRpbmdzEhMKC2F3YXlfbm90aWNlGAEgASgJEhQKDGF3YXlfZW5hYmxlZBgCIAEoCBIWCg5ub3RpZnlfZGVmYXVsdBgDIAEoCSIYChZHZXRDaGF0U2V0dGluZ3NSZXF1ZXN0IkUKF0dldENoYXRTZXR0aW5nc1Jlc3BvbnNlEioKCHNldHRpbmdzGAEgASgLMhguYml0c25hcC52MS5DaGF0U2V0dGluZ3MioQEKGVVwZGF0ZUNoYXRTZXR0aW5nc1JlcXVlc3QSGAoLYXdheV9ub3RpY2UYASABKAlIAIgBARIZCgxhd2F5X2VuYWJsZWQYAiABKAhIAYgBARIbCg5ub3RpZnlfZGVmYXVsdBgDIAEoCUgCiAEBQg4KDF9hd2F5X25vdGljZUIPCg1fYXdheV9lbmFibGVkQhEKD19ub3RpZnlfZGVmYXVsdCJIChpVcGRhdGVDaGF0U2V0dGluZ3NSZXNwb25zZRIqCghzZXR0aW5ncxgBIAEoCzIYLmJpdHNuYXAudjEuQ2hhdFNldHRpbmdzIkoKCUNoYXRCbG9jaxINCgVlbWFpbBgBIAEoCRIuCgpjcmVhdGVkX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIXChVMaXN0Q2hhdEJsb2Nrc1JlcXVlc3QiPwoWTGlzdENoYXRCbG9ja3NSZXNwb25zZRIlCgZibG9ja3MYASADKAsyFS5iaXRzbmFwLnYxLkNoYXRCbG9jayIkChNQdXRDaGF0QmxvY2tSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJIjwKFFB1dENoYXRCbG9ja1Jlc3BvbnNlEiQKBWJsb2NrGAEgASgLMhUuYml0c25hcC52MS5DaGF0QmxvY2siJwoWRGVsZXRlQ2hhdEJsb2NrUmVxdWVzdBINCgVlbWFpbBgBIAEoCSIZChdEZWxldGVDaGF0QmxvY2tSZXNwb25zZSLmAQoKQ2hhdFJlcG9ydBIKCgJpZBgBIAEoCRIRCgl0aHJlYWRfaWQYAiABKAkSEgoKbWVzc2FnZV9pZBgDIAEoCRIWCg5yZXBvcnRlcl9lbWFpbBgEIAEoCRIOCgZyZWFzb24YBSABKAkSDAoEbm90ZRgGIAEoCRIOCgZzdGF0dXMYByABKAkSLgoKY3JlYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLwoLcmVzb2x2ZWRfYXQYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIjcKFkxpc3RDaGF0UmVwb3J0c1JlcXVlc3QSDgoGc3RhdHVzGAEgASgJEg0KBWxpbWl0GAIgASgFIkIKF0xpc3RDaGF0UmVwb3J0c1Jlc3BvbnNlEicKB3JlcG9ydHMYASADKAsyFi5iaXRzbmFwLnYxLkNoYXRSZXBvcnQiPAoXVXBkYXRlQ2hhdFJlcG9ydFJlcXVlc3QSEQoJcmVwb3J0X2lkGAEgASgJEg4KBnN0YXR1cxgCIAEoCSJCChhVcGRhdGVDaGF0UmVwb3J0UmVzcG9uc2USJgoGcmVwb3J0GAEgASgLMhYuYml0c25hcC52MS5DaGF0UmVwb3J0Ip4BCghDaGF0UGFjaxIQCghvcmRlcl9pZBgBIAEoCRISCgpwcm9kdWN0X2lkGAIgASgJEg8KB3JlcGxpZXMYAyABKAUSDAoEdXNlZBgEIAEoBRIMCgRsZWZ0GAUgASgFEi4KCmV4cGlyZXNfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEg8KB2V4cGlyZWQYByABKAgi8gEKC0NoYXRNZXNzYWdlEgoKAmlkGAEgASgJEhEKCXRocmVhZF9pZBgCIAEoCRIUCgxhdXRob3JfZW1haWwYAyABKAkSDAoEYm9keRgEIAEoCRIWCg5hdHRhY2htZW50X2tleRgFIAEoCRIXCg9hdHRhY2htZW50X2tpbmQYBiABKAkSLgoKY3JlYXRlZF9hdBgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGcGlubmVkGAggASgIEg8KB2RlbGV0ZWQYCSABKAgSDgoGc3lzdGVtGAogASgIEg4KBnN0YXR1cxgLIAEoCSL6AgoKQ2hhdFRocmVhZBIKCgJpZBgBIAEoCRIMCgRraW5kGAIgASgJEhIKCmNoYW5uZWxfaWQYAyABKAkSDQoFdGl0bGUYBCABKAkSLQoMbGFzdF9tZXNzYWdlGAUgASgLMhcuYml0c25hcC52MS5DaGF0TWVzc2FnZRIOCgZ1bnJlYWQYBiABKAUSFQoNcmVwbGllc190b3RhbBgHIAEoBRIUCgxyZXBsaWVzX3VzZWQYCCABKAUSFAoMcmVwbGllc19sZWZ0GAkgASgFEi4KCmV4cGlyZXNfYXQYCiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhcKD2NvbXBvc2VyX2xvY2tlZBgLIAEoCBISCgpwcm9kdWN0X2lkGAwgASgJEhMKC2J1eWVyX2VtYWlsGA0gASgJEhYKDnJlc3BvbnNlX2hvdXJzGA4gASgFEiMKBXBhY2tzGA8gAygLMhQuYml0c25hcC52MS5DaGF0UGFjayIYChZMaXN0Q2hhdFRocmVhZHNSZXF1ZXN0IkIKF0xpc3RDaGF0VGhyZWFkc1Jlc3BvbnNlEicKB3RocmVhZHMYASADKAsyFi5iaXRzbmFwLnYxLkNoYXRUaHJlYWQiSwoXTGlzdENoYXRNZXNzYWdlc1JlcXVlc3QSEQoJdGhyZWFkX2lkGAEgASgJEg4KBmJlZm9yZRgCIAEoCRINCgVsaW1pdBgDIAEoBSJXChhMaXN0Q2hhdE1lc3NhZ2VzUmVzcG9uc2USKQoIbWVzc2FnZXMYASADKAsyFy5iaXRzbmFwLnYxLkNoYXRNZXNzYWdlEhAKCGhhc19tb3JlGAIgASgIIk4KGFJlcGx5VG9DaGF0VGhyZWFkUmVxdWVzdBIRCgl0aHJlYWRfaWQYASABKAkSDAoEYm9keRgCIAEoCRIRCgljbGllbnRfaWQYAyABKAkidAoZUmVwbHlUb0NoYXRUaHJlYWRSZXNwb25zZRIoCgdtZXNzYWdlGAEgASgLMhcuYml0c25hcC52MS5DaGF0TWVzc2FnZRIUCgxyZXBsaWVzX2xlZnQYAiABKAUSFwoPY29tcG9zZXJfbG9ja2VkGAMgASgIMrEMCgtDaGF0U2VydmljZRJdChBDcmVhdGVCdXllclRva2VuEiMuYml0c25hcC52MS5DcmVhdGVCdXllclRva2VuUmVxdWVzdBokLmJpdHNuYXAudjEuQ3JlYXRlQnV5ZXJUb2tlblJlc3BvbnNlElkKDExpc3RDaGFubmVscxIjLmJpdHNuYXAudjEuTGlzdENoYXRDaGFubmVsc1JlcXVlc3QaJC5iaXRzbmFwLnYxLkxpc3RDaGF0Q2hhbm5lbHNSZXNwb25zZRJcCg1DcmVhdGVDaGFubmVsEiQuYml0c25hcC52MS5DcmVhdGVDaGF0Q2hhbm5lbFJlcXVlc3QaJS5iaXRzbmFwLnYxLkNyZWF0ZUNoYXRDaGFubmVsUmVzcG9uc2USXAoNVXBkYXRlQ2hhbm5lbBIkLmJpdHNuYXAudjEuVXBkYXRlQ2hhdENoYW5uZWxSZXF1ZXN0GiUuYml0c25hcC52MS5VcGRhdGVDaGF0Q2hhbm5lbFJlc3BvbnNlEmgKEVJlbW92ZUZyb21DaGFubmVsEiguYml0c25hcC52MS5SZW1vdmVGcm9tQ2hhdENoYW5uZWxSZXF1ZXN0GikuYml0c25hcC52MS5SZW1vdmVGcm9tQ2hhdENoYW5uZWxSZXNwb25zZRJrChJMaXN0Q2hhbm5lbE1lbWJlcnMSKS5iaXRzbmFwLnYxLkxpc3RDaGF0Q2hhbm5lbE1lbWJlcnNSZXF1ZXN0GiouYml0c25hcC52MS5MaXN0Q2hhdENoYW5uZWxNZW1iZXJzUmVzcG9uc2USXAoNRGVsZXRlQ2hhbm5lbBIkLmJpdHNuYXAudjEuRGVsZXRlQ2hhdENoYW5uZWxSZXF1ZXN0GiUuYml0c25hcC52MS5EZWxldGVDaGF0Q2hhbm5lbFJlc3BvbnNlElYKC0dldFNldHRpbmdzEiIuYml0c25hcC52MS5HZXRDaGF0U2V0dGluZ3NSZXF1ZXN0GiMuYml0c25hcC52MS5HZXRDaGF0U2V0dGluZ3NSZXNwb25zZRJfCg5VcGRhdGVTZXR0aW5ncxIlLmJpdHNuYXAudjEuVXBkYXRlQ2hhdFNldHRpbmdzUmVxdWVzdBomLmJpdHNuYXAudjEuVXBkYXRlQ2hhdFNldHRpbmdzUmVzcG9uc2USUwoKTGlzdEJsb2NrcxIhLmJpdHNuYXAudjEuTGlzdENoYXRCbG9ja3NSZXF1ZXN0GiIuYml0c25hcC52MS5MaXN0Q2hhdEJsb2Nrc1Jlc3BvbnNlEk0KCFB1dEJsb2NrEh8uYml0c25hcC52MS5QdXRDaGF0QmxvY2tSZXF1ZXN0GiAuYml0c25hcC52MS5QdXRDaGF0QmxvY2tSZXNwb25zZRJWCgtEZWxldGVCbG9jaxIiLmJpdHNuYXAudjEuRGVsZXRlQ2hhdEJsb2NrUmVxdWVzdBojLmJpdHNuYXAudjEuRGVsZXRlQ2hhdEJsb2NrUmVzcG9uc2USVgoLTGlzdFJlcG9ydHMSIi5iaXRzbmFwLnYxLkxpc3RDaGF0UmVwb3J0c1JlcXVlc3QaIy5iaXRzbmFwLnYxLkxpc3RDaGF0UmVwb3J0c1Jlc3BvbnNlElkKDFVwZGF0ZVJlcG9ydBIjLmJpdHNuYXAudjEuVXBkYXRlQ2hhdFJlcG9ydFJlcXVlc3QaJC5iaXRzbmFwLnYxLlVwZGF0ZUNoYXRSZXBvcnRSZXNwb25zZRJWCgtMaXN0VGhyZWFkcxIiLmJpdHNuYXAudjEuTGlzdENoYXRUaHJlYWRzUmVxdWVzdBojLmJpdHNuYXAudjEuTGlzdENoYXRUaHJlYWRzUmVzcG9uc2USWQoMTGlzdE1lc3NhZ2VzEiMuYml0c25hcC52MS5MaXN0Q2hhdE1lc3NhZ2VzUmVxdWVzdBokLmJpdHNuYXAudjEuTGlzdENoYXRNZXNzYWdlc1Jlc3BvbnNlElwKDVJlcGx5VG9UaHJlYWQSJC5iaXRzbmFwLnYxLlJlcGx5VG9DaGF0VGhyZWFkUmVxdWVzdBolLmJpdHNuYXAudjEuUmVwbHlUb0NoYXRUaHJlYWRSZXNwb25zZWIGcHJvdG8z", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message bitsnap.v1.CreateBuyerTokenRequest
@@ -719,6 +719,183 @@ export const RemoveFromChatChannelResponseSchema: GenMessage<RemoveFromChatChann
   messageDesc(file_bitsnap_v1_chat, 11);
 
 /**
+ * A person in a channel.
+ *
+ * @generated from message bitsnap.v1.ChatChannelMember
+ */
+export type ChatChannelMember = Message<"bitsnap.v1.ChatChannelMember"> & {
+  /**
+   * @generated from field: string email = 1;
+   */
+  email: string;
+
+  /**
+   * "creator", "member" or "muted".
+   *
+   * @generated from field: string role = 2;
+   */
+  role: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp joined_at = 3;
+   */
+  joinedAt?: Timestamp;
+
+  /**
+   * Set when the person was removed or left; empty while they are in.
+   *
+   * @generated from field: google.protobuf.Timestamp revoked_at = 4;
+   */
+  revokedAt?: Timestamp;
+};
+
+/**
+ * A person in a channel.
+ *
+ * @generated from message bitsnap.v1.ChatChannelMember
+ */
+export type ChatChannelMemberJson = {
+  /**
+   * @generated from field: string email = 1;
+   */
+  email?: string;
+
+  /**
+   * "creator", "member" or "muted".
+   *
+   * @generated from field: string role = 2;
+   */
+  role?: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp joined_at = 3;
+   */
+  joinedAt?: TimestampJson;
+
+  /**
+   * Set when the person was removed or left; empty while they are in.
+   *
+   * @generated from field: google.protobuf.Timestamp revoked_at = 4;
+   */
+  revokedAt?: TimestampJson;
+};
+
+/**
+ * Describes the message bitsnap.v1.ChatChannelMember.
+ * Use `create(ChatChannelMemberSchema)` to create a new message.
+ */
+export const ChatChannelMemberSchema: GenMessage<ChatChannelMember, {jsonType: ChatChannelMemberJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_chat, 12);
+
+/**
+ * @generated from message bitsnap.v1.ListChatChannelMembersRequest
+ */
+export type ListChatChannelMembersRequest = Message<"bitsnap.v1.ListChatChannelMembersRequest"> & {
+  /**
+   * Id of the channel.
+   *
+   * @generated from field: string channel_id = 1;
+   */
+  channelId: string;
+};
+
+/**
+ * @generated from message bitsnap.v1.ListChatChannelMembersRequest
+ */
+export type ListChatChannelMembersRequestJson = {
+  /**
+   * Id of the channel.
+   *
+   * @generated from field: string channel_id = 1;
+   */
+  channelId?: string;
+};
+
+/**
+ * Describes the message bitsnap.v1.ListChatChannelMembersRequest.
+ * Use `create(ListChatChannelMembersRequestSchema)` to create a new message.
+ */
+export const ListChatChannelMembersRequestSchema: GenMessage<ListChatChannelMembersRequest, {jsonType: ListChatChannelMembersRequestJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_chat, 13);
+
+/**
+ * @generated from message bitsnap.v1.ListChatChannelMembersResponse
+ */
+export type ListChatChannelMembersResponse = Message<"bitsnap.v1.ListChatChannelMembersResponse"> & {
+  /**
+   * @generated from field: repeated bitsnap.v1.ChatChannelMember members = 1;
+   */
+  members: ChatChannelMember[];
+};
+
+/**
+ * @generated from message bitsnap.v1.ListChatChannelMembersResponse
+ */
+export type ListChatChannelMembersResponseJson = {
+  /**
+   * @generated from field: repeated bitsnap.v1.ChatChannelMember members = 1;
+   */
+  members?: ChatChannelMemberJson[];
+};
+
+/**
+ * Describes the message bitsnap.v1.ListChatChannelMembersResponse.
+ * Use `create(ListChatChannelMembersResponseSchema)` to create a new message.
+ */
+export const ListChatChannelMembersResponseSchema: GenMessage<ListChatChannelMembersResponse, {jsonType: ListChatChannelMembersResponseJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_chat, 14);
+
+/**
+ * @generated from message bitsnap.v1.DeleteChatChannelRequest
+ */
+export type DeleteChatChannelRequest = Message<"bitsnap.v1.DeleteChatChannelRequest"> & {
+  /**
+   * Id of the channel. Everything in it is deleted for good.
+   *
+   * @generated from field: string channel_id = 1;
+   */
+  channelId: string;
+};
+
+/**
+ * @generated from message bitsnap.v1.DeleteChatChannelRequest
+ */
+export type DeleteChatChannelRequestJson = {
+  /**
+   * Id of the channel. Everything in it is deleted for good.
+   *
+   * @generated from field: string channel_id = 1;
+   */
+  channelId?: string;
+};
+
+/**
+ * Describes the message bitsnap.v1.DeleteChatChannelRequest.
+ * Use `create(DeleteChatChannelRequestSchema)` to create a new message.
+ */
+export const DeleteChatChannelRequestSchema: GenMessage<DeleteChatChannelRequest, {jsonType: DeleteChatChannelRequestJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_chat, 15);
+
+/**
+ * @generated from message bitsnap.v1.DeleteChatChannelResponse
+ */
+export type DeleteChatChannelResponse = Message<"bitsnap.v1.DeleteChatChannelResponse"> & {
+};
+
+/**
+ * @generated from message bitsnap.v1.DeleteChatChannelResponse
+ */
+export type DeleteChatChannelResponseJson = {
+};
+
+/**
+ * Describes the message bitsnap.v1.DeleteChatChannelResponse.
+ * Use `create(DeleteChatChannelResponseSchema)` to create a new message.
+ */
+export const DeleteChatChannelResponseSchema: GenMessage<DeleteChatChannelResponse, {jsonType: DeleteChatChannelResponseJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_chat, 16);
+
+/**
  * The chat settings of the project.
  *
  * @generated from message bitsnap.v1.ChatSettings
@@ -779,7 +956,7 @@ export type ChatSettingsJson = {
  * Use `create(ChatSettingsSchema)` to create a new message.
  */
 export const ChatSettingsSchema: GenMessage<ChatSettings, {jsonType: ChatSettingsJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 12);
+  messageDesc(file_bitsnap_v1_chat, 17);
 
 /**
  * @generated from message bitsnap.v1.GetChatSettingsRequest
@@ -798,7 +975,7 @@ export type GetChatSettingsRequestJson = {
  * Use `create(GetChatSettingsRequestSchema)` to create a new message.
  */
 export const GetChatSettingsRequestSchema: GenMessage<GetChatSettingsRequest, {jsonType: GetChatSettingsRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 13);
+  messageDesc(file_bitsnap_v1_chat, 18);
 
 /**
  * @generated from message bitsnap.v1.GetChatSettingsResponse
@@ -825,7 +1002,7 @@ export type GetChatSettingsResponseJson = {
  * Use `create(GetChatSettingsResponseSchema)` to create a new message.
  */
 export const GetChatSettingsResponseSchema: GenMessage<GetChatSettingsResponse, {jsonType: GetChatSettingsResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 14);
+  messageDesc(file_bitsnap_v1_chat, 19);
 
 /**
  * @generated from message bitsnap.v1.UpdateChatSettingsRequest
@@ -872,7 +1049,7 @@ export type UpdateChatSettingsRequestJson = {
  * Use `create(UpdateChatSettingsRequestSchema)` to create a new message.
  */
 export const UpdateChatSettingsRequestSchema: GenMessage<UpdateChatSettingsRequest, {jsonType: UpdateChatSettingsRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 15);
+  messageDesc(file_bitsnap_v1_chat, 20);
 
 /**
  * @generated from message bitsnap.v1.UpdateChatSettingsResponse
@@ -899,7 +1076,7 @@ export type UpdateChatSettingsResponseJson = {
  * Use `create(UpdateChatSettingsResponseSchema)` to create a new message.
  */
 export const UpdateChatSettingsResponseSchema: GenMessage<UpdateChatSettingsResponse, {jsonType: UpdateChatSettingsResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 16);
+  messageDesc(file_bitsnap_v1_chat, 21);
 
 /**
  * A person blocked in the project's chat.
@@ -940,7 +1117,7 @@ export type ChatBlockJson = {
  * Use `create(ChatBlockSchema)` to create a new message.
  */
 export const ChatBlockSchema: GenMessage<ChatBlock, {jsonType: ChatBlockJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 17);
+  messageDesc(file_bitsnap_v1_chat, 22);
 
 /**
  * @generated from message bitsnap.v1.ListChatBlocksRequest
@@ -959,7 +1136,7 @@ export type ListChatBlocksRequestJson = {
  * Use `create(ListChatBlocksRequestSchema)` to create a new message.
  */
 export const ListChatBlocksRequestSchema: GenMessage<ListChatBlocksRequest, {jsonType: ListChatBlocksRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 18);
+  messageDesc(file_bitsnap_v1_chat, 23);
 
 /**
  * @generated from message bitsnap.v1.ListChatBlocksResponse
@@ -986,7 +1163,7 @@ export type ListChatBlocksResponseJson = {
  * Use `create(ListChatBlocksResponseSchema)` to create a new message.
  */
 export const ListChatBlocksResponseSchema: GenMessage<ListChatBlocksResponse, {jsonType: ListChatBlocksResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 19);
+  messageDesc(file_bitsnap_v1_chat, 24);
 
 /**
  * @generated from message bitsnap.v1.PutChatBlockRequest
@@ -1017,7 +1194,7 @@ export type PutChatBlockRequestJson = {
  * Use `create(PutChatBlockRequestSchema)` to create a new message.
  */
 export const PutChatBlockRequestSchema: GenMessage<PutChatBlockRequest, {jsonType: PutChatBlockRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 20);
+  messageDesc(file_bitsnap_v1_chat, 25);
 
 /**
  * @generated from message bitsnap.v1.PutChatBlockResponse
@@ -1044,7 +1221,7 @@ export type PutChatBlockResponseJson = {
  * Use `create(PutChatBlockResponseSchema)` to create a new message.
  */
 export const PutChatBlockResponseSchema: GenMessage<PutChatBlockResponse, {jsonType: PutChatBlockResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 21);
+  messageDesc(file_bitsnap_v1_chat, 26);
 
 /**
  * @generated from message bitsnap.v1.DeleteChatBlockRequest
@@ -1071,7 +1248,7 @@ export type DeleteChatBlockRequestJson = {
  * Use `create(DeleteChatBlockRequestSchema)` to create a new message.
  */
 export const DeleteChatBlockRequestSchema: GenMessage<DeleteChatBlockRequest, {jsonType: DeleteChatBlockRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 22);
+  messageDesc(file_bitsnap_v1_chat, 27);
 
 /**
  * @generated from message bitsnap.v1.DeleteChatBlockResponse
@@ -1090,7 +1267,7 @@ export type DeleteChatBlockResponseJson = {
  * Use `create(DeleteChatBlockResponseSchema)` to create a new message.
  */
 export const DeleteChatBlockResponseSchema: GenMessage<DeleteChatBlockResponse, {jsonType: DeleteChatBlockResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 23);
+  messageDesc(file_bitsnap_v1_chat, 28);
 
 /**
  * A report filed by a participant.
@@ -1213,7 +1390,7 @@ export type ChatReportJson = {
  * Use `create(ChatReportSchema)` to create a new message.
  */
 export const ChatReportSchema: GenMessage<ChatReport, {jsonType: ChatReportJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 24);
+  messageDesc(file_bitsnap_v1_chat, 29);
 
 /**
  * @generated from message bitsnap.v1.ListChatReportsRequest
@@ -1258,7 +1435,7 @@ export type ListChatReportsRequestJson = {
  * Use `create(ListChatReportsRequestSchema)` to create a new message.
  */
 export const ListChatReportsRequestSchema: GenMessage<ListChatReportsRequest, {jsonType: ListChatReportsRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 25);
+  messageDesc(file_bitsnap_v1_chat, 30);
 
 /**
  * @generated from message bitsnap.v1.ListChatReportsResponse
@@ -1285,7 +1462,7 @@ export type ListChatReportsResponseJson = {
  * Use `create(ListChatReportsResponseSchema)` to create a new message.
  */
 export const ListChatReportsResponseSchema: GenMessage<ListChatReportsResponse, {jsonType: ListChatReportsResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 26);
+  messageDesc(file_bitsnap_v1_chat, 31);
 
 /**
  * @generated from message bitsnap.v1.UpdateChatReportRequest
@@ -1326,7 +1503,7 @@ export type UpdateChatReportRequestJson = {
  * Use `create(UpdateChatReportRequestSchema)` to create a new message.
  */
 export const UpdateChatReportRequestSchema: GenMessage<UpdateChatReportRequest, {jsonType: UpdateChatReportRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 27);
+  messageDesc(file_bitsnap_v1_chat, 32);
 
 /**
  * @generated from message bitsnap.v1.UpdateChatReportResponse
@@ -1353,7 +1530,7 @@ export type UpdateChatReportResponseJson = {
  * Use `create(UpdateChatReportResponseSchema)` to create a new message.
  */
 export const UpdateChatReportResponseSchema: GenMessage<UpdateChatReportResponse, {jsonType: UpdateChatReportResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 28);
+  messageDesc(file_bitsnap_v1_chat, 33);
 
 /**
  * One reply pack: a paid order of a service product with replies in it.
@@ -1448,7 +1625,7 @@ export type ChatPackJson = {
  * Use `create(ChatPackSchema)` to create a new message.
  */
 export const ChatPackSchema: GenMessage<ChatPack, {jsonType: ChatPackJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 29);
+  messageDesc(file_bitsnap_v1_chat, 34);
 
 /**
  * A message of a thread.
@@ -1595,7 +1772,7 @@ export type ChatMessageJson = {
  * Use `create(ChatMessageSchema)` to create a new message.
  */
 export const ChatMessageSchema: GenMessage<ChatMessage, {jsonType: ChatMessageJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 30);
+  messageDesc(file_bitsnap_v1_chat, 35);
 
 /**
  * A row of the inbox: a private pack thread or a channel.
@@ -1786,7 +1963,7 @@ export type ChatThreadJson = {
  * Use `create(ChatThreadSchema)` to create a new message.
  */
 export const ChatThreadSchema: GenMessage<ChatThread, {jsonType: ChatThreadJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 31);
+  messageDesc(file_bitsnap_v1_chat, 36);
 
 /**
  * @generated from message bitsnap.v1.ListChatThreadsRequest
@@ -1805,7 +1982,7 @@ export type ListChatThreadsRequestJson = {
  * Use `create(ListChatThreadsRequestSchema)` to create a new message.
  */
 export const ListChatThreadsRequestSchema: GenMessage<ListChatThreadsRequest, {jsonType: ListChatThreadsRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 32);
+  messageDesc(file_bitsnap_v1_chat, 37);
 
 /**
  * @generated from message bitsnap.v1.ListChatThreadsResponse
@@ -1832,7 +2009,7 @@ export type ListChatThreadsResponseJson = {
  * Use `create(ListChatThreadsResponseSchema)` to create a new message.
  */
 export const ListChatThreadsResponseSchema: GenMessage<ListChatThreadsResponse, {jsonType: ListChatThreadsResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 33);
+  messageDesc(file_bitsnap_v1_chat, 38);
 
 /**
  * @generated from message bitsnap.v1.ListChatMessagesRequest
@@ -1887,7 +2064,7 @@ export type ListChatMessagesRequestJson = {
  * Use `create(ListChatMessagesRequestSchema)` to create a new message.
  */
 export const ListChatMessagesRequestSchema: GenMessage<ListChatMessagesRequest, {jsonType: ListChatMessagesRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 34);
+  messageDesc(file_bitsnap_v1_chat, 39);
 
 /**
  * @generated from message bitsnap.v1.ListChatMessagesResponse
@@ -1928,7 +2105,7 @@ export type ListChatMessagesResponseJson = {
  * Use `create(ListChatMessagesResponseSchema)` to create a new message.
  */
 export const ListChatMessagesResponseSchema: GenMessage<ListChatMessagesResponse, {jsonType: ListChatMessagesResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 35);
+  messageDesc(file_bitsnap_v1_chat, 40);
 
 /**
  * @generated from message bitsnap.v1.ReplyToChatThreadRequest
@@ -1983,7 +2160,7 @@ export type ReplyToChatThreadRequestJson = {
  * Use `create(ReplyToChatThreadRequestSchema)` to create a new message.
  */
 export const ReplyToChatThreadRequestSchema: GenMessage<ReplyToChatThreadRequest, {jsonType: ReplyToChatThreadRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 36);
+  messageDesc(file_bitsnap_v1_chat, 41);
 
 /**
  * @generated from message bitsnap.v1.ReplyToChatThreadResponse
@@ -2042,7 +2219,7 @@ export type ReplyToChatThreadResponseJson = {
  * Use `create(ReplyToChatThreadResponseSchema)` to create a new message.
  */
 export const ReplyToChatThreadResponseSchema: GenMessage<ReplyToChatThreadResponse, {jsonType: ReplyToChatThreadResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_chat, 37);
+  messageDesc(file_bitsnap_v1_chat, 42);
 
 /**
  * The creator side of the paid chat: the private reply-pack threads with
@@ -2059,7 +2236,7 @@ export const ReplyToChatThreadResponseSchema: GenMessage<ReplyToChatThreadRespon
  *
  * A thread belongs to one buyer and one service product. Replying spends one
  * reply of the buyer's pack; a reply on an empty pack is refused with
- * `chat_pack_empty` (402) and nothing is written. Messages are text only:
+ * `chat_pack_empty` (failed_precondition, HTTP 400) and nothing is written. Messages are text only:
  * the API attaches no files.
  *
  * Errors of the chat itself carry their own `reason`: `chat_pack_empty`
@@ -2081,7 +2258,8 @@ export const ChatService: GenService<{
    * membership of the project, otherwise the call answers
    * `chat_no_entitlement` (404). The token is bound to the project and the
    * e-mail, expires after `ttl_seconds`, and cannot be revoked earlier. Needs
-   * `chat:write` and a live key. Answers `chat_token_not_configured` (503)
+   * `chat:write` and a live key: a test key is refused with `live_mode_only`
+   * (permission_denied, HTTP 403). Answers `chat_token_not_configured` (503)
    * while the platform has no signing key.
    *
    * @generated from rpc bitsnap.v1.ChatService.CreateBuyerToken
@@ -2131,6 +2309,29 @@ export const ChatService: GenService<{
     methodKind: "unary";
     input: typeof RemoveFromChatChannelRequestSchema;
     output: typeof RemoveFromChatChannelResponseSchema;
+  },
+  /**
+   * Lists the people of a channel, those who left or were removed included
+   * (`revoked_at` is set). Needs `chat:read`.
+   *
+   * @generated from rpc bitsnap.v1.ChatService.ListChannelMembers
+   */
+  listChannelMembers: {
+    methodKind: "unary";
+    input: typeof ListChatChannelMembersRequestSchema;
+    output: typeof ListChatChannelMembersResponseSchema;
+  },
+  /**
+   * Deletes a channel for good, with its members, invites, thread and all of
+   * its messages. This is permanent: the history cannot be restored and a
+   * second call answers `chat_not_found`. Needs `chat:write`.
+   *
+   * @generated from rpc bitsnap.v1.ChatService.DeleteChannel
+   */
+  deleteChannel: {
+    methodKind: "unary";
+    input: typeof DeleteChatChannelRequestSchema;
+    output: typeof DeleteChatChannelResponseSchema;
   },
   /**
    * Reads the chat settings of the project. Needs `chat:read`.
