@@ -321,6 +321,49 @@ export function createBitsnapClient(options: BitsnapClientOptions) {
       ),
     },
 
+    /**
+     * Quick payment links: a link you create from a name and a gross price,
+     * without a product. The buyer opens `paymentLink.url` and pays through the
+     * shop's normal gateways; the sale is an ordinary order. Reads need the
+     * `payment_links:read` scope, writes `payment_links:write` plus the key's
+     * write switch (both scopes are opt-in). Live keys only: a test key fails
+     * with reason `live_mode_only`.
+     *
+     * Errors carry a `reason`: `invalid_request` (`e.metadata.field` names the
+     * field, for example `price.currency`), `payment_link_not_found`,
+     * `payment_link_archived`, `payment_link_paid`, `rate_limited`
+     * (`e.retryAfter` seconds) and `checkout_unavailable` when the shop has no
+     * payment gateway.
+     */
+    paymentLinks: {
+      /** Creates a link. Single-use and normal checkout unless you say otherwise. Idempotent with `Idempotency-Key`. */
+      create: write<T.CreatePaymentLinkRequest, T.CreatePaymentLinkResponse>(
+        "PaymentLinkService",
+        "CreatePaymentLink",
+      ),
+      /** One link, by its id. Scope `payment_links:read`. */
+      get: (id: string, opts?: RequestOptions) =>
+        call<T.GetPaymentLinkResponse>("PaymentLinkService", "GetPaymentLink", { id }, false, opts),
+      /** Links, newest first. Active and paid ones unless `statuses` says otherwise. */
+      list: read<T.ListPaymentLinksRequest, T.ListPaymentLinksResponse>(
+        "PaymentLinkService",
+        "ListPaymentLinks",
+      ),
+      /** Closes a link; checkout refuses it from then on. Archiving twice is fine. */
+      archive: (id: string, opts?: RequestOptions) =>
+        call<T.ArchivePaymentLinkResponse>("PaymentLinkService", "ArchivePaymentLink", { id }, true, opts),
+      /**
+       * E-mails the link to a buyer from the shop. Limited to 20 e-mails per
+       * link per hour (`rate_limited`); archived and paid links are refused
+       * (`payment_link_archived`, `payment_link_paid`). It spends the key's
+       * daily write budget like any write.
+       */
+      send: write<T.SendPaymentLinkRequest, T.SendPaymentLinkResponse>(
+        "PaymentLinkService",
+        "SendPaymentLink",
+      ),
+    },
+
     stats: {
       getSalesSummary: read<T.GetSalesSummaryRequest, T.GetSalesSummaryResponse>(
         "StatsService",

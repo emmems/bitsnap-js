@@ -121,6 +121,7 @@ orders that are not waiting for a payment (`order_not_settleable`).
 | `coupons` | `list()`, `create`, `update`, `delete`, `createCode`, `updateCode`, `deleteCode` |
 | `webhooks` | `list()`, `create(req)` (returns `signingSecret` once), `delete({ id })` |
 | `checkout` | `createCheckoutLink(req)`, `settleTestPayment(req)` |
+| `paymentLinks` | `create(req)`, `get(id)`, `list(req?)`, `archive(id)`, `send(req)` (see [Payment links](#payment-links)) |
 | `stats` | `getSalesSummary(req)` |
 | `chat` | `createBuyerToken`, `listThreads`, `listMessages`, `replyToThread`, `listChannels`, `createChannel`, `updateChannel`, `removeFromChannel`, `listChannelMembers`, `deleteChannel`, `getSettings`, `updateSettings`, `listBlocks`, `putBlock`, `deleteBlock`, `listReports`, `updateReport` (see [Chat](#chat)) |
 
@@ -176,6 +177,56 @@ try {
 ```
 
 Network failures and timeouts throw the underlying `fetch` error.
+
+### Payment links
+
+`bitsnap.paymentLinks` creates a link from a name and a gross price, without a
+product: hand `paymentLink.url` to the buyer (or e-mail it) and they pay
+through the shop's normal gateways. The sale is an ordinary order. Reads need
+the `payment_links:read` scope, writes `payment_links:write` plus the key's
+write switch (both scopes are opt-in). A link takes real money, so a test key
+fails with reason `live_mode_only`.
+
+```ts
+const bitsnap = createBitsnapClient({ apiKey: process.env.BITSNAP_API_KEY! });
+
+// Single-use unless you ask for REUSABLE. Retries with the same key create one link.
+const { paymentLink } = await bitsnap.paymentLinks.create(
+  {
+    name: "Konsultacja 60 min",
+    price: { amount: 12300, currency: "PLN" }, // 123.00 zł gross
+    // usage: "PAYMENT_LINK_USAGE_REUSABLE",
+  },
+  { idempotencyKey: `invoice-${invoiceId}` },
+);
+console.log(paymentLink.url); // https://<your shop>/l/<id>
+
+// Quick mode: you fill in the buyer's data, the buyer only pays. It needs a
+// key with the `customers:pii` scope as well, and the link is single-use.
+await bitsnap.paymentLinks.create({
+  name: "Faktura 2027/01/14",
+  price: { amount: 49900, currency: "PLN" },
+  usage: "PAYMENT_LINK_USAGE_SINGLE", // the default, and the only one QUICK takes
+  checkoutMode: "PAYMENT_LINK_CHECKOUT_MODE_QUICK",
+  prefill: { email: "anna@example.com", name: "Anna", lastName: "Nowak", nip: "5260250274" },
+});
+
+await bitsnap.paymentLinks.send({ id: paymentLink.id, email: "anna@example.com", note: "Dzięki za rozmowę!" });
+const { paymentLinks, nextCursor } = await bitsnap.paymentLinks.list({ limit: 20 });
+await bitsnap.paymentLinks.archive(paymentLink.id); // checkout refuses it from now on
+```
+
+`list` returns active and paid links; name `PAYMENT_LINK_STATUS_ARCHIVED` in
+`statuses` for archived ones. `prefill` of a quick link is personal data: a
+quick link or a `prefill` is accepted only from a key that also has
+`customers:pii` (`missing_scope` without it), and it is returned only to such a
+key (`hasPrefill` is always there). A `prefill` without
+`PAYMENT_LINK_CHECKOUT_MODE_QUICK` is `invalid_request` (field `prefill`), and
+`PAYMENT_LINK_USAGE_REUSABLE` with QUICK is `invalid_request` (field `usage`). `send` e-mails from the shop, at most 20 times per link per hour
+(`rate_limited`, with `e.retryAfter`) and spends the key's daily write budget;
+archived and paid links fail with `payment_link_archived` / `payment_link_paid`.
+`invalid_request` names the wrong field in `e.metadata.field` (for example
+`price.currency` when the shop's gateways do not take that currency).
 
 ### Chat
 

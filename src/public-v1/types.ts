@@ -527,3 +527,123 @@ export type ReplyToChatThreadResponse = {
   repliesLeft: number;
   composerLocked: boolean;
 };
+
+// ---- payment links ---------------------------------------------------------
+
+export type PaymentLinkUsage =
+  | "PAYMENT_LINK_USAGE_UNSPECIFIED"
+  | "PAYMENT_LINK_USAGE_SINGLE"
+  | "PAYMENT_LINK_USAGE_REUSABLE";
+
+export type PaymentLinkCheckoutMode =
+  | "PAYMENT_LINK_CHECKOUT_MODE_UNSPECIFIED"
+  | "PAYMENT_LINK_CHECKOUT_MODE_NORMAL"
+  | "PAYMENT_LINK_CHECKOUT_MODE_QUICK";
+
+export type PaymentLinkStatus =
+  | "PAYMENT_LINK_STATUS_UNSPECIFIED"
+  | "PAYMENT_LINK_STATUS_ACTIVE"
+  | "PAYMENT_LINK_STATUS_PAID"
+  | "PAYMENT_LINK_STATUS_ARCHIVED";
+
+export type PaymentLinkAddress = {
+  line1?: string;
+  line2?: string;
+  city?: string;
+  zipCode?: string;
+  /** ISO 3166-1 alpha-2 code, for example `PL`. */
+  country?: string;
+};
+
+/**
+ * The buyer's data of a quick link. Personal data: the API returns it only to
+ * a key that also has the `customers:pii` scope.
+ */
+export type PaymentLinkPrefill = {
+  name?: string;
+  lastName?: string;
+  /** Required for a quick link. */
+  email?: string;
+  phone?: string;
+  company?: string;
+  /** Polish tax id (NIP); validated. */
+  nip?: string;
+  address?: PaymentLinkAddress;
+};
+
+export type PaymentLink = {
+  /** The short id of the link. */
+  id: string;
+  name: string;
+  /** The gross price. */
+  price: Money;
+  /** VAT rate in percent included in the price. */
+  vatRate: number;
+  usage: PaymentLinkUsage;
+  checkoutMode: PaymentLinkCheckoutMode;
+  status: PaymentLinkStatus;
+  /** The link to give the buyer (`<shop origin>/l/<id>`). */
+  url: string;
+  shortUrl: string;
+  /** How many times the link was paid. */
+  paidCount: number;
+  /** Quick links only, and only for a key with `customers:pii`; see `hasPrefill`. */
+  prefill?: PaymentLinkPrefill;
+  hasPrefill: boolean;
+  createdAt?: string;
+  /** Absent unless the link is archived. */
+  archivedAt?: string;
+};
+
+export type CreatePaymentLinkRequest = {
+  /** Shown to the buyer. 1-120 characters. */
+  name: string;
+  /** Gross price. The currency must be one the shop's gateways accept (PLN; EUR/USD with a gateway that takes them). */
+  price: Money;
+  /** VAT rate in percent included in the price; omitted takes the shop's default. */
+  vatRate?: number;
+  /** Omitted means single-use. A quick link must be single-use: REUSABLE with QUICK is `invalid_request` (field `usage`). */
+  usage?: PaymentLinkUsage;
+  /** Omitted means normal. QUICK needs the `customers:pii` scope (`missing_scope` without it) and a single-use link. */
+  checkoutMode?: PaymentLinkCheckoutMode;
+  /**
+   * Quick mode only; the e-mail is required. Needs the `customers:pii` scope
+   * (`missing_scope` without it); a prefill on a link that is not quick is
+   * `invalid_request` (field `prefill`).
+   */
+  prefill?: PaymentLinkPrefill;
+};
+export type CreatePaymentLinkResponse = { paymentLink: PaymentLink };
+
+export type GetPaymentLinkRequest = { id: string };
+export type GetPaymentLinkResponse = { paymentLink: PaymentLink };
+
+export type ListPaymentLinksRequest = {
+  /** Omitted lists active and paid links; name `PAYMENT_LINK_STATUS_ARCHIVED` for archived ones. */
+  statuses?: PaymentLinkStatus[];
+  /** 1 to 100; default 50. */
+  limit?: number;
+  /** The `nextCursor` of the previous page. */
+  cursor?: string;
+};
+export type ListPaymentLinksResponse = {
+  /** Newest first. */
+  paymentLinks: PaymentLink[];
+  /** Empty on the last page. */
+  nextCursor: string;
+};
+
+export type ArchivePaymentLinkRequest = { id: string };
+export type ArchivePaymentLinkResponse = { paymentLink: PaymentLink };
+
+export type SendPaymentLinkRequest = {
+  id: string;
+  /** The buyer's e-mail address. */
+  email: string;
+  /** Shown in the e-mail; up to 500 characters. */
+  note?: string;
+};
+export type SendPaymentLinkResponse = {
+  /** When the e-mail was handed to the mail provider. */
+  sentAt: string;
+};

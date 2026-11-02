@@ -47,6 +47,19 @@ import type {
   OrderJson,
 } from "../gen/proto/bitsnap/v1/orders_pb";
 import type {
+  ArchivePaymentLinkRequestJson,
+  ArchivePaymentLinkResponseJson,
+  CreatePaymentLinkRequestJson,
+  CreatePaymentLinkResponseJson,
+  GetPaymentLinkRequestJson,
+  GetPaymentLinkResponseJson,
+  ListPaymentLinksRequestJson,
+  ListPaymentLinksResponseJson,
+  PaymentLinkJson,
+  SendPaymentLinkRequestJson,
+  SendPaymentLinkResponseJson,
+} from "../gen/proto/bitsnap/v1/payment_links_pb";
+import type {
   CreateProductRequestJson,
   ListProductsRequestJson,
   ListProductsResponseJson,
@@ -93,6 +106,11 @@ export type RequestChecks = [
   Assignable<T.UpdateChatReportRequest, UpdateChatReportRequestJson>,
   Assignable<T.ListChatMessagesRequest, ListChatMessagesRequestJson>,
   Assignable<T.ReplyToChatThreadRequest, ReplyToChatThreadRequestJson>,
+  Assignable<T.CreatePaymentLinkRequest, CreatePaymentLinkRequestJson>,
+  Assignable<T.GetPaymentLinkRequest, GetPaymentLinkRequestJson>,
+  Assignable<T.ListPaymentLinksRequest, ListPaymentLinksRequestJson>,
+  Assignable<T.ArchivePaymentLinkRequest, ArchivePaymentLinkRequestJson>,
+  Assignable<T.SendPaymentLinkRequest, SendPaymentLinkRequestJson>,
 ];
 
 // Responses come from the API, so they must be assignable to the generated
@@ -120,4 +138,10 @@ export type ResponseChecks = [
   Assignable<T.ChatThread, ChatThreadJson>,
   Assignable<T.ListChatMessagesResponse, ListChatMessagesResponseJson>,
   Assignable<T.ReplyToChatThreadResponse, ReplyToChatThreadResponseJson>,
+  Assignable<T.PaymentLink, PaymentLinkJson>,
+  Assignable<T.CreatePaymentLinkResponse, CreatePaymentLinkResponseJson>,
+  Assignable<T.GetPaymentLinkResponse, GetPaymentLinkResponseJson>,
+  Assignable<T.ListPaymentLinksResponse, ListPaymentLinksResponseJson>,
+  Assignable<T.ArchivePaymentLinkResponse, ArchivePaymentLinkResponseJson>,
+  Assignable<T.SendPaymentLinkResponse, SendPaymentLinkResponseJson>,
 ];

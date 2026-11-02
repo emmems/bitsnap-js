@@ -59,9 +59,11 @@ await bitsnap.checkout.settleTestPayment({ orderId, outcome: "TEST_PAYMENT_OUTCO
 
 - Services: `account.get`, `products.{list,get,create,update}`, `orders.{list,get}`,
   `coupons.*`, `webhooks.{list,create,delete}`, `checkout.{createCheckoutLink,settleTestPayment}`,
-  `stats.getSalesSummary`, `chat.*` (paid chat inbox, channels, moderation;
-  scopes `chat:read`/`chat:write`). Call `account.get()` first: it shows the environment
-  (`ENVIRONMENT_TEST`/`LIVE`), scopes and `canWrite`.
+  `stats.getSalesSummary`, `paymentLinks.{create,get,list,archive,send}` (quick
+  payment links, live keys only; scopes `payment_links:read`/`payment_links:write`),
+  `chat.*` (paid chat inbox, channels, moderation; scopes `chat:read`/`chat:write`).
+  Call `account.get()` first: it shows the environment (`ENVIRONMENT_TEST`/`LIVE`),
+  scopes and `canWrite`.
 - Money is an integer in minor units with a currency: `{ amount: 4900, currency: "PLN" }`.
 - Writes send an `Idempotency-Key` (random UUID). Pass `{ idempotencyKey }` as the
   last argument and reuse it on a retry; a retry then cannot create a second order.
