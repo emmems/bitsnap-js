@@ -1,0 +1,73 @@
+# Publishes bitsnap-js to npm on every version tag push.
+#
+# Authentication uses npm trusted publishing (OIDC): GitHub mints a short-lived
+# OIDC token for this workflow, npm exchanges it for a publish token bound to
+# this repository and workflow file. No npm token lives in GitHub, so there is
+# nothing to rotate and nothing to leak.
+#
+# The matching trusted publisher is configured on npmjs.com under
+# bitsnap-js → Settings → Trusted publishers:
+#   Organization/user: emmems
+#   Repository:        bitsnap-js
+#   Workflow filename: publish.yml
+#
+# Release: bump the version in package.json, commit, then tag and push:
+#   git tag vX.Y.Z && git push origin vX.Y.Z
+
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  # Required to mint the OIDC token npm exchanges for a publish token.
+  id-token: write
+  # Scoped down from the default (write) for least-privilege publishing.
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          # npm >= 11.5.1 is needed for OIDC trusted publishing; Node 24 ships it.
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: 'pnpm install --frozen-lockfile'
+
+      - name: Run build
+        run: 'pnpm build'
+
+      - name: Run tests
+        run: 'pnpm test:contract'
+
+      - name: Check whether this version is already on npm
+        id: published
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "$NAME@$VERSION is already on npm; skipping publish."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish to npm
+        if: steps.published.outputs.exists != 'true'
+        # npm attaches the provenance attestation automatically for OIDC
+        # publishes from a public repository.
+        run: 'npm publish --provenance --access public'
