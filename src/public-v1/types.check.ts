@@ -75,6 +75,21 @@ import type {
   CreateWebhookResponseJson,
   ListWebhooksResponseJson,
 } from "../gen/proto/bitsnap/v1/webhooks_pb";
+import type {
+  AdjustLoyaltyPointsRequestJson,
+  AdjustLoyaltyPointsResponseJson,
+  GetCustomerLoyaltyRequestJson,
+  GetCustomerLoyaltyResponseJson,
+  GetLoyaltyProgramResponseJson,
+  ListLoyaltyClubsRequestJson,
+  ListLoyaltyClubsResponseJson,
+  ListLoyaltyPointTransactionsRequestJson,
+  ListLoyaltyPointTransactionsResponseJson,
+  LoyaltyClubJson,
+  LoyaltyPointTransactionJson,
+  LoyaltyPointsBalanceJson,
+  LoyaltyProgramJson,
+} from "../gen/proto/bitsnap/v1/loyalty_pb";
 import type * as T from "./types";
 
 type Assignable<Sub extends Super, Super> = Sub;
@@ -111,6 +126,10 @@ export type RequestChecks = [
   Assignable<T.ListPaymentLinksRequest, ListPaymentLinksRequestJson>,
   Assignable<T.ArchivePaymentLinkRequest, ArchivePaymentLinkRequestJson>,
   Assignable<T.SendPaymentLinkRequest, SendPaymentLinkRequestJson>,
+  Assignable<T.ListLoyaltyClubsRequest, ListLoyaltyClubsRequestJson>,
+  Assignable<T.ListLoyaltyPointTransactionsRequest, ListLoyaltyPointTransactionsRequestJson>,
+  Assignable<T.GetCustomerLoyaltyRequest, GetCustomerLoyaltyRequestJson>,
+  Assignable<T.AdjustLoyaltyPointsRequest, AdjustLoyaltyPointsRequestJson>,
 ];
 
 // Responses come from the API, so they must be assignable to the generated
@@ -144,4 +163,13 @@ export type ResponseChecks = [
   Assignable<T.ListPaymentLinksResponse, ListPaymentLinksResponseJson>,
   Assignable<T.ArchivePaymentLinkResponse, ArchivePaymentLinkResponseJson>,
   Assignable<T.SendPaymentLinkResponse, SendPaymentLinkResponseJson>,
+  Assignable<T.LoyaltyProgram, LoyaltyProgramJson>,
+  Assignable<T.LoyaltyClub, LoyaltyClubJson>,
+  Assignable<T.LoyaltyPointTransaction, LoyaltyPointTransactionJson>,
+  Assignable<T.LoyaltyPointsBalance, LoyaltyPointsBalanceJson>,
+  Assignable<T.GetLoyaltyProgramResponse, GetLoyaltyProgramResponseJson>,
+  Assignable<T.ListLoyaltyClubsResponse, ListLoyaltyClubsResponseJson>,
+  Assignable<T.ListLoyaltyPointTransactionsResponse, ListLoyaltyPointTransactionsResponseJson>,
+  Assignable<T.GetCustomerLoyaltyResponse, GetCustomerLoyaltyResponseJson>,
+  Assignable<T.AdjustLoyaltyPointsResponse, AdjustLoyaltyPointsResponseJson>,
 ];

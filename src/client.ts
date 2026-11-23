@@ -370,5 +370,43 @@ export function createBitsnapClient(options: BitsnapClientOptions) {
         "GetSalesSummary",
       ),
     },
+
+    /**
+     * Loyalty programme: points branding, VIP clubs (groups), point ledger,
+     * customer balance/clubs and manual point adjustments. Reads need
+     * `loyalty:read` (`customers:pii` for customer emails), writes need
+     * `loyalty:write` and the key's write switch.
+     */
+    loyalty: {
+      /** Programme settings and branding (name, short label, icon type & value, rates). */
+      getProgram: read<undefined, T.GetLoyaltyProgramResponse>("LoyaltyService", "GetProgram"),
+      /** Lists VIP clubs (groups) with their name, description, icon, badge tone and perks. */
+      listClubs: read<T.ListLoyaltyClubsRequest, T.ListLoyaltyClubsResponse>(
+        "LoyaltyService",
+        "ListClubs",
+      ),
+      /** Lists loyalty point ledger transactions, newest first. */
+      listPointTransactions: read<
+        T.ListLoyaltyPointTransactionsRequest,
+        T.ListLoyaltyPointTransactionsResponse
+      >("LoyaltyService", "ListPointTransactions"),
+      /** One customer's current points balance and active VIP clubs (with names and icons). */
+      getCustomer: (email: string, opts?: RequestOptions) =>
+        call<T.GetCustomerLoyaltyResponse>(
+          "LoyaltyService",
+          "GetCustomerLoyalty",
+          { email },
+          false,
+          opts,
+        ),
+      /**
+       * Adds (positive `points`) or deducts (negative `points`) loyalty points for
+       * a customer by email. Honours `Idempotency-Key`.
+       */
+      adjustPoints: write<T.AdjustLoyaltyPointsRequest, T.AdjustLoyaltyPointsResponse>(
+        "LoyaltyService",
+        "AdjustPoints",
+      ),
+    },
   };
 }

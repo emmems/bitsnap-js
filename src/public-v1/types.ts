@@ -647,3 +647,136 @@ export type SendPaymentLinkResponse = {
   /** When the e-mail was handed to the mail provider. */
   sentAt: string;
 };
+
+// ---- loyalty ---------------------------------------------------------------
+
+export type LoyaltyProgram = {
+  pointsEnabled: boolean;
+  clubsEnabled: boolean;
+  /** Display name of the points currency, e.g. "Punkty", "Gwiazdki". */
+  pointsName: string;
+  /** Short badge label, e.g. "pkt". */
+  pointsShortLabel: string;
+  /** Icon source: "lucide" (Lucide icon name) or "upload" (public image URL). */
+  pointsIconType: string;
+  /** Lucide icon name (e.g. "Coins", "Star") or public image URL when `pointsIconType === "upload"`. */
+  pointsIconValue: string;
+  currency: string;
+  earnPointsPerCurrency: number;
+  redeemPointsPerCurrency: number;
+  minRedeemPoints: number;
+  redeemStepPoints: number;
+  /** Maximum share of cart payable with points, in basis points (5000 = 50%). */
+  maxDiscountBps: number;
+  minCashPayableMinor: number;
+  roundingMode: string;
+  pendingDays: number;
+  expiryMonths?: number;
+  allowNegativeBalance: boolean;
+  allowStackingWithCoupons: boolean;
+  termsUrl: string;
+  updatedAt?: string;
+};
+
+export type LoyaltyClub = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  /** Icon source: "lucide" or "upload". */
+  iconType: string;
+  /** Lucide icon name or public image URL when `iconType === "upload"`. */
+  iconValue: string;
+  /** Badge colour tone: "info", "warning", "success", "danger", or "neutral". */
+  badgeTone: string;
+  /** Earn multiplier in basis points (10000 = 1.0x, 20000 = 2.0x). */
+  pointsMultiplierBps: number;
+  /** "none", "percent", or "fixed". */
+  memberDiscountType: string;
+  /** Basis points for "percent" (1000 = 10%), or minor units for "fixed". */
+  memberDiscountValue: number;
+  memberDiscountCurrency: string;
+  archived: boolean;
+  activeMembersCount: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type LoyaltyPointTransaction = {
+  id: string;
+  customerProfileId: string;
+  /** Set when the credential has `customers:pii`. */
+  customerEmail: string;
+  /** Ledger entry type: "earn", "pos_earn", "redeem", "pos_redeem", "manual_adjust", etc. */
+  type: string;
+  /** "pending", "approved", or "void". */
+  status: string;
+  /** Signed point delta (positive = credit, negative = debit). */
+  pointsDelta: number;
+  pointsRemaining: number;
+  orderId: string;
+  note: string;
+  availableAt?: string;
+  expiresAt?: string;
+  createdAt?: string;
+};
+
+export type LoyaltyPointsBalance = {
+  availablePoints: number;
+  pendingPoints: number;
+  reservedPoints: number;
+  expiringSoonPoints: number;
+  nearestExpiresAt?: string;
+};
+
+export type GetLoyaltyProgramResponse = {
+  program?: LoyaltyProgram;
+};
+
+export type ListLoyaltyClubsRequest = {
+  includeArchived?: boolean;
+};
+
+export type ListLoyaltyClubsResponse = {
+  clubs: LoyaltyClub[];
+};
+
+export type ListLoyaltyPointTransactionsRequest = {
+  /** Optional customer email filter. Needs `customers:pii`. */
+  email?: string;
+  /** Optional entry type filter (e.g. "earn", "redeem", "manual_adjust"). */
+  type?: string;
+  /** 1 to 100; default 50. */
+  limit?: number;
+  cursor?: string;
+};
+
+export type ListLoyaltyPointTransactionsResponse = {
+  transactions: LoyaltyPointTransaction[];
+  nextCursor: string;
+};
+
+export type GetCustomerLoyaltyRequest = {
+  email: string;
+};
+
+export type GetCustomerLoyaltyResponse = {
+  customerProfileId: string;
+  email: string;
+  balance?: LoyaltyPointsBalance;
+  activeClubs: LoyaltyClub[];
+};
+
+export type AdjustLoyaltyPointsRequest = {
+  email: string;
+  /** Signed non-zero amount: positive adds points, negative deducts points. */
+  points: number;
+  note?: string;
+  /** Optional RFC 3339 expiry timestamp (only applies when adding points). */
+  expiresAt?: string;
+};
+
+export type AdjustLoyaltyPointsResponse = {
+  transaction?: LoyaltyPointTransaction;
+  balance?: LoyaltyPointsBalance;
+};
