@@ -4,15 +4,17 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { Environment, EnvironmentJson } from "./common_pb";
+import type { Environment, EnvironmentJson, Money, MoneyJson } from "./common_pb";
 import { file_bitsnap_v1_common } from "./common_pb";
+import type { Timestamp, TimestampJson } from "@bufbuild/protobuf/wkt";
+import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file bitsnap/v1/checkout.proto.
  */
 export const file_bitsnap_v1_checkout: GenFile = /*@__PURE__*/
-  fileDesc("ChliaXRzbmFwL3YxL2NoZWNrb3V0LnByb3RvEgpiaXRzbmFwLnYxIjQKDENoZWNrb3V0SXRlbRISCgpwcm9kdWN0X2lkGAEgASgJEhAKCHF1YW50aXR5GAIgASgFIqIBChlDcmVhdGVDaGVja291dExpbmtSZXF1ZXN0EicKBWl0ZW1zGAEgAygLMhguYml0c25hcC52MS5DaGVja291dEl0ZW0SFgoOY3VzdG9tZXJfZW1haWwYAiABKAkSEwoLc3VjY2Vzc191cmwYAyABKAkSEgoKY2FuY2VsX3VybBgEIAEoCRIbChNjbGllbnRfcmVmZXJlbmNlX2lkGAUgASgJImkKGkNyZWF0ZUNoZWNrb3V0TGlua1Jlc3BvbnNlEgsKA3VybBgBIAEoCRIQCghvcmRlcl9pZBgCIAEoCRIsCgtlbnZpcm9ubWVudBgDIAEoDjIXLmJpdHNuYXAudjEuRW52aXJvbm1lbnQiXQoYU2V0dGxlVGVzdFBheW1lbnRSZXF1ZXN0EhAKCG9yZGVyX2lkGAEgASgJEi8KB291dGNvbWUYAiABKA4yHi5iaXRzbmFwLnYxLlRlc3RQYXltZW50T3V0Y29tZSJeChlTZXR0bGVUZXN0UGF5bWVudFJlc3BvbnNlEhAKCG9yZGVyX2lkGAEgASgJEi8KB291dGNvbWUYAiABKA4yHi5iaXRzbmFwLnYxLlRlc3RQYXltZW50T3V0Y29tZSp6ChJUZXN0UGF5bWVudE91dGNvbWUSJAogVEVTVF9QQVlNRU5UX09VVENPTUVfVU5TUEVDSUZJRUQQABIdChlURVNUX1BBWU1FTlRfT1VUQ09NRV9QQUlEEAESHwobVEVTVF9QQVlNRU5UX09VVENPTUVfRkFJTEVEEAIy2AEKD0NoZWNrb3V0U2VydmljZRJjChJDcmVhdGVDaGVja291dExpbmsSJS5iaXRzbmFwLnYxLkNyZWF0ZUNoZWNrb3V0TGlua1JlcXVlc3QaJi5iaXRzbmFwLnYxLkNyZWF0ZUNoZWNrb3V0TGlua1Jlc3BvbnNlEmAKEVNldHRsZVRlc3RQYXltZW50EiQuYml0c25hcC52MS5TZXR0bGVUZXN0UGF5bWVudFJlcXVlc3QaJS5iaXRzbmFwLnYxLlNldHRsZVRlc3RQYXltZW50UmVzcG9uc2ViBnByb3RvMw", [file_bitsnap_v1_common]);
+  fileDesc("ChliaXRzbmFwL3YxL2NoZWNrb3V0LnByb3RvEgpiaXRzbmFwLnYxIjQKDENoZWNrb3V0SXRlbRISCgpwcm9kdWN0X2lkGAEgASgJEhAKCHF1YW50aXR5GAIgASgFIqIBChlDcmVhdGVDaGVja291dExpbmtSZXF1ZXN0EicKBWl0ZW1zGAEgAygLMhguYml0c25hcC52MS5DaGVja291dEl0ZW0SFgoOY3VzdG9tZXJfZW1haWwYAiABKAkSEwoLc3VjY2Vzc191cmwYAyABKAkSEgoKY2FuY2VsX3VybBgEIAEoCRIbChNjbGllbnRfcmVmZXJlbmNlX2lkGAUgASgJImkKGkNyZWF0ZUNoZWNrb3V0TGlua1Jlc3BvbnNlEgsKA3VybBgBIAEoCRIQCghvcmRlcl9pZBgCIAEoCRIsCgtlbnZpcm9ubWVudBgDIAEoDjIXLmJpdHNuYXAudjEuRW52aXJvbm1lbnQioAEKE0NoZWNrb3V0U2Vzc2lvbkxpbmUSDAoEbmFtZRgBIAEoCRIlCgp1bml0X3ByaWNlGAIgASgLMhEuYml0c25hcC52MS5Nb25leRIQCghxdWFudGl0eRgDIAEoBRIVCgh2YXRfcmF0ZRgEIAEoBUgAiAEBEgsKA3NrdRgFIAEoCRIRCglpbWFnZV91cmwYBiABKAlCCwoJX3ZhdF9yYXRlIm0KF0NoZWNrb3V0U2Vzc2lvblNoaXBwaW5nEgwKBG5hbWUYASABKAkSIAoFcHJpY2UYAiABKAsyES5iaXRzbmFwLnYxLk1vbmV5EhUKCHZhdF9yYXRlGAMgASgFSACIAQFCCwoJX3ZhdF9yYXRlImMKD0NoZWNrb3V0QWRkcmVzcxINCgVsaW5lMRgBIAEoCRINCgVsaW5lMhgCIAEoCRIMCgRjaXR5GAMgASgJEhMKC3Bvc3RhbF9jb2RlGAQgASgJEg8KB2NvdW50cnkYBSABKAki3wEKDUNoZWNrb3V0QnV5ZXISDQoFZW1haWwYASABKAkSEgoKZmlyc3RfbmFtZRgCIAEoCRIRCglsYXN0X25hbWUYAyABKAkSDQoFcGhvbmUYBCABKAkSDwoHY29tcGFueRgFIAEoCRILCgNuaXAYBiABKAkSNAoPYmlsbGluZ19hZGRyZXNzGAcgASgLMhsuYml0c25hcC52MS5DaGVja291dEFkZHJlc3MSNQoQc2hpcHBpbmdfYWRkcmVzcxgIIAEoCzIbLmJpdHNuYXAudjEuQ2hlY2tvdXRBZGRyZXNzIoIEChxDcmVhdGVDaGVja291dFNlc3Npb25SZXF1ZXN0Ei4KBWxpbmVzGAEgAygLMh8uYml0c25hcC52MS5DaGVja291dFNlc3Npb25MaW5lEjUKCHNoaXBwaW5nGAIgASgLMiMuYml0c25hcC52MS5DaGVja291dFNlc3Npb25TaGlwcGluZxIjCghkaXNjb3VudBgDIAEoCzIRLmJpdHNuYXAudjEuTW9uZXkSIAoFdG90YWwYBCABKAsyES5iaXRzbmFwLnYxLk1vbmV5EigKBWJ1eWVyGAUgASgLMhkuYml0c25hcC52MS5DaGVja291dEJ1eWVyEhMKC3N1Y2Nlc3NfdXJsGAYgASgJEhIKCmNhbmNlbF91cmwYByABKAkSGwoTY2xpZW50X3JlZmVyZW5jZV9pZBgIIAEoCRJICghtZXRhZGF0YRgJIAMoCzI2LmJpdHNuYXAudjEuQ3JlYXRlQ2hlY2tvdXRTZXNzaW9uUmVxdWVzdC5NZXRhZGF0YUVudHJ5Eg4KBmxvY2FsZRgKIAEoCRI5Cg5wYXltZW50X21ldGhvZBgLIAEoDjIhLmJpdHNuYXAudjEuQ2hlY2tvdXRQYXltZW50TWV0aG9kGi8KDU1ldGFkYXRhRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ASKcAQodQ3JlYXRlQ2hlY2tvdXRTZXNzaW9uUmVzcG9uc2USCwoDdXJsGAEgASgJEhAKCG9yZGVyX2lkGAIgASgJEiwKC2Vudmlyb25tZW50GAMgASgOMhcuYml0c25hcC52MS5FbnZpcm9ubWVudBIuCgpleHBpcmVzX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJdChhTZXR0bGVUZXN0UGF5bWVudFJlcXVlc3QSEAoIb3JkZXJfaWQYASABKAkSLwoHb3V0Y29tZRgCIAEoDjIeLmJpdHNuYXAudjEuVGVzdFBheW1lbnRPdXRjb21lIl4KGVNldHRsZVRlc3RQYXltZW50UmVzcG9uc2USEAoIb3JkZXJfaWQYASABKAkSLwoHb3V0Y29tZRgCIAEoDjIeLmJpdHNuYXAudjEuVGVzdFBheW1lbnRPdXRjb21lKqkBChVDaGVja291dFBheW1lbnRNZXRob2QSJwojQ0hFQ0tPVVRfUEFZTUVOVF9NRVRIT0RfVU5TUEVDSUZJRUQQABIiCh5DSEVDS09VVF9QQVlNRU5UX01FVEhPRF9PTkxJTkUQARIiCh5DSEVDS09VVF9QQVlNRU5UX01FVEhPRF9NQU5VQUwQAhIfChtDSEVDS09VVF9QQVlNRU5UX01FVEhPRF9DT0QQAyp6ChJUZXN0UGF5bWVudE91dGNvbWUSJAogVEVTVF9QQVlNRU5UX09VVENPTUVfVU5TUEVDSUZJRUQQABIdChlURVNUX1BBWU1FTlRfT1VUQ09NRV9QQUlEEAESHwobVEVTVF9QQVlNRU5UX09VVENPTUVfRkFJTEVEEAIyxgIKD0NoZWNrb3V0U2VydmljZRJjChJDcmVhdGVDaGVja291dExpbmsSJS5iaXRzbmFwLnYxLkNyZWF0ZUNoZWNrb3V0TGlua1JlcXVlc3QaJi5iaXRzbmFwLnYxLkNyZWF0ZUNoZWNrb3V0TGlua1Jlc3BvbnNlEmwKFUNyZWF0ZUNoZWNrb3V0U2Vzc2lvbhIoLmJpdHNuYXAudjEuQ3JlYXRlQ2hlY2tvdXRTZXNzaW9uUmVxdWVzdBopLmJpdHNuYXAudjEuQ3JlYXRlQ2hlY2tvdXRTZXNzaW9uUmVzcG9uc2USYAoRU2V0dGxlVGVzdFBheW1lbnQSJC5iaXRzbmFwLnYxLlNldHRsZVRlc3RQYXltZW50UmVxdWVzdBolLmJpdHNuYXAudjEuU2V0dGxlVGVzdFBheW1lbnRSZXNwb25zZWIGcHJvdG8z", [file_bitsnap_v1_common, file_google_protobuf_timestamp]);
 
 /**
  * A line of a checkout link.
@@ -218,6 +220,614 @@ export const CreateCheckoutLinkResponseSchema: GenMessage<CreateCheckoutLinkResp
   messageDesc(file_bitsnap_v1_checkout, 2);
 
 /**
+ * One line of a checkout session.
+ *
+ * @generated from message bitsnap.v1.CheckoutSessionLine
+ */
+export type CheckoutSessionLine = Message<"bitsnap.v1.CheckoutSessionLine"> & {
+  /**
+   * Name of the line as the buyer sees it. 1 to 250 characters.
+   *
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * Gross price of one unit.
+   *
+   * @generated from field: bitsnap.v1.Money unit_price = 2;
+   */
+  unitPrice?: Money;
+
+  /**
+   * How many units, 1 to 10000.
+   *
+   * @generated from field: int32 quantity = 3;
+   */
+  quantity: number;
+
+  /**
+   * Percent of VAT included in the gross price (0 to 100). -1 means exempt
+   * ("zw"). Unset: the default of the shop.
+   *
+   * @generated from field: optional int32 vat_rate = 4;
+   */
+  vatRate?: number;
+
+  /**
+   * Optional stock keeping unit, kept with the order.
+   *
+   * @generated from field: string sku = 5;
+   */
+  sku: string;
+
+  /**
+   * Optional https URL of an image of the line.
+   *
+   * @generated from field: string image_url = 6;
+   */
+  imageUrl: string;
+};
+
+/**
+ * One line of a checkout session.
+ *
+ * @generated from message bitsnap.v1.CheckoutSessionLine
+ */
+export type CheckoutSessionLineJson = {
+  /**
+   * Name of the line as the buyer sees it. 1 to 250 characters.
+   *
+   * @generated from field: string name = 1;
+   */
+  name?: string;
+
+  /**
+   * Gross price of one unit.
+   *
+   * @generated from field: bitsnap.v1.Money unit_price = 2;
+   */
+  unitPrice?: MoneyJson;
+
+  /**
+   * How many units, 1 to 10000.
+   *
+   * @generated from field: int32 quantity = 3;
+   */
+  quantity?: number;
+
+  /**
+   * Percent of VAT included in the gross price (0 to 100). -1 means exempt
+   * ("zw"). Unset: the default of the shop.
+   *
+   * @generated from field: optional int32 vat_rate = 4;
+   */
+  vatRate?: number;
+
+  /**
+   * Optional stock keeping unit, kept with the order.
+   *
+   * @generated from field: string sku = 5;
+   */
+  sku?: string;
+
+  /**
+   * Optional https URL of an image of the line.
+   *
+   * @generated from field: string image_url = 6;
+   */
+  imageUrl?: string;
+};
+
+/**
+ * Describes the message bitsnap.v1.CheckoutSessionLine.
+ * Use `create(CheckoutSessionLineSchema)` to create a new message.
+ */
+export const CheckoutSessionLineSchema: GenMessage<CheckoutSessionLine, {jsonType: CheckoutSessionLineJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_checkout, 3);
+
+/**
+ * The shipping of a checkout session.
+ *
+ * @generated from message bitsnap.v1.CheckoutSessionShipping
+ */
+export type CheckoutSessionShipping = Message<"bitsnap.v1.CheckoutSessionShipping"> & {
+  /**
+   * Name of the shipping method as the buyer sees it.
+   *
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * Gross price of the shipping.
+   *
+   * @generated from field: bitsnap.v1.Money price = 2;
+   */
+  price?: Money;
+
+  /**
+   * Percent of VAT included in the price. -1 means exempt. Unset: the default.
+   *
+   * @generated from field: optional int32 vat_rate = 3;
+   */
+  vatRate?: number;
+};
+
+/**
+ * The shipping of a checkout session.
+ *
+ * @generated from message bitsnap.v1.CheckoutSessionShipping
+ */
+export type CheckoutSessionShippingJson = {
+  /**
+   * Name of the shipping method as the buyer sees it.
+   *
+   * @generated from field: string name = 1;
+   */
+  name?: string;
+
+  /**
+   * Gross price of the shipping.
+   *
+   * @generated from field: bitsnap.v1.Money price = 2;
+   */
+  price?: MoneyJson;
+
+  /**
+   * Percent of VAT included in the price. -1 means exempt. Unset: the default.
+   *
+   * @generated from field: optional int32 vat_rate = 3;
+   */
+  vatRate?: number;
+};
+
+/**
+ * Describes the message bitsnap.v1.CheckoutSessionShipping.
+ * Use `create(CheckoutSessionShippingSchema)` to create a new message.
+ */
+export const CheckoutSessionShippingSchema: GenMessage<CheckoutSessionShipping, {jsonType: CheckoutSessionShippingJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_checkout, 4);
+
+/**
+ * A postal address.
+ *
+ * @generated from message bitsnap.v1.CheckoutAddress
+ */
+export type CheckoutAddress = Message<"bitsnap.v1.CheckoutAddress"> & {
+  /**
+   * @generated from field: string line1 = 1;
+   */
+  line1: string;
+
+  /**
+   * @generated from field: string line2 = 2;
+   */
+  line2: string;
+
+  /**
+   * @generated from field: string city = 3;
+   */
+  city: string;
+
+  /**
+   * @generated from field: string postal_code = 4;
+   */
+  postalCode: string;
+
+  /**
+   * ISO 3166-1 alpha-2, for example "PL".
+   *
+   * @generated from field: string country = 5;
+   */
+  country: string;
+};
+
+/**
+ * A postal address.
+ *
+ * @generated from message bitsnap.v1.CheckoutAddress
+ */
+export type CheckoutAddressJson = {
+  /**
+   * @generated from field: string line1 = 1;
+   */
+  line1?: string;
+
+  /**
+   * @generated from field: string line2 = 2;
+   */
+  line2?: string;
+
+  /**
+   * @generated from field: string city = 3;
+   */
+  city?: string;
+
+  /**
+   * @generated from field: string postal_code = 4;
+   */
+  postalCode?: string;
+
+  /**
+   * ISO 3166-1 alpha-2, for example "PL".
+   *
+   * @generated from field: string country = 5;
+   */
+  country?: string;
+};
+
+/**
+ * Describes the message bitsnap.v1.CheckoutAddress.
+ * Use `create(CheckoutAddressSchema)` to create a new message.
+ */
+export const CheckoutAddressSchema: GenMessage<CheckoutAddress, {jsonType: CheckoutAddressJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_checkout, 5);
+
+/**
+ * The buyer of a checkout session. Sending it needs `customers:pii`.
+ *
+ * @generated from message bitsnap.v1.CheckoutBuyer
+ */
+export type CheckoutBuyer = Message<"bitsnap.v1.CheckoutBuyer"> & {
+  /**
+   * @generated from field: string email = 1;
+   */
+  email: string;
+
+  /**
+   * @generated from field: string first_name = 2;
+   */
+  firstName: string;
+
+  /**
+   * @generated from field: string last_name = 3;
+   */
+  lastName: string;
+
+  /**
+   * @generated from field: string phone = 4;
+   */
+  phone: string;
+
+  /**
+   * @generated from field: string company = 5;
+   */
+  company: string;
+
+  /**
+   * Polish tax id (NIP) for an invoice. Digits, with or without dashes.
+   *
+   * @generated from field: string nip = 6;
+   */
+  nip: string;
+
+  /**
+   * @generated from field: bitsnap.v1.CheckoutAddress billing_address = 7;
+   */
+  billingAddress?: CheckoutAddress;
+
+  /**
+   * @generated from field: bitsnap.v1.CheckoutAddress shipping_address = 8;
+   */
+  shippingAddress?: CheckoutAddress;
+};
+
+/**
+ * The buyer of a checkout session. Sending it needs `customers:pii`.
+ *
+ * @generated from message bitsnap.v1.CheckoutBuyer
+ */
+export type CheckoutBuyerJson = {
+  /**
+   * @generated from field: string email = 1;
+   */
+  email?: string;
+
+  /**
+   * @generated from field: string first_name = 2;
+   */
+  firstName?: string;
+
+  /**
+   * @generated from field: string last_name = 3;
+   */
+  lastName?: string;
+
+  /**
+   * @generated from field: string phone = 4;
+   */
+  phone?: string;
+
+  /**
+   * @generated from field: string company = 5;
+   */
+  company?: string;
+
+  /**
+   * Polish tax id (NIP) for an invoice. Digits, with or without dashes.
+   *
+   * @generated from field: string nip = 6;
+   */
+  nip?: string;
+
+  /**
+   * @generated from field: bitsnap.v1.CheckoutAddress billing_address = 7;
+   */
+  billingAddress?: CheckoutAddressJson;
+
+  /**
+   * @generated from field: bitsnap.v1.CheckoutAddress shipping_address = 8;
+   */
+  shippingAddress?: CheckoutAddressJson;
+};
+
+/**
+ * Describes the message bitsnap.v1.CheckoutBuyer.
+ * Use `create(CheckoutBuyerSchema)` to create a new message.
+ */
+export const CheckoutBuyerSchema: GenMessage<CheckoutBuyer, {jsonType: CheckoutBuyerJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_checkout, 6);
+
+/**
+ * @generated from message bitsnap.v1.CreateCheckoutSessionRequest
+ */
+export type CreateCheckoutSessionRequest = Message<"bitsnap.v1.CreateCheckoutSessionRequest"> & {
+  /**
+   * What the buyer buys, 1 to 100 lines.
+   *
+   * @generated from field: repeated bitsnap.v1.CheckoutSessionLine lines = 1;
+   */
+  lines: CheckoutSessionLine[];
+
+  /**
+   * The shipping, if the cart has any.
+   *
+   * @generated from field: bitsnap.v1.CheckoutSessionShipping shipping = 2;
+   */
+  shipping?: CheckoutSessionShipping;
+
+  /**
+   * The discount already applied by the caller, gross.
+   *
+   * @generated from field: bitsnap.v1.Money discount = 3;
+   */
+  discount?: Money;
+
+  /**
+   * What the buyer pays: the lines, plus shipping, minus discount, to the
+   * minor unit. A different total is refused with `total_mismatch`.
+   *
+   * @generated from field: bitsnap.v1.Money total = 4;
+   */
+  total?: Money;
+
+  /**
+   * The buyer. Optional: without it the buyer fills in the details at checkout.
+   *
+   * @generated from field: bitsnap.v1.CheckoutBuyer buyer = 5;
+   */
+  buyer?: CheckoutBuyer;
+
+  /**
+   * Where the buyer is sent after paying. Absolute https URL (http://localhost
+   * in test mode).
+   *
+   * @generated from field: string success_url = 6;
+   */
+  successUrl: string;
+
+  /**
+   * Where the buyer is sent when they cancel. Absolute https URL.
+   *
+   * @generated from field: string cancel_url = 7;
+   */
+  cancelUrl: string;
+
+  /**
+   * Your own reference for the order (the id of the order in your system), at
+   * most 200 characters. `OrdersService.GetOrder` finds the order by it and
+   * every webhook of the order carries it.
+   *
+   * @generated from field: string client_reference_id = 8;
+   */
+  clientReferenceId: string;
+
+  /**
+   * Up to 20 key/value pairs kept with the order and sent back in webhooks.
+   * Keys up to 40 characters, values up to 500. Keys starting with `bitsnap_`
+   * or `bs_` are reserved.
+   *
+   * @generated from field: map<string, string> metadata = 9;
+   */
+  metadata: { [key: string]: string };
+
+  /**
+   * Language of the checkout: "pl" or "en". Unset: the buyer's browser decides.
+   *
+   * @generated from field: string locale = 10;
+   */
+  locale: string;
+
+  /**
+   * Optional: limits the way the buyer pays. See CheckoutPaymentMethod.
+   *
+   * @generated from field: bitsnap.v1.CheckoutPaymentMethod payment_method = 11;
+   */
+  paymentMethod: CheckoutPaymentMethod;
+};
+
+/**
+ * @generated from message bitsnap.v1.CreateCheckoutSessionRequest
+ */
+export type CreateCheckoutSessionRequestJson = {
+  /**
+   * What the buyer buys, 1 to 100 lines.
+   *
+   * @generated from field: repeated bitsnap.v1.CheckoutSessionLine lines = 1;
+   */
+  lines?: CheckoutSessionLineJson[];
+
+  /**
+   * The shipping, if the cart has any.
+   *
+   * @generated from field: bitsnap.v1.CheckoutSessionShipping shipping = 2;
+   */
+  shipping?: CheckoutSessionShippingJson;
+
+  /**
+   * The discount already applied by the caller, gross.
+   *
+   * @generated from field: bitsnap.v1.Money discount = 3;
+   */
+  discount?: MoneyJson;
+
+  /**
+   * What the buyer pays: the lines, plus shipping, minus discount, to the
+   * minor unit. A different total is refused with `total_mismatch`.
+   *
+   * @generated from field: bitsnap.v1.Money total = 4;
+   */
+  total?: MoneyJson;
+
+  /**
+   * The buyer. Optional: without it the buyer fills in the details at checkout.
+   *
+   * @generated from field: bitsnap.v1.CheckoutBuyer buyer = 5;
+   */
+  buyer?: CheckoutBuyerJson;
+
+  /**
+   * Where the buyer is sent after paying. Absolute https URL (http://localhost
+   * in test mode).
+   *
+   * @generated from field: string success_url = 6;
+   */
+  successUrl?: string;
+
+  /**
+   * Where the buyer is sent when they cancel. Absolute https URL.
+   *
+   * @generated from field: string cancel_url = 7;
+   */
+  cancelUrl?: string;
+
+  /**
+   * Your own reference for the order (the id of the order in your system), at
+   * most 200 characters. `OrdersService.GetOrder` finds the order by it and
+   * every webhook of the order carries it.
+   *
+   * @generated from field: string client_reference_id = 8;
+   */
+  clientReferenceId?: string;
+
+  /**
+   * Up to 20 key/value pairs kept with the order and sent back in webhooks.
+   * Keys up to 40 characters, values up to 500. Keys starting with `bitsnap_`
+   * or `bs_` are reserved.
+   *
+   * @generated from field: map<string, string> metadata = 9;
+   */
+  metadata?: { [key: string]: string };
+
+  /**
+   * Language of the checkout: "pl" or "en". Unset: the buyer's browser decides.
+   *
+   * @generated from field: string locale = 10;
+   */
+  locale?: string;
+
+  /**
+   * Optional: limits the way the buyer pays. See CheckoutPaymentMethod.
+   *
+   * @generated from field: bitsnap.v1.CheckoutPaymentMethod payment_method = 11;
+   */
+  paymentMethod?: CheckoutPaymentMethodJson;
+};
+
+/**
+ * Describes the message bitsnap.v1.CreateCheckoutSessionRequest.
+ * Use `create(CreateCheckoutSessionRequestSchema)` to create a new message.
+ */
+export const CreateCheckoutSessionRequestSchema: GenMessage<CreateCheckoutSessionRequest, {jsonType: CreateCheckoutSessionRequestJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_checkout, 7);
+
+/**
+ * @generated from message bitsnap.v1.CreateCheckoutSessionResponse
+ */
+export type CreateCheckoutSessionResponse = Message<"bitsnap.v1.CreateCheckoutSessionResponse"> & {
+  /**
+   * The URL to send the buyer to.
+   *
+   * @generated from field: string url = 1;
+   */
+  url: string;
+
+  /**
+   * Id of the order. Always set: the order exists before the payment.
+   *
+   * @generated from field: string order_id = 2;
+   */
+  orderId: string;
+
+  /**
+   * The environment of the order: test for a test credential.
+   *
+   * @generated from field: bitsnap.v1.Environment environment = 3;
+   */
+  environment: Environment;
+
+  /**
+   * When the checkout stops being usable for payment, if the gateway has a
+   * deadline. Unset when the payment has no deadline.
+   *
+   * @generated from field: google.protobuf.Timestamp expires_at = 4;
+   */
+  expiresAt?: Timestamp;
+};
+
+/**
+ * @generated from message bitsnap.v1.CreateCheckoutSessionResponse
+ */
+export type CreateCheckoutSessionResponseJson = {
+  /**
+   * The URL to send the buyer to.
+   *
+   * @generated from field: string url = 1;
+   */
+  url?: string;
+
+  /**
+   * Id of the order. Always set: the order exists before the payment.
+   *
+   * @generated from field: string order_id = 2;
+   */
+  orderId?: string;
+
+  /**
+   * The environment of the order: test for a test credential.
+   *
+   * @generated from field: bitsnap.v1.Environment environment = 3;
+   */
+  environment?: EnvironmentJson;
+
+  /**
+   * When the checkout stops being usable for payment, if the gateway has a
+   * deadline. Unset when the payment has no deadline.
+   *
+   * @generated from field: google.protobuf.Timestamp expires_at = 4;
+   */
+  expiresAt?: TimestampJson;
+};
+
+/**
+ * Describes the message bitsnap.v1.CreateCheckoutSessionResponse.
+ * Use `create(CreateCheckoutSessionResponseSchema)` to create a new message.
+ */
+export const CreateCheckoutSessionResponseSchema: GenMessage<CreateCheckoutSessionResponse, {jsonType: CreateCheckoutSessionResponseJson}> = /*@__PURE__*/
+  messageDesc(file_bitsnap_v1_checkout, 8);
+
+/**
  * @generated from message bitsnap.v1.SettleTestPaymentRequest
  */
 export type SettleTestPaymentRequest = Message<"bitsnap.v1.SettleTestPaymentRequest"> & {
@@ -260,7 +870,7 @@ export type SettleTestPaymentRequestJson = {
  * Use `create(SettleTestPaymentRequestSchema)` to create a new message.
  */
 export const SettleTestPaymentRequestSchema: GenMessage<SettleTestPaymentRequest, {jsonType: SettleTestPaymentRequestJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_checkout, 3);
+  messageDesc(file_bitsnap_v1_checkout, 9);
 
 /**
  * @generated from message bitsnap.v1.SettleTestPaymentResponse
@@ -305,7 +915,56 @@ export type SettleTestPaymentResponseJson = {
  * Use `create(SettleTestPaymentResponseSchema)` to create a new message.
  */
 export const SettleTestPaymentResponseSchema: GenMessage<SettleTestPaymentResponse, {jsonType: SettleTestPaymentResponseJson}> = /*@__PURE__*/
-  messageDesc(file_bitsnap_v1_checkout, 4);
+  messageDesc(file_bitsnap_v1_checkout, 10);
+
+/**
+ * How the buyer pays, when the project offers several ways.
+ *
+ * @generated from enum bitsnap.v1.CheckoutPaymentMethod
+ */
+export enum CheckoutPaymentMethod {
+  /**
+   * The project decides: an online gateway first; cash on delivery and bank
+   * transfer only when they are the only way the project offers.
+   *
+   * @generated from enum value: CHECKOUT_PAYMENT_METHOD_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Only online gateways (cards, BLIK, bank pay-by-link).
+   *
+   * @generated from enum value: CHECKOUT_PAYMENT_METHOD_ONLINE = 1;
+   */
+  ONLINE = 1,
+
+  /**
+   * Only the bank transfer the project set up.
+   *
+   * @generated from enum value: CHECKOUT_PAYMENT_METHOD_MANUAL = 2;
+   */
+  MANUAL = 2,
+
+  /**
+   * Only cash on delivery.
+   *
+   * @generated from enum value: CHECKOUT_PAYMENT_METHOD_COD = 3;
+   */
+  COD = 3,
+}
+
+/**
+ * How the buyer pays, when the project offers several ways.
+ *
+ * @generated from enum bitsnap.v1.CheckoutPaymentMethod
+ */
+export type CheckoutPaymentMethodJson = "CHECKOUT_PAYMENT_METHOD_UNSPECIFIED" | "CHECKOUT_PAYMENT_METHOD_ONLINE" | "CHECKOUT_PAYMENT_METHOD_MANUAL" | "CHECKOUT_PAYMENT_METHOD_COD";
+
+/**
+ * Describes the enum bitsnap.v1.CheckoutPaymentMethod.
+ */
+export const CheckoutPaymentMethodSchema: GenEnum<CheckoutPaymentMethod, CheckoutPaymentMethodJson> = /*@__PURE__*/
+  enumDesc(file_bitsnap_v1_checkout, 0);
 
 /**
  * How a test order should end.
@@ -347,19 +1006,19 @@ export type TestPaymentOutcomeJson = "TEST_PAYMENT_OUTCOME_UNSPECIFIED" | "TEST_
  * Describes the enum bitsnap.v1.TestPaymentOutcome.
  */
 export const TestPaymentOutcomeSchema: GenEnum<TestPaymentOutcome, TestPaymentOutcomeJson> = /*@__PURE__*/
-  enumDesc(file_bitsnap_v1_checkout, 0);
+  enumDesc(file_bitsnap_v1_checkout, 1);
 
 /**
- * Payment links for products that already exist, and the test-mode shortcut to
- * settle them.
+ * Payment links for products that already exist, a checkout session for a cart
+ * a shop system built itself, and the test-mode shortcut to settle them.
  *
  * The environment of the credential decides what a link is: a `bs_test_` key
  * (or a test OAuth grant) creates a test-mode order that moves no money, a
  * `bs_live_` key a real one. Money-moving operations other than taking a
- * payment from a buyer (refunds, payouts, order status changes) are not part
- * of this API.
+ * payment from a buyer (payouts, order status changes) are not part of this
+ * API. Refunds are a separate, opt-in call: `RefundsService.CreateRefund`.
  *
- * Both calls need `checkout:create` (and, for an API key, its write switch).
+ * Every call needs `checkout:create` (and, for an API key, its write switch).
  * They honour the `Idempotency-Key` request header: a retry with the same key
  * and body returns the first link (response header `Idempotent-Replayed: true`)
  * instead of creating a second order. They do not count against the daily
@@ -379,6 +1038,23 @@ export const CheckoutService: GenService<{
     methodKind: "unary";
     input: typeof CreateCheckoutLinkRequestSchema;
     output: typeof CreateCheckoutLinkResponseSchema;
+  },
+  /**
+   * Creates an order from a cart the caller priced itself (a WooCommerce or
+   * other shop system), with no products in the Bitsnap catalog, and returns
+   * the URL the buyer pays at. The lines, shipping and discount are stored on
+   * the order as they were sent; they must add up to `total`. Needs
+   * `checkout:create` (and `customers:pii` when `buyer` is sent). Honours
+   * `Idempotency-Key`. Nothing is fulfilled by Bitsnap for such an order: no
+   * access, delivery, stock change or integration order is created; the
+   * calling system owns that. Money flows through the gateways of the project.
+   *
+   * @generated from rpc bitsnap.v1.CheckoutService.CreateCheckoutSession
+   */
+  createCheckoutSession: {
+    methodKind: "unary";
+    input: typeof CreateCheckoutSessionRequestSchema;
+    output: typeof CreateCheckoutSessionResponseSchema;
   },
   /**
    * Settles a test-mode order as paid or failed, as if the buyer's payment came

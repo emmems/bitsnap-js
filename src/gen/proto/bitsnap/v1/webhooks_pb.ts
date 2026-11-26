@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file bitsnap/v1/webhooks.proto.
  */
 export const file_bitsnap_v1_webhooks: GenFile = /*@__PURE__*/
-  fileDesc("ChliaXRzbmFwL3YxL3dlYmhvb2tzLnByb3RvEgpiaXRzbmFwLnYxIm4KB1dlYmhvb2sSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRILCgN1cmwYAyABKAkSDgoGZXZlbnRzGAQgAygJEiwKC2Vudmlyb25tZW50GAUgASgOMhcuYml0c25hcC52MS5FbnZpcm9ubWVudCIVChNMaXN0V2ViaG9va3NSZXF1ZXN0Ij0KFExpc3RXZWJob29rc1Jlc3BvbnNlEiUKCHdlYmhvb2tzGAEgAygLMhMuYml0c25hcC52MS5XZWJob29rIkEKFENyZWF0ZVdlYmhvb2tSZXF1ZXN0EgwKBG5hbWUYASABKAkSCwoDdXJsGAIgASgJEg4KBmV2ZW50cxgDIAMoCSJVChVDcmVhdGVXZWJob29rUmVzcG9uc2USJAoHd2ViaG9vaxgBIAEoCzITLmJpdHNuYXAudjEuV2ViaG9vaxIWCg5zaWduaW5nX3NlY3JldBgCIAEoCSIiChREZWxldGVXZWJob29rUmVxdWVzdBIKCgJpZBgBIAEoCSIXChVEZWxldGVXZWJob29rUmVzcG9uc2UykAIKD1dlYmhvb2tzU2VydmljZRJRCgxMaXN0V2ViaG9va3MSHy5iaXRzbmFwLnYxLkxpc3RXZWJob29rc1JlcXVlc3QaIC5iaXRzbmFwLnYxLkxpc3RXZWJob29rc1Jlc3BvbnNlElQKDUNyZWF0ZVdlYmhvb2sSIC5iaXRzbmFwLnYxLkNyZWF0ZVdlYmhvb2tSZXF1ZXN0GiEuYml0c25hcC52MS5DcmVhdGVXZWJob29rUmVzcG9uc2USVAoNRGVsZXRlV2ViaG9vaxIgLmJpdHNuYXAudjEuRGVsZXRlV2ViaG9va1JlcXVlc3QaIS5iaXRzbmFwLnYxLkRlbGV0ZVdlYmhvb2tSZXNwb25zZWIGcHJvdG8z", [file_bitsnap_v1_common]);
+  fileDesc("ChliaXRzbmFwL3YxL3dlYmhvb2tzLnByb3RvEgpiaXRzbmFwLnYxIoABCgdXZWJob29rEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSCwoDdXJsGAMgASgJEg4KBmV2ZW50cxgEIAMoCRIsCgtlbnZpcm9ubWVudBgFIAEoDjIXLmJpdHNuYXAudjEuRW52aXJvbm1lbnQSEAoIZm9ybV9pZHMYBiADKAkiFQoTTGlzdFdlYmhvb2tzUmVxdWVzdCI9ChRMaXN0V2ViaG9va3NSZXNwb25zZRIlCgh3ZWJob29rcxgBIAMoCzITLmJpdHNuYXAudjEuV2ViaG9vayJTChRDcmVhdGVXZWJob29rUmVxdWVzdBIMCgRuYW1lGAEgASgJEgsKA3VybBgCIAEoCRIOCgZldmVudHMYAyADKAkSEAoIZm9ybV9pZHMYBCADKAkiVQoVQ3JlYXRlV2ViaG9va1Jlc3BvbnNlEiQKB3dlYmhvb2sYASABKAsyEy5iaXRzbmFwLnYxLldlYmhvb2sSFgoOc2lnbmluZ19zZWNyZXQYAiABKAkiIgoURGVsZXRlV2ViaG9va1JlcXVlc3QSCgoCaWQYASABKAkiFwoVRGVsZXRlV2ViaG9va1Jlc3BvbnNlMpACCg9XZWJob29rc1NlcnZpY2USUQoMTGlzdFdlYmhvb2tzEh8uYml0c25hcC52MS5MaXN0V2ViaG9va3NSZXF1ZXN0GiAuYml0c25hcC52MS5MaXN0V2ViaG9va3NSZXNwb25zZRJUCg1DcmVhdGVXZWJob29rEiAuYml0c25hcC52MS5DcmVhdGVXZWJob29rUmVxdWVzdBohLmJpdHNuYXAudjEuQ3JlYXRlV2ViaG9va1Jlc3BvbnNlElQKDURlbGV0ZVdlYmhvb2sSIC5iaXRzbmFwLnYxLkRlbGV0ZVdlYmhvb2tSZXF1ZXN0GiEuYml0c25hcC52MS5EZWxldGVXZWJob29rUmVzcG9uc2ViBnByb3RvMw", [file_bitsnap_v1_common]);
 
 /**
  * A webhook endpoint.
@@ -55,6 +55,11 @@ export type Webhook = Message<"bitsnap.v1.Webhook"> & {
    * @generated from field: bitsnap.v1.Environment environment = 5;
    */
   environment: Environment;
+
+  /**
+   * @generated from field: repeated string form_ids = 6;
+   */
+  formIds: string[];
 };
 
 /**
@@ -98,6 +103,11 @@ export type WebhookJson = {
    * @generated from field: bitsnap.v1.Environment environment = 5;
    */
   environment?: EnvironmentJson;
+
+  /**
+   * @generated from field: repeated string form_ids = 6;
+   */
+  formIds?: string[];
 };
 
 /**
@@ -182,6 +192,11 @@ export type CreateWebhookRequest = Message<"bitsnap.v1.CreateWebhookRequest"> & 
    * @generated from field: repeated string events = 3;
    */
   events: string[];
+
+  /**
+   * @generated from field: repeated string form_ids = 4;
+   */
+  formIds: string[];
 };
 
 /**
@@ -209,6 +224,11 @@ export type CreateWebhookRequestJson = {
    * @generated from field: repeated string events = 3;
    */
   events?: string[];
+
+  /**
+   * @generated from field: repeated string form_ids = 4;
+   */
+  formIds?: string[];
 };
 
 /**

@@ -249,9 +249,9 @@ export const GetSalesSummaryResponseSchema: GenMessage<GetSalesSummaryResponse, 
 export const StatsService: GenService<{
   /**
    * Summarises sales over a date range: orders, units sold and revenue per
-   * currency, with a daily breakdown. Needs `stats:read`. It summarises live
-   * (production) orders only, whichever environment the credential is in: test
-   * orders never count towards the shop's figures.
+   * currency, with a daily breakdown. Needs `stats:read`. It covers the orders of
+   * the credential's environment: a test key sees test orders only, a live key
+   * sees live orders only.
    *
    * @generated from rpc bitsnap.v1.StatsService.GetSalesSummary
    */

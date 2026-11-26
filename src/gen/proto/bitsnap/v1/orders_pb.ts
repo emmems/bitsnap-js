@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file bitsnap/v1/orders.proto.
  */
 export const file_bitsnap_v1_orders: GenFile = /*@__PURE__*/
-  fileDesc("ChdiaXRzbmFwL3YxL29yZGVycy5wcm90bxIKYml0c25hcC52MSI2CghDdXN0b21lchINCgVlbWFpbBgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBXBob25lGAMgASgJImYKCU9yZGVySXRlbRISCgpwcm9kdWN0X2lkGAEgASgJEgwKBG5hbWUYAiABKAkSEAoIcXVhbnRpdHkYAyABKAUSJQoKdW5pdF9wcmljZRgEIAEoCzIRLmJpdHNuYXAudjEuTW9uZXki+wIKBU9yZGVyEgoKAmlkGAEgASgJEicKBnN0YXR1cxgCIAEoDjIXLmJpdHNuYXAudjEuT3JkZXJTdGF0dXMSLAoLZW52aXJvbm1lbnQYAyABKA4yFy5iaXRzbmFwLnYxLkVudmlyb25tZW50Ei4KCmNyZWF0ZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiYKCGN1c3RvbWVyGAUgASgLMhQuYml0c25hcC52MS5DdXN0b21lchIkCgVpdGVtcxgGIAMoCzIVLmJpdHNuYXAudjEuT3JkZXJJdGVtEiAKBXRvdGFsGAcgASgLMhEuYml0c25hcC52MS5Nb25leRIXCg9wYXltZW50X2dhdGV3YXkYCCABKAkSEwoLY291cG9uX2NvZGUYCSABKAkSLgoOZGVsaXZlcnlfcHJpY2UYCiABKAsyES5iaXRzbmFwLnYxLk1vbmV5SACIAQFCEQoPX2RlbGl2ZXJ5X3ByaWNlIuQBChFMaXN0T3JkZXJzUmVxdWVzdBINCgVsaW1pdBgBIAEoBRIOCgZjdXJzb3IYAiABKAkSMAoMY3JlYXRlZF9mcm9tGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpjcmVhdGVkX3RvGAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIpCghzdGF0dXNlcxgFIAMoDjIXLmJpdHNuYXAudjEuT3JkZXJTdGF0dXMSEwoLcHJvZHVjdF9pZHMYBiADKAkSDgoGc2VhcmNoGAcgASgJImEKEkxpc3RPcmRlcnNSZXNwb25zZRIhCgZvcmRlcnMYASADKAsyES5iaXRzbmFwLnYxLk9yZGVyEhMKC25leHRfY3Vyc29yGAIgASgJEhMKC3RvdGFsX2NvdW50GAMgASgFIh0KD0dldE9yZGVyUmVxdWVzdBIKCgJpZBgBIAEoCSI0ChBHZXRPcmRlclJlc3BvbnNlEiAKBW9yZGVyGAEgASgLMhEuYml0c25hcC52MS5PcmRlciqUAgoLT3JkZXJTdGF0dXMSHAoYT1JERVJfU1RBVFVTX1VOU1BFQ0lGSUVEEAASGAoUT1JERVJfU1RBVFVTX0NSRUFURUQQARIVChFPUkRFUl9TVEFUVVNfUEFJRBACEhcKE09SREVSX1NUQVRVU19VTlBBSUQQAxIZChVPUkRFUl9TVEFUVVNfQ0FOQ0VMRUQQBBIVChFPUkRFUl9TVEFUVVNfU0VOVBAFEhoKFk9SREVSX1NUQVRVU19DT01QTEVURUQQBhIWChJPUkRFUl9TVEFUVVNfSVNTVUUQBxIZChVPUkRFUl9TVEFUVVNfUkVUVVJORUQQCBIcChhPUkRFUl9TVEFUVVNfSU5fUFJPR1JFU1MQCTKjAQoNT3JkZXJzU2VydmljZRJLCgpMaXN0T3JkZXJzEh0uYml0c25hcC52MS5MaXN0T3JkZXJzUmVxdWVzdBoeLmJpdHNuYXAudjEuTGlzdE9yZGVyc1Jlc3BvbnNlEkUKCEdldE9yZGVyEhsuYml0c25hcC52MS5HZXRPcmRlclJlcXVlc3QaHC5iaXRzbmFwLnYxLkdldE9yZGVyUmVzcG9uc2ViBnByb3RvMw", [file_bitsnap_v1_common, file_google_protobuf_timestamp]);
+  fileDesc("ChdiaXRzbmFwL3YxL29yZGVycy5wcm90bxIKYml0c25hcC52MSI2CghDdXN0b21lchINCgVlbWFpbBgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBXBob25lGAMgASgJImYKCU9yZGVySXRlbRISCgpwcm9kdWN0X2lkGAEgASgJEgwKBG5hbWUYAiABKAkSEAoIcXVhbnRpdHkYAyABKAUSJQoKdW5pdF9wcmljZRgEIAEoCzIRLmJpdHNuYXAudjEuTW9uZXki2AUKBU9yZGVyEgoKAmlkGAEgASgJEicKBnN0YXR1cxgCIAEoDjIXLmJpdHNuYXAudjEuT3JkZXJTdGF0dXMSLAoLZW52aXJvbm1lbnQYAyABKA4yFy5iaXRzbmFwLnYxLkVudmlyb25tZW50Ei4KCmNyZWF0ZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiYKCGN1c3RvbWVyGAUgASgLMhQuYml0c25hcC52MS5DdXN0b21lchIkCgVpdGVtcxgGIAMoCzIVLmJpdHNuYXAudjEuT3JkZXJJdGVtEiAKBXRvdGFsGAcgASgLMhEuYml0c25hcC52MS5Nb25leRIXCg9wYXltZW50X2dhdGV3YXkYCCABKAkSEwoLY291cG9uX2NvZGUYCSABKAkSLgoOZGVsaXZlcnlfcHJpY2UYCiABKAsyES5iaXRzbmFwLnYxLk1vbmV5SACIAQESGwoTY2xpZW50X3JlZmVyZW5jZV9pZBgLIAEoCRIxCghtZXRhZGF0YRgMIAMoCzIfLmJpdHNuYXAudjEuT3JkZXIuTWV0YWRhdGFFbnRyeRISCgpwYXltZW50X2lkGA0gASgJEisKC2Ftb3VudF9wYWlkGA4gASgLMhEuYml0c25hcC52MS5Nb25leUgBiAEBEi8KD2Ftb3VudF9yZWZ1bmRlZBgPIAEoCzIRLmJpdHNuYXAudjEuTW9uZXlIAogBARIvCg1wYXltZW50X3N0YXRlGBAgASgOMhguYml0c25hcC52MS5QYXltZW50U3RhdGUSEwoLaW52b2ljZV91cmwYESABKAkaLwoNTWV0YWRhdGFFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBQhEKD19kZWxpdmVyeV9wcmljZUIOCgxfYW1vdW50X3BhaWRCEgoQX2Ftb3VudF9yZWZ1bmRlZCLkAQoRTGlzdE9yZGVyc1JlcXVlc3QSDQoFbGltaXQYASABKAUSDgoGY3Vyc29yGAIgASgJEjAKDGNyZWF0ZWRfZnJvbRgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKY3JlYXRlZF90bxgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASKQoIc3RhdHVzZXMYBSADKA4yFy5iaXRzbmFwLnYxLk9yZGVyU3RhdHVzEhMKC3Byb2R1Y3RfaWRzGAYgAygJEg4KBnNlYXJjaBgHIAEoCSJhChJMaXN0T3JkZXJzUmVzcG9uc2USIQoGb3JkZXJzGAEgAygLMhEuYml0c25hcC52MS5PcmRlchITCgtuZXh0X2N1cnNvchgCIAEoCRITCgt0b3RhbF9jb3VudBgDIAEoBSJMCg9HZXRPcmRlclJlcXVlc3QSCgoCaWQYASABKAkSEAoIb3JkZXJfaWQYAiABKAkSGwoTY2xpZW50X3JlZmVyZW5jZV9pZBgDIAEoCSI0ChBHZXRPcmRlclJlc3BvbnNlEiAKBW9yZGVyGAEgASgLMhEuYml0c25hcC52MS5PcmRlciqUAgoLT3JkZXJTdGF0dXMSHAoYT1JERVJfU1RBVFVTX1VOU1BFQ0lGSUVEEAASGAoUT1JERVJfU1RBVFVTX0NSRUFURUQQARIVChFPUkRFUl9TVEFUVVNfUEFJRBACEhcKE09SREVSX1NUQVRVU19VTlBBSUQQAxIZChVPUkRFUl9TVEFUVVNfQ0FOQ0VMRUQQBBIVChFPUkRFUl9TVEFUVVNfU0VOVBAFEhoKFk9SREVSX1NUQVRVU19DT01QTEVURUQQBhIWChJPUkRFUl9TVEFUVVNfSVNTVUUQBxIZChVPUkRFUl9TVEFUVVNfUkVUVVJORUQQCBIcChhPUkRFUl9TVEFUVVNfSU5fUFJPR1JFU1MQCSr7AQoMUGF5bWVudFN0YXRlEh0KGVBBWU1FTlRfU1RBVEVfVU5TUEVDSUZJRUQQABIZChVQQVlNRU5UX1NUQVRFX1BFTkRJTkcQARIiCh5QQVlNRU5UX1NUQVRFX0FXQUlUSU5HX09GRkxJTkUQAhIWChJQQVlNRU5UX1NUQVRFX1BBSUQQAxIYChRQQVlNRU5UX1NUQVRFX0ZBSUxFRBAEEhkKFVBBWU1FTlRfU1RBVEVfRVhQSVJFRBAFEhoKFlBBWU1FTlRfU1RBVEVfUkVGVU5ERUQQBhIkCiBQQVlNRU5UX1NUQVRFX1BBUlRJQUxMWV9SRUZVTkRFRBAHMqMBCg1PcmRlcnNTZXJ2aWNlEksKCkxpc3RPcmRlcnMSHS5iaXRzbmFwLnYxLkxpc3RPcmRlcnNSZXF1ZXN0Gh4uYml0c25hcC52MS5MaXN0T3JkZXJzUmVzcG9uc2USRQoIR2V0T3JkZXISGy5iaXRzbmFwLnYxLkdldE9yZGVyUmVxdWVzdBocLmJpdHNuYXAudjEuR2V0T3JkZXJSZXNwb25zZWIGcHJvdG8z", [file_bitsnap_v1_common, file_google_protobuf_timestamp]);
 
 /**
  * The buyer of an order.
@@ -233,6 +233,63 @@ export type Order = Message<"bitsnap.v1.Order"> & {
    * @generated from field: optional bitsnap.v1.Money delivery_price = 10;
    */
   deliveryPrice?: Money;
+
+  /**
+   * The reference the creator of the order sent (`client_reference_id` of
+   * `CheckoutService.CreateCheckoutSession` or `CreateCheckoutLink`). Empty
+   * when there is none. Empty in `ListOrders`.
+   *
+   * @generated from field: string client_reference_id = 11;
+   */
+  clientReferenceId: string;
+
+  /**
+   * The metadata the creator of the order sent. Empty in `ListOrders`.
+   *
+   * @generated from field: map<string, string> metadata = 12;
+   */
+  metadata: { [key: string]: string };
+
+  /**
+   * The id of the payment at the gateway. Empty until the gateway has one, and
+   * in `ListOrders`.
+   *
+   * @generated from field: string payment_id = 13;
+   */
+  paymentId: string;
+
+  /**
+   * What the buyer has paid so far. Zero until the order is paid; a cash on
+   * delivery or bank transfer order stays at zero until the money is confirmed.
+   * Unset in `ListOrders`.
+   *
+   * @generated from field: optional bitsnap.v1.Money amount_paid = 14;
+   */
+  amountPaid?: Money;
+
+  /**
+   * The sum of the successful refunds. Unset in `ListOrders`.
+   *
+   * @generated from field: optional bitsnap.v1.Money amount_refunded = 15;
+   */
+  amountRefunded?: Money;
+
+  /**
+   * Where the payment is. Unspecified in `ListOrders`.
+   *
+   * @generated from field: bitsnap.v1.PaymentState payment_state = 16;
+   */
+  paymentState: PaymentState;
+
+  /**
+   * The link to the invoice or receipt that Bitsnap's invoicing integration
+   * issued for the order (only for orders from `CreateCheckoutSession` when the
+   * project turned on invoices for external orders). Empty when there is none
+   * yet, and in `ListOrders`.
+   *
+   * @generated from field: string invoice_url = 17;
+   */
+  invoiceUrl: string;
 };
 
 /**
@@ -312,6 +369,63 @@ export type OrderJson = {
    * @generated from field: optional bitsnap.v1.Money delivery_price = 10;
    */
   deliveryPrice?: MoneyJson;
+
+  /**
+   * The reference the creator of the order sent (`client_reference_id` of
+   * `CheckoutService.CreateCheckoutSession` or `CreateCheckoutLink`). Empty
+   * when there is none. Empty in `ListOrders`.
+   *
+   * @generated from field: string client_reference_id = 11;
+   */
+  clientReferenceId?: string;
+
+  /**
+   * The metadata the creator of the order sent. Empty in `ListOrders`.
+   *
+   * @generated from field: map<string, string> metadata = 12;
+   */
+  metadata?: { [key: string]: string };
+
+  /**
+   * The id of the payment at the gateway. Empty until the gateway has one, and
+   * in `ListOrders`.
+   *
+   * @generated from field: string payment_id = 13;
+   */
+  paymentId?: string;
+
+  /**
+   * What the buyer has paid so far. Zero until the order is paid; a cash on
+   * delivery or bank transfer order stays at zero until the money is confirmed.
+   * Unset in `ListOrders`.
+   *
+   * @generated from field: optional bitsnap.v1.Money amount_paid = 14;
+   */
+  amountPaid?: MoneyJson;
+
+  /**
+   * The sum of the successful refunds. Unset in `ListOrders`.
+   *
+   * @generated from field: optional bitsnap.v1.Money amount_refunded = 15;
+   */
+  amountRefunded?: MoneyJson;
+
+  /**
+   * Where the payment is. Unspecified in `ListOrders`.
+   *
+   * @generated from field: bitsnap.v1.PaymentState payment_state = 16;
+   */
+  paymentState?: PaymentStateJson;
+
+  /**
+   * The link to the invoice or receipt that Bitsnap's invoicing integration
+   * issued for the order (only for orders from `CreateCheckoutSession` when the
+   * project turned on invoices for external orders). Empty when there is none
+   * yet, and in `ListOrders`.
+   *
+   * @generated from field: string invoice_url = 17;
+   */
+  invoiceUrl?: string;
 };
 
 /**
@@ -500,11 +614,26 @@ export const ListOrdersResponseSchema: GenMessage<ListOrdersResponse, {jsonType:
  */
 export type GetOrderRequest = Message<"bitsnap.v1.GetOrderRequest"> & {
   /**
-   * Id of the order.
+   * Id of the order. Send this or `order_id` or `client_reference_id`.
    *
    * @generated from field: string id = 1;
    */
   id: string;
+
+  /**
+   * Id of the order, the same as `id`.
+   *
+   * @generated from field: string order_id = 2;
+   */
+  orderId: string;
+
+  /**
+   * The `client_reference_id` the order was created with. When several orders
+   * share it, the newest order of the credential's environment is returned.
+   *
+   * @generated from field: string client_reference_id = 3;
+   */
+  clientReferenceId: string;
 };
 
 /**
@@ -512,11 +641,26 @@ export type GetOrderRequest = Message<"bitsnap.v1.GetOrderRequest"> & {
  */
 export type GetOrderRequestJson = {
   /**
-   * Id of the order.
+   * Id of the order. Send this or `order_id` or `client_reference_id`.
    *
    * @generated from field: string id = 1;
    */
   id?: string;
+
+  /**
+   * Id of the order, the same as `id`.
+   *
+   * @generated from field: string order_id = 2;
+   */
+  orderId?: string;
+
+  /**
+   * The `client_reference_id` the order was created with. When several orders
+   * share it, the newest order of the credential's environment is returned.
+   *
+   * @generated from field: string client_reference_id = 3;
+   */
+  clientReferenceId?: string;
 };
 
 /**
@@ -648,11 +792,90 @@ export const OrderStatusSchema: GenEnum<OrderStatus, OrderStatusJson> = /*@__PUR
   enumDesc(file_bitsnap_v1_orders, 0);
 
 /**
+ * Where the payment of an order is.
+ *
+ * @generated from enum bitsnap.v1.PaymentState
+ */
+export enum PaymentState {
+  /**
+   * Not set. Never returned by `GetOrder`.
+   *
+   * @generated from enum value: PAYMENT_STATE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Created, the buyer has not paid yet.
+   *
+   * @generated from enum value: PAYMENT_STATE_PENDING = 1;
+   */
+  PENDING = 1,
+
+  /**
+   * Cash on delivery or a bank transfer was chosen and the money has not
+   * arrived yet.
+   *
+   * @generated from enum value: PAYMENT_STATE_AWAITING_OFFLINE = 2;
+   */
+  AWAITING_OFFLINE = 2,
+
+  /**
+   * Paid.
+   *
+   * @generated from enum value: PAYMENT_STATE_PAID = 3;
+   */
+  PAID = 3,
+
+  /**
+   * The payment failed.
+   *
+   * @generated from enum value: PAYMENT_STATE_FAILED = 4;
+   */
+  FAILED = 4,
+
+  /**
+   * The buyer did not pay in time.
+   *
+   * @generated from enum value: PAYMENT_STATE_EXPIRED = 5;
+   */
+  EXPIRED = 5,
+
+  /**
+   * Paid, then refunded in full.
+   *
+   * @generated from enum value: PAYMENT_STATE_REFUNDED = 6;
+   */
+  REFUNDED = 6,
+
+  /**
+   * Paid, then refunded in part.
+   *
+   * @generated from enum value: PAYMENT_STATE_PARTIALLY_REFUNDED = 7;
+   */
+  PARTIALLY_REFUNDED = 7,
+}
+
+/**
+ * Where the payment of an order is.
+ *
+ * @generated from enum bitsnap.v1.PaymentState
+ */
+export type PaymentStateJson = "PAYMENT_STATE_UNSPECIFIED" | "PAYMENT_STATE_PENDING" | "PAYMENT_STATE_AWAITING_OFFLINE" | "PAYMENT_STATE_PAID" | "PAYMENT_STATE_FAILED" | "PAYMENT_STATE_EXPIRED" | "PAYMENT_STATE_REFUNDED" | "PAYMENT_STATE_PARTIALLY_REFUNDED";
+
+/**
+ * Describes the enum bitsnap.v1.PaymentState.
+ */
+export const PaymentStateSchema: GenEnum<PaymentState, PaymentStateJson> = /*@__PURE__*/
+  enumDesc(file_bitsnap_v1_orders, 1);
+
+/**
  * Read access to the orders of the project.
  *
- * Orders are read-only here on purpose: refunds, status changes and payouts
- * move money and stay human-only (the dashboard). A credential sees the orders
- * of its own environment: a test key lists test orders, a live key live orders.
+ * Orders are read-only here on purpose: status changes and payouts move money
+ * and stay human-only (the dashboard). Refunds are a separate, opt-in call
+ * (`RefundsService.CreateRefund`, scope `refunds:write`). A credential sees the
+ * orders of its own environment: a test key lists test orders, a live key live
+ * orders.
  *
  * Customer data is masked (the email as `j***@example.com`, name and phone
  * omitted) unless the credential carries the `customers:pii` scope.
@@ -672,7 +895,8 @@ export const OrdersService: GenService<{
     output: typeof ListOrdersResponseSchema;
   },
   /**
-   * Returns one order with its items. Needs `orders:read`.
+   * Returns one order with its items, found by its id or by the
+   * `client_reference_id` the creator of the order sent. Needs `orders:read`.
    *
    * @generated from rpc bitsnap.v1.OrdersService.GetOrder
    */
