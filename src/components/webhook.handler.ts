@@ -51,8 +51,14 @@ export async function handleWebhookSignature(
     };
   }
 
+  // Bitsnap adds gateways, events and fields over time. A payload from a newer
+  // server must still decode with an older SDK: an unknown field is dropped and
+  // an unknown enum value leaves its field at the default (0), instead of
+  // throwing and failing every webhook of the seller.
   return {
-    ...fromJson(IntegrationEventJobSchema, JSON.parse(payload)),
+    ...fromJson(IntegrationEventJobSchema, JSON.parse(payload), {
+      ignoreUnknownFields: true,
+    }),
     isErr: false,
   };
 }

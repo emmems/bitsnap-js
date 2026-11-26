@@ -128,6 +128,8 @@ Astro needs an `APIRoute` at `src/pages/api/bitsnap/webhook.ts`,
   The signature is in `X-Content-Signature` or the `sig` query parameter.
 - Parsed webhook enums are numeric: test environment `1`, payment success `2`.
   Do not compare `result.eventData.event` to a string.
+  An enum value newer than your SDK version (a new gateway or event) decodes
+  as `0` and unknown fields are dropped; update `bitsnap-js` to read them.
 - Do not fulfil orders from the success redirect. Verify the webhook and reject
   wrong projects. Separate test orders from production fulfilment.
 - `BitsnapBackend.setApiKey` configures notifications, not checkout/HMAC.
